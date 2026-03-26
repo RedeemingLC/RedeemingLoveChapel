@@ -1,0 +1,124 @@
+/* ================= BASE CARD ================= */
+
+.card {
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  min-height: 260px;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: var(--clr-light);
+  position: relative;
+
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+/* Intro card span */
+.spanTwo {
+  background: var(--clr-light);
+  color: var(--clr-dark);
+}
+
+/* Overlay for image cards */
+.card:not(.spanTwo)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: hsl(284 20% 26% / 0.65);
+  border-radius: inherit;
+}
+
+.card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hover only applies to non-intro cards */
+.card:not(.intro):hover {
+  transform: translateY(-6px);
+}
+
+/* ================= INTRO CARD ================= */
+
+.intro {
+  background: var(--clr-light);
+  color: var(--clr-dark);
+}
+
+/* Remove overlay for intro */
+.intro::before {
+  display: none;
+}
+
+/* Remove hover transform */
+.intro:hover {
+  transform: none;
+}
+
+.intro h2{
+  margin-bottom: 0.75rem;
+}
+
+/* ================= TEXT ================= */
+
+.title {
+  font-size: clamp(16px, var(--fs-400-fluid), 1.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.description {
+  font-size: var(--fs-400-fluid);
+  line-height: 1.6;
+  max-width: var(--content-width);
+}
+
+/* ================= BUTTON ================= */
+
+.outlineBtn {
+  align-self: flex-start;
+  border: 2px solid white;
+  background: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.outlineBtn:hover {
+  background: white;
+  color: var(--clr-dark);
+}
+
+/* ================= BACKGROUND VARIANTS ================= */
+
+.bibleStudy {
+  background-image: url("https://picsum.photos/600/600?bible");
+}
+
+.audio {
+  background-image: url("https://picsum.photos/600/600?audio");
+}
+
+.blog {
+  background-image: url("https://picsum.photos/600/600?writing");
+}
+
+.devotional {
+  background-image: url("https://picsum.photos/600/600?sunrise");
+}

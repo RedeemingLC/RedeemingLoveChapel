@@ -1,0 +1,13 @@
+.visionSection {
+  padding-block: var(--padding-block);
+}
+
+.visionContent {
+    gap: 1rem;
+  }
+
+@media (min-height: 1025px) {
+  .visionGrid {
+    gap: 3rem;
+  }
+}

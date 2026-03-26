@@ -1,0 +1,53 @@
+.heroArticle {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 1025px) {
+  .heroArticle {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 3rem;
+  }
+}
+
+.heroHeader {
+  line-height: 1.1;
+}
+
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* .heroButton {
+  align-self: flex-end;
+} */
+
+.heroText {
+  max-width: var(--content-width);
+  line-height: 1.5;
+}
+
+/* 🔥 Circular Gradient Button */
+
+.heroButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: var(--grad-primary);
+  color: var(--clr-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  align-self: flex-end;
+}
+
+.heroButton:hover {
+  transform: translateY(5px);
+}

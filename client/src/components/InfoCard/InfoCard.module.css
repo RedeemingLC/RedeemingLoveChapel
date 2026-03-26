@@ -1,0 +1,60 @@
+.card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-6);
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+/* Overlay for readability */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2));
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  gap: var(--space-7);
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+
+  /* background: var(--gradient-footer);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+}
+
+/* Variants (Replace with real images later) */
+
+.bibleStudy {
+  background-image: url("https://picsum.photos/800/600?1");
+}
+
+.dailyDevotion {
+  background-image: url("https://picsum.photos/800/600?2");
+}
+
+.blog {
+  background-image: url("https://picsum.photos/800/600?3");
+}
+
+.audioSermon {
+  background-image: url("https://picsum.photos/800/600?4");
+}

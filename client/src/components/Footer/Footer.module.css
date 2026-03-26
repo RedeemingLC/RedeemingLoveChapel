@@ -1,0 +1,121 @@
+/* ================= FOOTER ================= */
+
+.footer {
+  background: var(--grad-primary);
+  padding-block: var(--padding-block);
+  color: var(--clr-light);
+}
+
+/* ================= WIDGET GRID ================= */
+
+.widgets {
+  display: grid;
+  gap: 3rem;
+  border-bottom: 2px solid hsl(285 22% 93% / 0.4);
+  padding: 3rem 0;
+  align-content: center;
+}
+
+/* ================= LOGO ================= */
+
+.logo img {
+  max-width: 160px;
+}
+
+/* ================= HEADINGS ================= */
+
+.heading {
+  font-size: clamp(20px, var(--fs-300-fluid), 1.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+/* ================= LINKS ================= */
+
+.links {
+  list-style: none;
+  padding: 0;
+}
+
+.links li {
+  margin-bottom: 0.75rem;
+}
+
+.footer a,
+.footer a:visited,
+.footer a:active {
+  color: var(--clr-light);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.footer a:hover {
+  opacity: 0.8;
+}
+
+/* ================= CONTACT ================= */
+
+.contactItem {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.contactItem svg {
+  min-width: 20px;
+  min-height: 20px;
+  color: var(--clr-light);
+}
+
+.contactItem address,
+.contactItem a {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* ================= SOCIALS ================= */
+
+.socials {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.socials svg {
+  font-size: 20px;
+  color: var(--clr-light);
+  transition: transform 0.2s ease;
+}
+
+.socials svg:hover {
+  transform: translateY(-3px);
+}
+
+/* ================= COPYRIGHT ================= */
+
+.copyright {
+  padding-block: 2.5rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* ================= TABLET ================= */
+
+@media (min-width: 768px) {
+  .widgets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ================= DESKTOP ================= */
+
+@media (min-width: 1025px) {
+  .widgets {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4rem;
+  }
+}

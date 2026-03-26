@@ -1,0 +1,18 @@
+.highlight {
+  padding-block: 4rem;
+  background-color: hsl(284 20% 26%);
+  color: #efe9f1ca;
+}
+
+.inner {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 700;
+  padding-inline: 1rem;
+}
+
+.inner blockquote {
+  font-size: 1.5rem;
+  line-height: 1.4;
+}

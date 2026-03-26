@@ -1,0 +1,35 @@
+/* =============================== */
+/* CENTRAL MESSAGE SECTION        */
+/* =============================== */
+
+.centralMessage {
+  padding-block: var(--padding-block);
+  margin-bottom: 5rem;
+}
+
+/* Space between heading and grid */
+.centralMessage h2 {
+  margin-bottom: 2.5rem;
+}
+
+/* Two-column grid spacing */
+.messageGrid {
+  gap: 2rem;
+}
+
+/* Improve readability */
+.messageGrid p {
+  line-height: 1.7;
+}
+
+@media (min-width: 1025px) {
+  .messageGrid {
+    gap: 2rem;
+    max-width: 60vw;
+    margin: 0 auto;
+  }
+
+  .messageGrid {
+    gap: 3rem;
+  }
+}

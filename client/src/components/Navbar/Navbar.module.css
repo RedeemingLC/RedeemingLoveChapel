@@ -1,0 +1,116 @@
+/* ================= HEADER ================= */
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 4.75rem;
+  background: white;
+  border-bottom: 2px solid var(--clr-dark);
+  z-index: 10000;
+}
+
+/* ================= INNER ================= */
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4.75rem; /* 🔥 explicitly match header */
+}
+
+/* ================= LOGO ================= */
+
+.logo {
+  cursor: pointer;
+}
+
+/* ================= NAV LINKS (BASE DESKTOP FIRST) ================= */
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.navLinks li button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  color: hsl(284 20% 26% / 0.75);
+  cursor: pointer;
+  transition: color 0.25s ease-in-out;
+}
+
+.navLinks li button:hover {
+  color: var(--clr-dark);
+}
+
+.logout {
+  color: var(--clr-secondary);
+  font-weight: 700;
+}
+
+/* ================= HAMBURGER ================= */
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+  z-index: 11000;
+  position: relative;
+}
+
+.hamburger span {
+  display: block;
+  width: 1.75rem;
+  height: 3px;
+  background: var(--clr-dark);
+  margin: 5px 0;
+  transition: 0.3s ease-in-out;
+}
+
+/* 🔥 Cross Animation */
+
+.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 1024px) {
+  .hamburger {
+    display: block;
+  }
+
+  .navLinks {
+    position: fixed;
+    top: 4.75rem;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 4.75rem);
+    background: var(--clr-light);
+    flex-direction: column;
+    padding-top: 3rem;
+    gap: 2rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: var(--transition-standard);
+
+    pointer-events: none; /* 🔥 ADD THIS */
+  }
+
+  .show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto; /* 🔥 ADD THIS */
+  }
+}

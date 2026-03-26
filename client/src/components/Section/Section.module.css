@@ -1,0 +1,9 @@
+.section {
+  padding: var(--space-7) 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-6) 0;
+  }
+}

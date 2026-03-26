@@ -1,0 +1,23 @@
+.ourPastors {
+  padding: 4rem 0;
+  margin-bottom: 5rem;
+}
+
+.pastorsGrid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .pastorsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .pastorsGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,64 @@
+.ctaSection {
+  padding-block: calc(var(--padding-block) * 0.8);
+  background-color: var(--clr-light);
+}
+
+/* Base grid */
+.ctaGrid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Desktop 3-column */
+@media (min-width: 1025px) {
+  .ctaGrid {
+    grid-template-columns: auto auto auto;
+    gap: 3rem;
+    padding-block: 3rem;
+  }
+}
+
+/* Icon Column */
+.iconWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--grad-primary);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 1.2rem;
+}
+
+/* Text Column */
+.textBlock p {
+  margin: 0;
+  line-height: 1.7;
+  max-width: 55ch;
+}
+
+/* Phone Column */
+.phoneBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 1025px) {
+  .phoneBlock {
+    align-items: flex-end;
+  }
+}
+
+.phoneBlock a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: hsl(var(--clr-primary));
+  transition: opacity 0.2s ease;
+}
+
+.phoneBlock a:hover {
+  opacity: 0.7;
+}

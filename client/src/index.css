@@ -1,0 +1,525 @@
+/* ===================================================== */
+/* REDEEMING LOVE CHAPEL — GLOBAL DESIGN SYSTEM         */
+/* Phase 1 Extraction (Derived from Original CSS)       */
+/* ===================================================== */
+
+/* ===================== */
+/* CUSTOM PROPERTIES     */
+/* ===================== */
+
+:root {
+  /* ========== COLORS ========== */
+
+  --clr-primary: hsl(285 96% 38%);
+  --clr-secondary: hsl(346, 100%, 51%);
+  --clr-dark: hsl(284 20% 26%);
+  --clr-light: #ffffff;
+
+  --grad-primary: linear-gradient(
+    60deg,
+    var(--clr-primary),
+    var(--clr-secondary)
+  );
+
+  --grad-primary-reverse: linear-gradient(
+    60deg,
+    var(--clr-secondary),
+    var(--clr-primary)
+  );
+
+  /* ========== CONTAINER WIDTH ========== */
+
+  --max-container-width: 1200px;
+
+  /* ========== TYPOGRAPHY ========== */
+
+  --ff-primary: "Inter", sans-serif;
+
+  --fs-900-fluid: 8.7vw;
+  --fs-800-fluid: 4.7vw;
+  --fs-700-fluid: 3.7vw;
+  --fs-600-fluid: 2.6vw;
+  --fs-500-fluid: 1.6vw;
+  --fs-400-fluid: 1.2vw;
+  --fs-300-fluid: 1vw;
+  --fs-200-fluid: 0.7vw;
+
+  /* ========== SPACING ========== */
+
+  --padding-block: calc(2vh + 20px);
+  --padding-inline: calc(1vw + 20px);
+
+  --grid-margin: 3.5rem;
+  --hero-margin: 100px;
+
+  --content-width: 55ch;
+
+  /* ========== RADIUS ========== */
+
+  --radius-card: 2rem 2rem 4rem 4rem;
+
+  --radius-card-mobile: calc(2rem - 16px) calc(2rem - 16px) calc(4rem - 32px)
+    calc(4rem - 32px);
+
+  --radius-blog-img: 20px;
+  --radius-pill: 50px;
+
+  /* ========== TRANSITIONS ========== */
+
+  --transition-bg: background-color 0.25s ease-in-out;
+  --transition-fast: 0.125s ease-in;
+  --transition-standard: 0.25s ease-in-out;
+
+  /* ========== SHADOWS ========== */
+
+  --shadow-text: 0 0 3px hsl(284 20% 26%);
+  --shadow-focus: 0 0 0 2px hsl(285 96% 38% / 0.2);
+
+  /* ========== BREAKPOINTS (Reference Only) ========== */
+
+  --bp-tablet: 768px;
+  --bp-desktop: 1025px;
+}
+
+/* ===================== */
+/* RESET                 */
+/* ===================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  scroll-behavior: smooth;
+  scroll-padding-top: 120px;
+}
+
+body {
+  font-family: var(--ff-primary);
+  font-weight: 400;
+  font-size: clamp(16px, var(--fs-400-fluid), 1.875rem);
+  color: var(--clr-dark);
+  background-color: #ffffff;
+}
+
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+/* ================= HEADER OFFSET ================= */
+
+main {
+  margin-top: 7.75rem;
+}
+
+/* ===================== */
+/* GLOBAL UTILITIES      */
+/* ===================== */
+
+.container {
+  max-width: 90vw;
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--padding-inline);
+}
+
+.flow > *:where(:not(:first-child)) {
+  margin-top: var(--flow-space, 3rem);
+}
+
+@media (min-width: 1025px) {
+  .flow > *:where(:not(:first-child)) {
+    margin-top: var(--flow-space, 5rem);
+  }
+
+  section {
+    margin-top: 5rem;
+  }
+}
+
+.p-block {
+  line-height: 1.5;
+}
+
+.center {
+  text-align: center;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.hero-margin {
+  margin-top: var(--hero-margin);
+}
+
+/* ===================== */
+/* COLOR UTILITIES       */
+/* ===================== */
+
+.bg-primary {
+  background-color: var(--clr-primary);
+}
+.bg-secondary {
+  background-color: var(--clr-secondary);
+}
+.bg-light {
+  background-color: var(--clr-light);
+}
+
+.bg-grad {
+  background: var(--grad-primary);
+}
+.bg-grad-2 {
+  background: var(--grad-primary-reverse);
+}
+
+.text-primary {
+  color: var(--clr-primary);
+}
+.text-secondary {
+  color: var(--clr-secondary);
+}
+.text-dark {
+  color: var(--clr-dark);
+}
+.text-light {
+  color: var(--clr-light);
+}
+
+.text-grad {
+  background: var(--grad-primary);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===================== */
+/* TYPOGRAPHY UTILITIES  */
+/* ===================== */
+
+.fs-900 {
+  font-size: clamp(48px, var(--fs-900-fluid), 14.0675rem);
+}
+.fs-800 {
+  font-size: clamp(36px, var(--fs-800-fluid), 6.75rem);
+}
+.fs-700 {
+  font-size: clamp(32px, var(--fs-700-fluid), 5.25rem);
+}
+.fs-600 {
+  font-size: clamp(28px, var(--fs-600-fluid), 3.75rem);
+}
+.fs-500 {
+  font-size: clamp(24px, var(--fs-500-fluid), 2.25rem);
+}
+.fs-400 {
+  font-size: clamp(16px, var(--fs-400-fluid), 1.875rem);
+}
+.fs-300 {
+  font-size: clamp(20px, var(--fs-300-fluid), 1.5rem);
+}
+
+.fs-900,
+.fs-800,
+.fs-700,
+.fs-600 {
+  line-height: 1.1;
+}
+
+.fs-500,
+.fs-400,
+.fs-300 {
+  line-height: 1.5;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: none;
+}
+
+/*-------------------*/
+/* GRID SYSTEM       */
+/*-------------------*/
+
+/* Base Grid Utility */
+.grid {
+  display: grid;
+  gap: var(--gap, 2rem);
+}
+
+/* ===================== */
+/* GRID LAYOUT 1 (2 COL) */
+/* ===================== */
+
+.grid-layout-2-col {
+  --gap: 2rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "Grid-Area-1"
+    "Grid-Area-2";
+}
+
+.gl2c-1 {
+  grid-area: Grid-Area-1;
+}
+.gl2c-2 {
+  grid-area: Grid-Area-2;
+}
+
+/* Desktop upgrade */
+@media (min-width: 1025px) {
+  .grid-layout-2-col {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "Grid-Area-1 Grid-Area-2";
+    /* gap: 4rem; */
+  }
+}
+
+/* ===================== */
+/* GRID LAYOUT 3         */
+/* ===================== */
+
+.grid-layout-3 {
+  --gap: 3rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "Grid-Area-1"
+    "Grid-Area-2"
+    "Grid-Area-3"
+    "Grid-Area-4"
+    "Grid-Area-5";
+}
+
+.gl3-1 {
+  grid-area: Grid-Area-1;
+}
+.gl3-2 {
+  grid-area: Grid-Area-2;
+}
+.gl3-3 {
+  grid-area: Grid-Area-3;
+}
+.gl3-4 {
+  grid-area: Grid-Area-4;
+}
+.gl3-5 {
+  grid-area: Grid-Area-5;
+}
+
+@media (min-width: 769px) {
+  .grid-layout-3 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "Grid-Area-1 Grid-Area-1"
+      "Grid-Area-2 Grid-Area-3"
+      "Grid-Area-4 Grid-Area-5";
+  }
+}
+
+/* ===================== */
+/* BENTO LAYOUT 1        */
+/* ===================== */
+
+.grid-bento-layout-1 {
+  display: grid;
+  padding-block: 2rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "Header"
+    "Area-1"
+    "Area-2"
+    "Area-3"
+    "Area-4";
+}
+
+.gbl3c-1 {
+  grid-area: Header;
+}
+
+@media (min-width: 769px) {
+  .grid-bento-layout-1 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "Header Header"
+      "Area-1 Area-2"
+      "Area-3 Area-4";
+  }
+}
+
+@media (min-width: 1025px) {
+  .grid-bento-layout-1 {
+    padding-block: 5rem;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "Header Header Area-1"
+      "Area-2 Area-3 Area-4";
+  }
+}
+
+/* ===================== */
+/* BENTO LAYOUT 2        */
+/* ===================== */
+
+.grid-bento-layout-2 {
+  display: grid;
+  padding-block: 2rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "Header"
+    "Area-1"
+    "Area-2"
+    "Area-3";
+}
+
+.gbl2-3c-1 {
+  grid-area: Header;
+}
+.gbl2-3c-2 {
+  grid-area: Area-1;
+}
+.gbl2-3c-3 {
+  grid-area: Area-2;
+}
+.gbl2-3c-4 {
+  grid-area: Area-3;
+}
+
+@media (min-width: 769px) {
+  .grid-bento-layout-2 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "Header Area-1"
+      "Area-2 Area-3";
+  }
+}
+
+@media (min-width: 1025px) {
+  .grid-bento-layout-2 {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "Header Header Header"
+      "Area-1 Area-2 Area-3";
+  }
+}
+
+/* Utility */
+.join-button {
+  display: grid;
+  align-items: end;
+}
+
+/*-------------------*/
+/* LIST DESIGN       */
+/*-------------------*/
+
+.list {
+  list-style: square;
+  padding-left: 2rem;
+  margin: 0; /* remove vertical margin — let grid gap control spacing */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.list li {
+  line-height: 1.6;
+}
+
+/* Optional interactive list (only if used elsewhere) */
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
+  cursor: pointer;
+}
+
+.list-item:nth-last-child(1) {
+  margin-bottom: 1rem;
+}
+
+.icon {
+  font-size: 24px;
+  color: #007bff;
+  transition: color 0.3s;
+}
+
+/* .list-item:hover .icon {
+  color: #fff;
+}
+
+.list-text {
+  transition: color 0.3s;
+}
+
+.list-item:hover .list-text {
+  color: #fff;
+} */
+
+/* Vision Section heading constraint */
+.vs-h2 {
+  max-width: 18ch;
+}
+
+/* Block Quote */
+
+.large-blockquote {
+  width: 100%;
+  padding-block: 3rem;
+  background-color: hsl(var(--clr-dark));
+  color: hsl(var(--clr-light));
+  place-content: center;
+  position: relative;
+}

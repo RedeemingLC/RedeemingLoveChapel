@@ -1,0 +1,36 @@
+.resources {
+  padding-block: var(--padding-block);
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+/* Desktop layout */
+@media (min-width: 1025px) {
+  
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "intro intro card2"
+      "card3 card4 card5";
+  }
+
+  .intro {
+    grid-area: intro;
+    background-color: white;
+  }
+  .card2 {
+    grid-area: card2;
+  }
+  .card3 {
+    grid-area: card3;
+  }
+  .card4 {
+    grid-area: card4;
+  }
+  .card5 {
+    grid-area: card5;
+  }
+}

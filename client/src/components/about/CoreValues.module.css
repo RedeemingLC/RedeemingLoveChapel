@@ -1,0 +1,83 @@
+.coreValues {
+  padding-block: 5rem;
+  background-color: #efe9f1ca;
+}
+
+/* ===== MOBILE (Default) ===== */
+
+.gridLayout {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+/* Heading */
+.heading {
+  text-align: center;
+}
+
+/* Card */
+.valueCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--grad-primary);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ===== DESKTOP ===== */
+
+@media (min-width: 1025px) {
+  .gridLayout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr; /* center column wider */
+    gap: 4rem 3rem; /* increase vertical rhythm */
+
+    grid-template-areas:
+      "one heading two"
+      "three four five"
+      "six seven eight";
+
+    align-items: center; /* vertical symmetry */
+  }
+
+  .heading {
+    grid-area: heading;
+    text-align: center;
+  }
+
+  .valueCard:nth-of-type(1) {
+    grid-area: one;
+  }
+  .valueCard:nth-of-type(2) {
+    grid-area: two;
+  }
+  .valueCard:nth-of-type(3) {
+    grid-area: three;
+  }
+  .valueCard:nth-of-type(4) {
+    grid-area: four;
+  }
+  .valueCard:nth-of-type(5) {
+    grid-area: five;
+  }
+  .valueCard:nth-of-type(6) {
+    grid-area: six;
+  }
+  .valueCard:nth-of-type(7) {
+    grid-area: seven;
+  }
+  .valueCard:nth-of-type(8) {
+    grid-area: eight;
+  }
+}

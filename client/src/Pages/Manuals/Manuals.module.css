@@ -1,0 +1,318 @@
+.pageTitle {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+
+/* Card */
+.cardImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.cardContent {
+  padding: var(--space-5);
+  flex: 1;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+.cardDescription {
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+.cardFooter {
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+/* Single */
+
+.single {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.singleImage {
+  width: 100%;
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-md);
+}
+
+.singleTitle {
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+}
+
+.singleDescription {
+  margin-bottom: var(--space-5);
+  color: var(--color-text-muted);
+}
+
+.download {
+  display: inline-block;
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-6);
+  font-weight: 600;
+}
+
+.richContent {
+  margin-top: var(--space-6);
+}
+
+/* Sidebar Navigation */
+
+.sidebarItem {
+  display: block;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #444;
+  text-decoration: none;
+}
+
+.sidebarItem:hover {
+  background: #f3f3f3;
+  color: #7b1fa2;
+}
+
+.activeSection {
+  font-weight: 600;
+  color: #7b1fa2;
+}
+
+/* Reader Layout */
+
+.readerLayout {
+  display: grid;
+  grid-template-columns: 240px 1fr 120px;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.readerContent {
+  max-width: 720px;
+}
+
+.sectionBlock {
+  margin-bottom: 60px;
+}
+
+.sectionTitle {
+  margin-bottom: 20px;
+}
+
+/* Sidebar */
+
+.sidebar {
+  position: sticky;
+  top: 120px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+/* Social Media Share */
+
+.shareColumn {
+  position: relative;
+}
+
+.shareSticky {
+  position: sticky;
+  top: 120px;
+}
+
+.shareIcons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Manual Content Styling */
+
+.manualHeading {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 12px;
+}
+
+.manualParagraph p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.manualQuote {
+  border-left: 4px solid #7b1fa2;
+  padding-left: 15px;
+  margin: 20px 0;
+  font-style: italic;
+}
+
+.manualScripture {
+  background: #f7f7f7;
+  padding: 14px;
+  border-radius: 6px;
+  margin: 20px 0;
+  font-style: italic;
+  border-left: 4px solid #7b1fa2;
+}
+
+.lesson > * {
+  margin-bottom: 18px;
+}
+
+/* MOBILE NAV BUTTON */
+
+.mobileNavButton {
+  display: none;
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  border: none;
+  background: #7b1fa2;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.closeSidebar {
+  display: none;
+}
+
+ul,
+ol {
+  margin-left: 2.5rem;
+}
+
+.manualParagraph ul {
+  list-style: square;
+}
+
+li {
+  padding: 0.5rem 0 0 0;
+}
+
+.manualTableWrapper {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+.manualTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.manualTableHeader {
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #f4f4f4;
+  text-align: left;
+}
+
+.manualTableCell {
+  border: 1px solid #ddd;
+  padding: 10px;
+  word-break: break-word;
+  vertical-align: top;
+}
+
+.manualFootnote {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+/* Mobile Version */
+
+@media (max-width: 900px) {
+  .readerLayout {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .mobileNavButton {
+    display: block;
+  }
+
+  .closeSidebar {
+    display: block;
+    border: none;
+    background: none;
+    font-size: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+
+  .sidebarItem {
+    font-size: 16px;
+    padding: 12px 0;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    margin-top: 72px;
+
+    background: white;
+    padding: 20px;
+
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+
+    z-index: 1000;
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 900;
+    cursor: pointer;
+  }
+
+  .shareColumn {
+    position: relative;
+  }
+
+  .shareSticky {
+    position: relative;
+    top: auto;
+  }
+
+  .shareIcons {
+    flex-direction: row;
+    gap: 16px;
+  }
+}
+
+.heroSpacing {
+  margin-bottom: var(--space-8);
+}

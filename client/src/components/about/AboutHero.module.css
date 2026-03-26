@@ -1,0 +1,23 @@
+.aboutUs {
+  padding-block: var(--padding-block);
+}
+
+.aboutUsInner {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.aboutUsImage figure {
+  margin: 0;
+}
+
+.aboutImage {
+  width: 100%;
+  border-radius: var(--radius-card);
+  display: block;
+}
+
+.aboutUsArticle {
+  gap: 2rem;
+}

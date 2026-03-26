@@ -1,0 +1,111 @@
+.section {
+  padding-block: calc(var(--padding-block) * 3);
+  background-color: #f2edf4; /* soft lavender tone like screenshot */
+}
+
+/* Heading */
+.heading {
+  margin-bottom: 4rem;
+}
+
+/* Main Grid */
+.grid {
+  display: grid;
+  gap: 4rem;
+}
+
+/* Desktop Layout */
+@media (min-width: 1025px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem; /* wide horizontal gap like screenshot */
+    margin-left: 6rem;
+  }
+
+  .stepBlock h3{
+    text-align: center;
+  }
+}
+
+/* Step Blocks */
+.stepBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 420px; /* keeps text width controlled */
+}
+
+/* Step Titles */
+.stepBlock h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+/* Paragraph */
+.stepBlock p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* Time Grid */
+.timeGrid {
+  display: grid;
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Desktop time layout */
+@media (min-width: 1025px) {
+  .timeGrid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3rem;
+    row-gap: 0.75rem;
+  }
+}
+
+/* Button alignment */
+.stepBlock a {
+  margin-top: 4rem;
+  width: 100%; /* fixed width like screenshot */
+  text-align: center;
+  padding-block: 0.75rem;
+  background-color: var(--clr-secondary);
+  border-radius: 2rem;
+  color: white;
+  transition: all 0.25s ease-in-out;
+}
+
+.stepBlock a:hover {
+  background-color: rgba(255, 5, 63, 0.75);
+}
+
+
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .section {
+    padding-block: calc(var(--padding-block) * 0.8);
+  }
+
+  .heading {
+    margin-bottom: 2.5rem;
+    text-align: left;
+  }
+
+  .grid {
+    gap: 2.5rem;
+  }
+
+  .timeGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .stepBlock {
+    max-width: 100%;
+  }
+
+  .stepBlock button {
+    width: 100%;
+  }
+}

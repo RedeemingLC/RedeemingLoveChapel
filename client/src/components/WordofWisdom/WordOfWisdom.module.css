@@ -1,0 +1,51 @@
+.wow {
+  position: relative;
+  background-image: url("../../assets/images/wow-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  height: 100vh;
+
+  padding-block: 10rem;
+  overflow: hidden;
+
+  display: flex; /* 🔥 enables centering */
+  align-items: center; /* vertical center */
+  justify-content: center; /* horizontal center */
+}
+
+/* Overlay */
+.wow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    hsl(284 20% 26% / 0.8),
+    hsl(284 20% 26% / 0.4)
+  );
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 650px; /* controls text width */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  color: var(--clr-light);
+}
+
+.content p{
+  max-width: var(--content-width)
+}
+
+/* Author */
+.content small {
+  font-weight: 700;
+  opacity: 0.9;
+}

@@ -1,0 +1,16 @@
+.wrapper {
+  padding: 3rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.centerCard {
+  border: 1px solid #ddd;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.mapContainer {
+  margin-top: 2rem;
+}

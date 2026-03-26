@@ -1,0 +1,112 @@
+/* ================= SECTION ================= */
+
+.section {
+  padding-block: var(--padding-block);
+  background: hsl(285 22% 93%);
+  border-radius: var(--radius-card);
+}
+
+/* ================= MAIN GRID ================= */
+
+.grid {
+  display: grid;
+  gap: 3rem;
+}
+
+/* Desktop two-column layout */
+@media (min-width: 1025px) {
+  .grid {
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+  }
+}
+
+/* ================= IMAGE ================= */
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.phoneImage {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ================= RIGHT COLUMN ================= */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Intro (Heading + Description) */
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.featureBlock p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+/* ================= FEATURE GRID ================= */
+
+.featureGrid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Desktop: 2x2 layout */
+@media (min-width: 1025px) {
+  .featureGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Feature blocks */
+
+.featureBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ================= JOIN BUTTON CELL ================= */
+
+.joinWrapper {
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Button */
+
+.primaryBtn {
+  background: var(--grad-primary);
+  color: var(--clr-light);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: 0.25s ease;
+}
+
+.primaryBtn:hover {
+  opacity: 0.9;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .primaryBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,81 @@
+.aboutSection {
+  padding-block: 5rem;
+  background-color: #efe9f1ca;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+/* Split Row */
+.splitRow {
+  display: grid;
+  gap: 3rem;
+}
+
+/* Text */
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Single Image */
+.imageBlock img {
+  width: 100%;
+  display: block;
+  border-radius: 2rem;
+}
+
+/* Image Grid */
+.imageGrid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.imageGrid img {
+  width: 100%;
+  display: block;
+  border-radius: 2rem;
+}
+
+/* ================= */
+/* DESKTOP LAYOUT   */
+/* ================= */
+
+@media (min-width: 1025px) {
+  .splitRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: flex-start;
+    /* margin-bottom: 3rem; */
+  }
+
+  /* FIRST ROW (default) */
+  /* Text left, Image right — natural order */
+
+  /* SECOND ROW — explicit placement */
+  .reverseRow > :first-child {
+    grid-column: 1; /* Image grid left */
+  }
+
+  .reverseRow > :last-child {
+    grid-column: 2; /* Text right */
+  }
+
+  /* Image grid layout */
+  .imageGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .imageGrid img:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .reverseRow{
+    margin-top: 3rem;
+  }
+}

@@ -1,0 +1,4 @@
+.heroWrapper {
+  display: grid;
+  gap: var(--grid-margin);
+}

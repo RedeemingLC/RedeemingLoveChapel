@@ -1,0 +1,96 @@
+.wrap {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.loading {
+  padding: 24px;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.section {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+.section h2 {
+  margin-bottom: 14px;
+}
+.section label {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.section input,
+.section textarea,
+.dayForm input,
+.dayForm textarea,
+.dayForm select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.dayForm {
+  display: grid;
+  gap: 10px;
+}
+.row {
+  display: flex;
+  gap: 10px;
+}
+.checkbox {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.jsonArea {
+  font-family: monospace;
+  min-height: 160px;
+}
+.daysList {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+.dayCard {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+.small {
+  font-size: 13px;
+  opacity: 0.7;
+}
+.danger {
+  background: #ffebeb;
+  border: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.published {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 0;
+  cursor: pointer;
+  background: #e8fff0;
+}
+.draft {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 0;
+  cursor: pointer;
+  background: #fff6da;
+}
+
+.hint {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 10px;
+}

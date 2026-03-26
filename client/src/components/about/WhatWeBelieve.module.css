@@ -1,0 +1,12 @@
+.believeSection {
+  padding-block: var(--padding-block);
+}
+
+.believeGrid {
+  gap: 2rem;
+}
+
+/* Control vertical rhythm inside right column */
+.believeContent {
+  gap: 1.25rem;
+}
