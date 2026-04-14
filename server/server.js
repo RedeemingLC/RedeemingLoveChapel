@@ -83,4 +83,11 @@ mongoose
   });
 
 // Export app for Truehost/cPanel
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Export app for Truehost/cPanel
 module.exports = app;
