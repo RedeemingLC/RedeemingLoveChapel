@@ -146,77 +146,66 @@ export default function BlogForm({ onSuccess, editingBlog }) {
   =============================== */
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
-      {/* Title */}
+    <form onSubmit={handleSubmit} className="adminForm">
+      <h2>{editingBlog ? "Update Blog" : "Create Blog"}</h2>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <input
-          type="text"
-          name="title"
-          placeholder="Blog Title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      {/* Title */}
+      <input
+        type="text"
+        name="title"
+        placeholder="Blog Title"
+        value={formData.title}
+        onChange={handleChange}
+        required
+      />
 
       {/* Excerpt */}
-      <div style={{ marginBottom: "1rem" }}>
-        <textarea
-          name="excerpt"
-          placeholder="Short excerpt (for preview cards)"
-          value={formData.excerpt}
-          onChange={handleChange}
-          rows="3"
-        />
-      </div>
+      <textarea
+        name="excerpt"
+        placeholder="Short excerpt (for preview cards)"
+        value={formData.excerpt}
+        onChange={handleChange}
+        rows="3"
+      />
 
       {/* Category */}
+      <select
+        name="category"
+        value={formData.category || ""}
+        onChange={(e) =>
+          setFormData({
+            ...formData,
+            category: e.target.value,
+          })
+        }
+      >
+        <option value="">Select Category</option>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <label>
-          Category
-          <select
-            name="category"
-            value={formData.category || ""}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                category: e.target.value,
-              })
-            }
-          >
-            <option value="">Select Category</option>
+        {categories.map((cat) => (
+          <option key={cat._id} value={cat._id}>
+            {cat.name}
+          </option>
+        ))}
+      </select>
 
-            {categories.map((cat) => (
-              <option key={cat._id} value={cat._id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+      {/* Featured */}
+      <label className="adminCheckbox">
+        <input
+          type="checkbox"
+          name="isFeatured"
+          checked={formData.isFeatured || false}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              isFeatured: e.target.checked,
+            })
+          }
+        />
+        Set as Featured Article
+      </label>
 
+      {/* Editor */}
       <div>
-        <label>
-          <input
-            type="checkbox"
-            name="isFeatured"
-            checked={formData.isFeatured || false}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                isFeatured: e.target.checked,
-              })
-            }
-          />
-          Set as Featured Article
-        </label>
-      </div>
-
-      {/* Rich Text Editor */}
-
-      <div style={{ marginBottom: "1rem" }}>
         <label>Blog Content</label>
         <RichTextEditor
           value={formData.content || ""}
@@ -229,25 +218,20 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         />
       </div>
 
-      {/* Publish Toggle */}
-
-      <div style={{ marginBottom: "1rem" }}>
-        <label>
-          <input
-            type="checkbox"
-            name="isPublished"
-            checked={formData.isPublished}
-            onChange={handleChange}
-          />
-          Publish immediately
-        </label>
-      </div>
+      {/* Publish */}
+      <label className="adminCheckbox">
+        <input
+          type="checkbox"
+          name="isPublished"
+          checked={formData.isPublished}
+          onChange={handleChange}
+        />
+        Publish immediately
+      </label>
 
       {/* Image Upload */}
-
-      <div style={{ marginBottom: "1rem" }}>
+      <div>
         <label>Featured Image</label>
-
         <input type="file" onChange={handleImageUpload} />
 
         {formData.featuredImage && (
@@ -258,41 +242,29 @@ export default function BlogForm({ onSuccess, editingBlog }) {
                 : `http://localhost:5000${formData.featuredImage}`
             }
             alt="Preview"
-            style={{
-              width: "150px",
-              marginTop: "10px",
-              borderRadius: "6px",
-            }}
+            className="adminPreviewImage"
           />
         )}
       </div>
 
-      {/* SEO Title */}
+      {/* SEO */}
+      <input
+        type="text"
+        name="seoTitle"
+        placeholder="SEO Title"
+        value={formData.seoTitle}
+        onChange={handleChange}
+      />
 
-      <div style={{ marginBottom: "1rem" }}>
-        <input
-          type="text"
-          name="seoTitle"
-          placeholder="SEO Title"
-          value={formData.seoTitle}
-          onChange={handleChange}
-        />
-      </div>
-
-      {/* SEO Description */}
-
-      <div style={{ marginBottom: "1rem" }}>
-        <textarea
-          name="seoDescription"
-          placeholder="SEO Description"
-          value={formData.seoDescription}
-          onChange={handleChange}
-          rows="3"
-        />
-      </div>
+      <textarea
+        name="seoDescription"
+        placeholder="SEO Description"
+        value={formData.seoDescription}
+        onChange={handleChange}
+        rows="3"
+      />
 
       {/* Submit */}
-
       <button type="submit" disabled={loading}>
         {loading
           ? editingBlog

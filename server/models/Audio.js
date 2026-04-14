@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const audioSchema = new mongoose.Schema(
   {
@@ -16,23 +18,19 @@ const audioSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     audioUrl: {
       type: String,
       required: true,
     },
-
     coverImage: {
       type: String,
       default: "",
     },
-
     category: {
       type: String,
       enum: ["Sermon", "Prayer Week", "Teaching", "Special Program"],
       default: "Sermon",
     },
-
     isPublished: {
       type: Boolean,
       default: false,
@@ -43,4 +41,4 @@ const audioSchema = new mongoose.Schema(
 
 const Audio = mongoose.model("Audio", audioSchema);
 
-export default Audio;
+module.exports = Audio;

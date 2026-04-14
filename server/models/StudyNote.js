@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const studyNoteSchema = new mongoose.Schema(
   {
@@ -24,7 +26,11 @@ const studyNoteSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// A user can only have ONE note per study day
+/* =========================
+   One Note Per User Per Day
+========================= */
 studyNoteSchema.index({ user: 1, study: 1, dayNumber: 1 }, { unique: true });
 
-export default mongoose.model("StudyNote", studyNoteSchema);
+const StudyNote = mongoose.model("StudyNote", studyNoteSchema);
+
+module.exports = StudyNote;

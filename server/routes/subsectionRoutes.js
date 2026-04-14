@@ -1,30 +1,25 @@
-import express from "express";
+"use strict";
 
-import {
+const express = require("express");
+const {
   createSubsection,
   getSubsectionsBySection,
   reorderSubsections,
   deleteSubsection,
   updateSubsection,
-} from "../controllers/subsectionController.js";
+} = require("../controllers/subsectionController");
 
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Create subsection
+/* ========= ADMIN ROUTES ========= */
 router.post("/", protect, adminOnly, createSubsection);
-
-// Reorder subsections
 router.put("/reorder", protect, adminOnly, reorderSubsections);
-
-// Get subsections of a section
-router.get("/:sectionId", getSubsectionsBySection);
-
-// Update subsection
 router.put("/:id", protect, adminOnly, updateSubsection);
-
-// Delete subsection
 router.delete("/:id", protect, adminOnly, deleteSubsection);
 
-export default router;
+/* ========= PUBLIC ROUTES ========= */
+router.get("/:sectionId", getSubsectionsBySection);
+
+module.exports = router;

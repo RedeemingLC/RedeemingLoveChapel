@@ -1,47 +1,68 @@
+/* ================= CARD BASE ================= */
+
 .card {
-  background: var(--color-white);
+  background: var(--color-bg);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
+
   display: flex;
   flex-direction: column;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+
+  transition: var(--transition-standard);
+
+  padding: var(--space-5); /* default spacing */
 }
+
+/* ================= VARIANTS ================= */
+
+/* For StatCard (tighter spacing) */
+.compact {
+  padding: var(--space-4);
+}
+
+/* ================= HOVER ================= */
 
 .hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-card);
 }
+
+/* ================= IMAGE ================= */
 
 .image {
   width: 100%;
-  height: 200px;
+  height: 12.5rem; /* 200px → rem */
   object-fit: cover;
 }
+
+/* ================= CONTENT ================= */
 
 .content {
   padding: var(--space-5);
   flex: 1;
 }
 
+/* ================= TEXT ================= */
+
 .title {
-  font-size: 18px;
+  font-size: var(--text-lg);
   font-weight: 600;
   margin-bottom: var(--space-3);
 }
 
 .meta {
-  font-size: 14px;
+  font-size: var(--text-sm);
   color: var(--color-text-muted);
   margin-bottom: var(--space-3);
 }
 
 .description {
-  font-size: 15px;
+  font-size: var(--text-base);
   margin-bottom: var(--space-4);
 }
+
+/* ================= FOOTER ================= */
 
 .footer {
   padding: 0 var(--space-5) var(--space-5);

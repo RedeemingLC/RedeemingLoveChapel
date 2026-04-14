@@ -1,0 +1,12 @@
+{
+  "name": "redeeminglovechapel",
+  "version": "1.0.0",
+  "description": "Redeeming Love Chapel Web App",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

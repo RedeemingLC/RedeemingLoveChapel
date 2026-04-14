@@ -1,7 +1,12 @@
-import multer from "multer";
-import path from "path";
-import fs from "fs";
+"use strict";
 
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
+/* =========================
+   Ensure Upload Folders Exist
+========================= */
 const ensureDir = (dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
@@ -11,6 +16,9 @@ const ensureDir = (dir) => {
 ensureDir("uploads/manuals");
 ensureDir("uploads/images");
 
+/* =========================
+   Storage Configuration
+========================= */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.mimetype === "application/pdf") {
@@ -24,15 +32,24 @@ const storage = multer.diskStorage({
   },
 });
 
+/* =========================
+   Multer Upload Instance
+========================= */
 const upload = multer({
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
 });
 
-export const uploadManual = upload.single("file");
-export const uploadManualCover = upload.single("file");
+/* =========================
+   Upload Handlers
+========================= */
+const uploadManual = upload.single("file");
+const uploadManualCover = upload.single("file");
 
-export const uploadFile = (req, res) => {
+/* =========================
+   Upload File Controller
+========================= */
+const uploadFile = (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
   }
@@ -43,6 +60,12 @@ export const uploadFile = (req, res) => {
 
   res.status(200).json({
     filePath,
-    imageUrl: `http://localhost:5000${filePath}`,
+    imageUrl: `${process.env.SERVER_URL || "http://localhost:5000"}${filePath}`,
   });
+};
+
+module.exports = {
+  uploadManual,
+  uploadManualCover,
+  uploadFile,
 };

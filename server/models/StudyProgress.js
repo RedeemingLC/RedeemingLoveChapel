@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const studyProgressSchema = new mongoose.Schema(
   {
@@ -24,7 +26,11 @@ const studyProgressSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// A user can only have one progress doc per study
+/* =========================
+   One Progress Doc Per User Per Study
+========================= */
 studyProgressSchema.index({ user: 1, study: 1 }, { unique: true });
 
-export default mongoose.model("StudyProgress", studyProgressSchema);
+const StudyProgress = mongoose.model("StudyProgress", studyProgressSchema);
+
+module.exports = StudyProgress;

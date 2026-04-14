@@ -1,23 +1,20 @@
-.section {
-  padding-block: var(--padding-block);
-}
-
 /* Base grid */
 .grid {
   display: grid;
-  gap: 4rem;
+  gap: var(--space-6);
 }
 
-.contentColumn h3, .contentColumn h4{
-    margin-bottom: 0.75rem;
+.contentColumn h3,
+.contentColumn h4 {
+  margin-block: var(--space-3);
 }
 
-.contentColumn h4{
-    margin-bottom: 0.25rem;
+.contentColumn h3 {
+  font-size: var(--text-xl);
 }
 
-.contentColumn p{
-    margin-bottom: 1rem;
+.contentColumn p {
+  margin-bottom: var(--space-4);
 }
 
 /* Desktop Layout 40 / 60 */
@@ -25,6 +22,7 @@
   .grid {
     grid-template-columns: 1fr 1fr; /* 40 / 60 */
     align-items: stretch;
+    gap: var(--space-8);
   }
 
   .reverse {
@@ -40,7 +38,12 @@
 .mediaColumn {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-6);
+}
+
+.mediaColumn h2 {
+  font-size: var(--text-2xl);
+  line-height: 1.2;
 }
 
 /* Push image to bottom */
@@ -63,4 +66,5 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  max-width: 65ch;
 }

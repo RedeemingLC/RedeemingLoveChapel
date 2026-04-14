@@ -27,7 +27,7 @@ const CommunitySections = () => {
           <article className={styles.content}>
             {/* Intro Block */}
             <div className={styles.intro}>
-              <h2 className="fs-700 text-grad">Join our Telegram Group</h2>
+              <h2 className={styles.heading}>Join our Telegram Group</h2>
 
               <p className="fs-400">
                 Explore the wonders of spiritual development by sharing
@@ -40,7 +40,7 @@ const CommunitySections = () => {
             {/* Feature Grid */}
             <div className={styles.featureGrid}>
               <div className={styles.featureBlock}>
-                <h3 className="fs-500 text-grad">Bible Study</h3>
+                <h3 className={styles.featureTitle}>Bible Study</h3>
                 <p>
                   Join us every Wednesday at 7:30 PM WAT on our Telegram
                   platform for our Bible Study Q&A session. Let's delve into the
@@ -50,7 +50,7 @@ const CommunitySections = () => {
               </div>
 
               <div className={styles.featureBlock}>
-                <h3 className="fs-500 text-grad">Prayer Week</h3>
+                <h3 className={styles.featureTitle}>Prayer Week</h3>
                 <p>
                   Join us every second week of every month on our Telegram group
                   at 6:00 AM WAT for a powerful prayer experience that aligns
@@ -59,7 +59,7 @@ const CommunitySections = () => {
               </div>
 
               <div className={styles.featureBlock}>
-                <h3 className="fs-500 text-grad">Business Community Prayers</h3>
+                <h3 className={styles.featureTitle}>Business Community Prayers</h3>
                 <p>
                   The Redeeming Love Chapel Business Community meets every
                   Wednesday (except prayer week) at 6:00 AM CAT to seek divine

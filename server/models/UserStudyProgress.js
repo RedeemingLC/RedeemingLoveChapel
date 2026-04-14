@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const userStudyProgressSchema = new mongoose.Schema(
   {
@@ -33,4 +35,4 @@ const UserStudyProgress = mongoose.model(
   userStudyProgressSchema,
 );
 
-export default UserStudyProgress;
+module.exports = UserStudyProgress;

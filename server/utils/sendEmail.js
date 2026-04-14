@@ -1,10 +1,15 @@
-import nodemailer from "nodemailer";
+"use strict";
 
+const nodemailer = require("nodemailer");
+
+/* =========================
+   Send Email Utility
+========================= */
 const sendEmail = async ({ to, subject, text }) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 587, // ✅ FIX
-    secure: false, // ✅ FIX
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -19,4 +24,4 @@ const sendEmail = async ({ to, subject, text }) => {
   });
 };
 
-export default sendEmail;
+module.exports = sendEmail;

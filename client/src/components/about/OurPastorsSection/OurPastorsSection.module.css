@@ -1,12 +1,11 @@
-.ourPastors {
-  padding: 4rem 0;
-  margin-bottom: 5rem;
+.ourPastors h2{
+  font-size: var(--text-2xl);
 }
 
 .pastorsGrid {
   display: grid;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
   grid-template-columns: repeat(3, 1fr);
 }
 

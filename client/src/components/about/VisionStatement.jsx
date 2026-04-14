@@ -6,39 +6,39 @@ const VisionStatement = () => {
     <section className={styles.visionSection}>
       <Container>
         <div className={`grid grid-layout-2-col`}>
-          <h2 className="fs-700 gl2c-1 vs-h2 text-grad">
+          <h2 className="gl2c-1 gradientText">
             Our Vision and Mission Statement
           </h2>
 
-          <div className={`grid gl2c-2 ${styles.visionContent}`}>
-            <h3 className="fs-600 text-grad">Our Vision</h3>
+          <div className={`gl2c-2 ${styles.visionContent}`}>
+            <h3 className="gradientText">Our Vision</h3>
 
-            <p className="fs-400">
+            <p>
               “To shine the light of the glorious gospel of Christ that has been
               shone in our hearts, wherever we are and wherever we go.”
             </p>
 
-            <p className="fs-400">This vision is inspired by:</p>
+            <p>This vision is inspired by:</p>
 
-            <ul className="list fs-400">
+            <ul className="list">
               <li>2 Corinthians 4:6</li>
               <li>Matthew 5:14–16</li>
               <li>Psalm 36:9</li>
               <li>Isaiah 42:6</li>
             </ul>
 
-            <h3 className="fs-600 text-grad">Our Mission Statement</h3>
+            <h3 className="gradientText">Our Mission Statement</h3>
 
-            <p className="fs-400">
+            <p>
               As a local assembly, we are committed to being a people who love
               holiness and righteousness, living lives that reflect God’s glory.
               Our ultimate aim is to grow in Christlikeness in every area of our
               lives (1 Peter 1:13–16; Ephesians 4:13).
             </p>
 
-            <p className="fs-400">To achieve this, we:</p>
+            <p>To achieve this, we:</p>
 
-            <ul className="list fs-400">
+            <ul className="list">
               <li>
                 Gather for Sunday worship service at 9:00 am, where we exalt God
                 and strengthen our faith together.
@@ -62,7 +62,7 @@ const VisionStatement = () => {
               </li>
             </ul>
 
-            <p className="fs-400">
+            <p>
               Through these practices, we remain steadfast in our commitment to
               becoming more like Christ and making His glory known.
             </p>

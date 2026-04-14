@@ -5,16 +5,18 @@
 .grid {
   display: grid;
   gap: 2rem;
+  align-items: stretch;
 }
 
 /* Desktop layout */
 @media (min-width: 1025px) {
-  
   .grid {
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
       "intro intro card2"
       "card3 card4 card5";
+
+    grid-auto-rows: 1fr;
   }
 
   .intro {

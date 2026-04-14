@@ -1,8 +1,12 @@
-import Subsection from "../models/Subsection.js";
-import asyncHandler from "../middleware/asyncHandler.js";
+"use strict";
 
-// Create Subsection
-export const createSubsection = asyncHandler(async (req, res) => {
+const Subsection = require("../models/Subsection");
+const asyncHandler = require("../middleware/asyncHandler");
+
+/* =========================
+   Create Subsection
+========================= */
+const createSubsection = asyncHandler(async (req, res) => {
   const { sectionId, title, blocks, order } = req.body;
 
   const subsection = await Subsection.create({
@@ -18,8 +22,10 @@ export const createSubsection = asyncHandler(async (req, res) => {
   });
 });
 
-// Update Subsection
-export const updateSubsection = asyncHandler(async (req, res) => {
+/* =========================
+   Update Subsection
+========================= */
+const updateSubsection = asyncHandler(async (req, res) => {
   const subsection = await Subsection.findById(req.params.id);
 
   if (!subsection) {
@@ -39,8 +45,10 @@ export const updateSubsection = asyncHandler(async (req, res) => {
   });
 });
 
-// Re-order Subsections
-export const reorderSubsections = asyncHandler(async (req, res) => {
+/* =========================
+   Reorder Subsections
+========================= */
+const reorderSubsections = asyncHandler(async (req, res) => {
   const updates = req.body;
 
   const updatePromises = updates.map((item) =>
@@ -55,8 +63,10 @@ export const reorderSubsections = asyncHandler(async (req, res) => {
   });
 });
 
-// Get Subsections of Section
-export const getSubsectionsBySection = asyncHandler(async (req, res) => {
+/* =========================
+   Get Subsections By Section
+========================= */
+const getSubsectionsBySection = asyncHandler(async (req, res) => {
   const subsections = await Subsection.find({
     section: req.params.sectionId,
   }).sort({ order: 1, createdAt: 1 });
@@ -67,8 +77,10 @@ export const getSubsectionsBySection = asyncHandler(async (req, res) => {
   });
 });
 
-// Delete Subsection
-export const deleteSubsection = asyncHandler(async (req, res) => {
+/* =========================
+   Delete Subsection
+========================= */
+const deleteSubsection = asyncHandler(async (req, res) => {
   const subsection = await Subsection.findById(req.params.id);
 
   if (!subsection) {
@@ -84,4 +96,10 @@ export const deleteSubsection = asyncHandler(async (req, res) => {
   });
 });
 
-//
+module.exports = {
+  createSubsection,
+  updateSubsection,
+  reorderSubsections,
+  getSubsectionsBySection,
+  deleteSubsection,
+};

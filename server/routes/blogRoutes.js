@@ -1,27 +1,27 @@
-import express from "express";
-import {
+"use strict";
+
+const express = require("express");
+const {
   createBlog,
   getAllBlogsAdmin,
   updateBlog,
   deleteBlog,
   getPublishedBlogs,
   getSingleBlog,
-} from "../controllers/blogController.js";
+} = require("../controllers/blogController");
 
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-/* ===== ADMIN ROUTES ===== */
-
+/* ========= ADMIN ROUTES ========= */
 router.post("/", protect, adminOnly, createBlog);
 router.get("/admin", protect, adminOnly, getAllBlogsAdmin);
 router.put("/:id", protect, adminOnly, updateBlog);
 router.delete("/:id", protect, adminOnly, deleteBlog);
 
-/* ===== PUBLIC ROUTES ===== */
-
+/* ========= PUBLIC ROUTES ========= */
 router.get("/", getPublishedBlogs);
 router.get("/:slug", getSingleBlog);
 
-export default router;
+module.exports = router;

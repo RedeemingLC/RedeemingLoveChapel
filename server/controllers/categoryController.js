@@ -1,9 +1,11 @@
-import Category from "../models/Category.js";
-import slugify from "slugify";
-import asyncHandler from "../middleware/asyncHandler.js";
+"use strict";
+
+const Category = require("../models/Category");
+const slugify = require("slugify");
+const asyncHandler = require("../middleware/asyncHandler");
 
 /* CREATE CATEGORY */
-export const createCategory = asyncHandler(async (req, res) => {
+const createCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
   const existing = await Category.findOne({ name });
@@ -22,7 +24,7 @@ export const createCategory = asyncHandler(async (req, res) => {
 });
 
 /* GET ALL CATEGORIES */
-export const getCategories = asyncHandler(async (req, res) => {
+const getCategories = asyncHandler(async (req, res) => {
   const categories = await Category.find().sort({ createdAt: -1 });
 
   res.json({
@@ -31,9 +33,8 @@ export const getCategories = asyncHandler(async (req, res) => {
   });
 });
 
-// Update Categories
-
-export const updateCategory = asyncHandler(async (req, res) => {
+/* UPDATE CATEGORY */
+const updateCategory = asyncHandler(async (req, res) => {
   const category = await Category.findById(req.params.id);
 
   if (!category) {
@@ -52,7 +53,7 @@ export const updateCategory = asyncHandler(async (req, res) => {
 });
 
 /* DELETE CATEGORY */
-export const deleteCategory = asyncHandler(async (req, res) => {
+const deleteCategory = asyncHandler(async (req, res) => {
   const category = await Category.findById(req.params.id);
 
   if (!category) throw new Error("Category not found");
@@ -61,3 +62,10 @@ export const deleteCategory = asyncHandler(async (req, res) => {
 
   res.json({ success: true, message: "Category deleted" });
 });
+
+module.exports = {
+  createCategory,
+  getCategories,
+  updateCategory,
+  deleteCategory,
+};

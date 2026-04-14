@@ -1,11 +1,13 @@
-.aboutUs {
-  padding-block: var(--padding-block);
-}
-
 .aboutUsInner {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: var(--space-6);
+  text-align: center;
+}
+
+.aboutUsInner h1 {
+  font-size: var(--text-hero);
+  line-height: 1.2;
 }
 
 .aboutUsImage figure {
@@ -14,10 +16,6 @@
 
 .aboutImage {
   width: 100%;
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-lg);
   display: block;
-}
-
-.aboutUsArticle {
-  gap: 2rem;
 }

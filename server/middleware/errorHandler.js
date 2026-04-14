@@ -1,3 +1,5 @@
+"use strict";
+
 const errorHandler = (err, req, res, next) => {
   console.error(err.stack);
 
@@ -7,4 +9,4 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-export default errorHandler;
+module.exports = errorHandler;

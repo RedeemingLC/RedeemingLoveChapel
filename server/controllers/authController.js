@@ -1,9 +1,11 @@
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-import sendEmail from "../utils/sendEmail.js";
-import bcrypt from "bcryptjs";
-import crypto from "crypto"; // ✅ ADD THIS
-import asyncHandler from "../middleware/asyncHandler.js";
+"use strict";
+
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const sendEmail = require("../utils/sendEmail");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+const asyncHandler = require("../middleware/asyncHandler");
 
 // 🔑 Generate JWT
 const generateToken = (id) => {
@@ -13,7 +15,7 @@ const generateToken = (id) => {
 };
 
 // 📝 Register User
-export const registerUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -48,7 +50,8 @@ export const registerUser = asyncHandler(async (req, res) => {
   });
 });
 
-export const loginUser = asyncHandler(async (req, res) => {
+// 🔓 Login User
+const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -78,7 +81,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 });
 
 // 🔁 Forgot Password
-export const forgotPassword = async (req, res) => {
+const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
@@ -109,7 +112,7 @@ export const forgotPassword = async (req, res) => {
 };
 
 // 🔐 Reset Password
-export const resetPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
 
@@ -123,7 +126,7 @@ export const resetPassword = async (req, res) => {
   if (!user)
     return res.status(400).json({ message: "Invalid or expired token" });
 
-  user.password = password; // Let model hash it
+  user.password = password;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
 
@@ -132,15 +135,14 @@ export const resetPassword = async (req, res) => {
   res.json({ message: "Password reset successful" });
 };
 
-//Verify Email before log in
-export const verifyEmail = async (req, res) => {
+// ✅ Verify Email before log in
+const verifyEmail = async (req, res) => {
   const { token } = req.params;
 
   const user = await User.findOne({
     emailVerificationToken: token,
   });
 
-  // ✅ If already verified, do NOT fail
   if (!user) {
     return res.json({
       message: "Email already verified",
@@ -153,4 +155,12 @@ export const verifyEmail = async (req, res) => {
   await user.save();
 
   res.json({ message: "Email verified successfully" });
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  forgotPassword,
+  resetPassword,
+  verifyEmail,
 };

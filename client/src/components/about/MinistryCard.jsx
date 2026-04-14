@@ -3,18 +3,21 @@ import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import Button from "../Button/Button";
 
-const MinistryCard = ({ title, link, bgClass }) => {
+const MinistryCard = ({ title, link, image }) => {
   return (
-    <div className={`gbl3c-card ${styles.ministryCard} ${bgClass}`}>
+    <div
+      className={`gbl3c-card ${styles.ministryCard}`}
+      style={{ backgroundImage: `url(${image})` }}
+    >
       <article>
-        <h3 className="fs-600">{title}</h3>
+        <h3>{title}</h3>
 
-        <Button>
-          <Link to={link} className="bttn bttn--primary">
+        <Link to={link}>
+          <Button className="btn btn-primary">
             <span>More Info</span>
-            <FaArrowRight className="bttn-no-border__icon" />
-          </Link>
-        </Button>
+            <FaArrowRight />
+          </Button>
+        </Link>
       </article>
     </div>
   );

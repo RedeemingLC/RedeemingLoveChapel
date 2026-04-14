@@ -12,6 +12,9 @@ export default function ManualForm({ onSuccess, editingManual }) {
   const [existingCover, setExistingCover] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
+
   // Load manual when editing
   useEffect(() => {
     if (editingManual) {
@@ -20,8 +23,22 @@ export default function ManualForm({ onSuccess, editingManual }) {
       setEditorContent(editingManual.content || "");
       setExistingPdf(editingManual.fileUrl || "");
       setExistingCover(editingManual.coverImage || "");
+      setCategory(editingManual.category?._id || "");
     }
   }, [editingManual]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await adminApi.get("/api/categories");
+        setCategories(data.data);
+      } catch (error) {
+        console.log("FETCH CATEGORIES ERROR:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const resetForm = () => {
     setTitle("");
@@ -31,6 +48,7 @@ export default function ManualForm({ onSuccess, editingManual }) {
     setCoverFile(null); // 🔥 ADDED
     setExistingPdf(""); // 🔥 ADDED
     setExistingCover(""); // 🔥 ADDED
+    setCategory("");
   };
 
   const handleSubmit = async (e) => {
@@ -81,6 +99,7 @@ export default function ManualForm({ onSuccess, editingManual }) {
         content: editorContent,
         fileUrl,
         coverImage,
+        category,
       };
 
       console.log("📤 SENDING PAYLOAD:", payload);
@@ -119,7 +138,7 @@ export default function ManualForm({ onSuccess, editingManual }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
+    <form onSubmit={handleSubmit} className="adminForm">
       <h2>{editingManual ? "Edit Manual" : "Create Manual"}</h2>
 
       <input
@@ -135,6 +154,20 @@ export default function ManualForm({ onSuccess, editingManual }) {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        required
+      >
+        <option value="">Select Category</option>
+
+        {categories.map((cat) => (
+          <option key={cat._id} value={cat._id}>
+            {cat.name}
+          </option>
+        ))}
+      </select>
 
       <RichTextEditor value={editorContent} onChange={setEditorContent} />
 

@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const subsectionSchema = new mongoose.Schema(
   {
@@ -7,27 +9,22 @@ const subsectionSchema = new mongoose.Schema(
       ref: "Section",
       required: true,
     },
-
     title: {
       type: String,
       required: true,
     },
-
     blocks: [
       {
         id: {
           type: String,
         },
-
         type: {
           type: String,
           required: true,
         },
-
         value: mongoose.Schema.Types.Mixed,
       },
     ],
-
     order: {
       type: Number,
       default: 0,
@@ -36,4 +33,6 @@ const subsectionSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model("Subsection", subsectionSchema);
+const Subsection = mongoose.model("Subsection", subsectionSchema);
+
+module.exports = Subsection;

@@ -96,16 +96,18 @@ export default function StudyEntryPage() {
         />
 
         {/* ENTRY CONTENT */}
-        <div className={styles.content}>
-          {study.entryContent ? (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(study.entryContent),
-              }}
-            />
-          ) : (
-            <p>No introduction content available.</p>
-          )}
+        <div className={styles.contentWrapper}>
+          <div className={styles.content}>
+            {study.entryContent ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(study.entryContent),
+                }}
+              />
+            ) : (
+              <p>No introduction content available.</p>
+            )}
+          </div>
         </div>
 
         {/* PROGRESS INFO */}

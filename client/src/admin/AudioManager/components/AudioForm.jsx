@@ -59,8 +59,8 @@ export default function AudioForm({ onSuccess, editingAudio }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
-      <h2>{editingAudio ? "Edit Audio" : "Create Audio"}</h2>
+    <form onSubmit={handleSubmit} className="adminForm">
+      <h2>{editingAudio ? "Update Audio" : "Create Audio"}</h2>
 
       <input
         type="text"
@@ -82,7 +82,7 @@ export default function AudioForm({ onSuccess, editingAudio }) {
         placeholder="Sermon Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        required
+        rows="3"
       />
 
       <input
@@ -93,7 +93,7 @@ export default function AudioForm({ onSuccess, editingAudio }) {
         required
       />
 
-      <label>
+      <label className="adminCheckbox">
         <input
           type="checkbox"
           checked={isPublished}

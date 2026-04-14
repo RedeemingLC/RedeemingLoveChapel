@@ -1,29 +1,35 @@
-import express from "express";
-import upload from "../middleware/uploadMiddleware.js";
-import {
+"use strict";
+
+const express = require("express");
+const multer = require("multer");
+const upload = require("../middleware/uploadMiddleware");
+const {
   uploadManual,
   uploadManualCover,
   uploadFile,
-} from "../controllers/uploadController.js";
-import multer from "multer";
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+} = require("../controllers/uploadController");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// 🔥 EXISTING: Blog images (KEEP THIS)
+/* ========= UPLOAD ROUTES ========= */
+
+// 🔥 Blog images upload
 router.post("/", protect, adminOnly, upload.single("image"), (req, res) => {
   res.status(200).json({
     success: true,
-    imageUrl: `http://localhost:5000/uploads/${req.file.filename}`,
+    imageUrl: `${process.env.SERVER_URL || "http://localhost:5000"}/uploads/${
+      req.file.filename
+    }`,
   });
 });
 
-// 🔥 NEW: Manual PDF upload
+// 🔥 Manual PDF upload
 router.post("/manual", protect, adminOnly, uploadManual, (req, res) => {
   res.json({ fileUrl: `/uploads/manuals/${req.file.filename}` });
 });
 
-// 🔥 NEW: Manual cover image
+// 🔥 Manual cover image upload
 router.post(
   "/manual-cover",
   protect,
@@ -34,6 +40,7 @@ router.post(
   },
 );
 
+// 🔥 General file upload
 router.post("/upload", upload.single("file"), uploadFile);
 
-export default router;
+module.exports = router;

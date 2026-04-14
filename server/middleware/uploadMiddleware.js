@@ -1,6 +1,11 @@
-import multer from "multer";
-import path from "path";
+"use strict";
 
+const multer = require("multer");
+const path = require("path");
+
+/* =========================
+   Storage Configuration
+========================= */
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, "uploads/");
@@ -13,6 +18,9 @@ const storage = multer.diskStorage({
   },
 });
 
+/* =========================
+   File Filter - Images Only
+========================= */
 const fileFilter = (req, file, cb) => {
   const filetypes = /jpg|jpeg|png|webp/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -25,9 +33,12 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+/* =========================
+   Multer Upload Instance
+========================= */
 const upload = multer({
   storage,
   fileFilter,
 });
 
-export default upload;
+module.exports = upload;

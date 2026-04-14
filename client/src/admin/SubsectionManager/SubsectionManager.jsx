@@ -19,25 +19,38 @@ function SubsectionManager() {
 
   useEffect(() => {
     fetchSubsections();
-  }, []);
+  }, [sectionId]);
 
   return (
-    <div>
-      <h1>Lesson Manager</h1>
+    <>
+      <div className="adminHeader">
+        <h1>Lesson Manager</h1>
+        <p>Manage lessons within this section</p>
+      </div>
 
-      <SubsectionForm
-        sectionId={sectionId}
-        editingSubsection={editingSubsection}
-        fetchSubsections={fetchSubsections}
-        setEditingSubsection={setEditingSubsection}
-      />
+      <div className="adminSection">
+        <SubsectionForm
+          sectionId={sectionId}
+          editingSubsection={editingSubsection}
+          fetchSubsections={fetchSubsections}
+          setEditingSubsection={setEditingSubsection}
+        />
+      </div>
 
-      <SubsectionList
-        subsections={subsections}
-        setEditingSubsection={setEditingSubsection}
-        fetchSubsections={fetchSubsections}
-      />
-    </div>
+      <div className="adminSection">
+        <h2>All Lessons</h2>
+
+        {subsections.length === 0 ? (
+          <p>No lessons created yet.</p>
+        ) : (
+          <SubsectionList
+            subsections={subsections}
+            setEditingSubsection={setEditingSubsection}
+            fetchSubsections={fetchSubsections}
+          />
+        )}
+      </div>
+    </>
   );
 }
 

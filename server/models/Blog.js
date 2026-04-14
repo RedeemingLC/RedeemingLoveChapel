@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const blogSchema = new mongoose.Schema(
   {
@@ -7,33 +9,27 @@ const blogSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-
     content: {
       type: String,
       required: true,
     },
-
     isPublished: {
       type: Boolean,
       default: false,
     },
-
     slug: {
       type: String,
       required: true,
       unique: true,
     },
-
     featuredImage: {
       type: String,
       default: "",
     },
-
     seoTitle: {
       type: String,
       default: "",
     },
-
     seoDescription: {
       type: String,
       default: "",
@@ -42,12 +38,10 @@ const blogSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
-
     isFeatured: {
       type: Boolean,
       default: false,
     },
-
     excerpt: {
       type: String,
       default: "",
@@ -58,4 +52,4 @@ const blogSchema = new mongoose.Schema(
 
 const Blog = mongoose.model("Blog", blogSchema);
 
-export default Blog;
+module.exports = Blog;

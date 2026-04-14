@@ -1,10 +1,12 @@
-import Study from "../models/Study.js";
-import UserStudyProgress from "../models/UserStudyProgress.js";
+"use strict";
+
+const Study = require("../models/Study");
+const UserStudyProgress = require("../models/UserStudyProgress");
 
 /* ======================================================
-   📚 Get all studies (admin / listing)
+   📚 Get All Studies (Admin / Listing)
 ====================================================== */
-export const getStudies = async (req, res) => {
+const getStudies = async (req, res) => {
   try {
     const studies = await Study.find()
       .select("title slug description isPublished createdAt")
@@ -17,9 +19,9 @@ export const getStudies = async (req, res) => {
 };
 
 /* ======================================================
-   📖 Get study entry / overview
+   📖 Get Study Entry / Overview
 ====================================================== */
-export const getStudyById = async (req, res) => {
+const getStudyById = async (req, res) => {
   try {
     const study = await Study.findById(req.params.studyId).select(
       "title slug description topic entryTitle entrySubtitle entryContent days isPublished createdAt updatedAt",
@@ -36,9 +38,9 @@ export const getStudyById = async (req, res) => {
 };
 
 /* ======================================================
-   🔒 Get single study day (LOCK FUTURE DAYS)
+   🔒 Get Single Study Day (Lock Future Days)
 ====================================================== */
-export const getStudyDay = async (req, res) => {
+const getStudyDay = async (req, res) => {
   try {
     const { studyId, dayNumber } = req.params;
     const userId = req.user.id;
@@ -65,7 +67,7 @@ export const getStudyDay = async (req, res) => {
 
     // 3️⃣ Fetch study
     const study = await Study.findById(studyId).select(
-      "title slug description coverImage topic createdAt",
+      "title slug description coverImage topic days isPublished createdAt",
     );
 
     if (!study || !study.isPublished) {
@@ -78,14 +80,13 @@ export const getStudyDay = async (req, res) => {
       return res.status(404).json({ message: "Study day not found" });
     }
 
-    // ✅ FIX: Return HTML content instead of blocks
     res.json({
       studyId: study._id,
       title: study.title,
       slug: study.slug,
       dayNumber: day.dayNumber,
       dayTitle: day.title,
-      content: day.content || "", // ✅ IMPORTANT
+      content: day.content || "",
       reflectionPrompt: day.reflectionPrompt || "",
       hasPauseDivider: day.hasPauseDivider ?? true,
       pauseText: day.pauseText || "Pause & Reflect",
@@ -97,11 +98,11 @@ export const getStudyDay = async (req, res) => {
 };
 
 /* ======================================================
-   ➕ Create new study
+   ➕ Create New Study
 ====================================================== */
-export const createStudy = async (req, res) => {
+const createStudy = async (req, res) => {
   try {
-    const { title, slug, description } = req.body;
+    const { title, slug, description, topic } = req.body; // ✅ BUG 1 FIXED - added topic
 
     const existing = await Study.findOne({ slug });
     if (existing) {
@@ -115,7 +116,7 @@ export const createStudy = async (req, res) => {
       topic,
       entryTitle: "",
       entrySubtitle: "",
-      entryContent: "", // ✅ FIXED
+      entryContent: "",
       days: [],
       isPublished: false,
     });
@@ -127,9 +128,9 @@ export const createStudy = async (req, res) => {
 };
 
 /* ======================================================
-   ✏️ Update study
+   ✏️ Update Study
 ====================================================== */
-export const updateStudy = async (req, res) => {
+const updateStudy = async (req, res) => {
   try {
     const study = await Study.findById(req.params.studyId);
 
@@ -137,7 +138,6 @@ export const updateStudy = async (req, res) => {
       return res.status(404).json({ message: "Study not found" });
     }
 
-    // ✅ Updated allowed fields
     const fields = [
       "title",
       "description",
@@ -147,11 +147,12 @@ export const updateStudy = async (req, res) => {
       "days",
       "isPublished",
       "coverImage",
-      "topic", // ✅ ADD THIS
+      "topic",
     ];
 
     fields.forEach((field) => {
       if (req.body[field] !== undefined) {
+        // ✅ BUG 2 FIXED - added undefined
         study[field] = req.body[field];
       }
     });
@@ -165,9 +166,9 @@ export const updateStudy = async (req, res) => {
 };
 
 /* ======================================================
-   ❌ Delete study
+   ❌ Delete Study
 ====================================================== */
-export const deleteStudy = async (req, res) => {
+const deleteStudy = async (req, res) => {
   try {
     const study = await Study.findById(req.params.studyId);
 
@@ -180,4 +181,13 @@ export const deleteStudy = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
+};
+
+module.exports = {
+  getStudies,
+  getStudyById,
+  getStudyDay,
+  createStudy,
+  updateStudy,
+  deleteStudy,
 };

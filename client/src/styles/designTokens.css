@@ -1,38 +1,73 @@
+/* ================= ROOT (MOBILE FIRST) ================= */
+
 :root {
-  /* COLORS */
+  /* ================= COLORS ================= */
+
   --color-primary: #6a1b9a;
-  --color-primary-dark: #4a148c;
   --color-accent: #ff2d75;
-  --color-bg-light: #f6f3f9;
-  --color-white: #ffffff;
-  --color-text-dark: #1e1e1e;
+
+  --color-bg: #ffffff;
+  --color-bg-alt: #efe9f1ca;
+
+  --color-text: #1e1e1e;
   --color-text-muted: #6b7280;
-  --color-text-soft: #444;
+  --color-text-inverse: #ffffff;
+  --color-success: #4caf50;
+  --color-border: #e5e7eb;
 
-  /* GRADIENT */
-  --gradient-footer: linear-gradient(135deg, #6a1b9a, #ad1457);
+  /* ================= TYPOGRAPHY ================= */
 
-  /* SPACING SYSTEM (4px scale) */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 48px;
-  --space-8: 64px;
-  --space-9: 80px;
-  --space-10: 96px;
-  --space-11: 120px;
+  --font-family: "Inter", sans-serif;
+  --header-font-family: "Poppins", sans-serif;
 
-  /* BORDER RADIUS */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.5rem; /* 24px */
 
-  /* SHADOW */
-  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --text-feature: clamp(1.75rem, 2.5vw, 2.25rem);
+  --text-2xl: clamp(2rem, 3vw, 2.5rem);
+  --text-3xl: clamp(2.25rem, 4vw, 3rem);
+  --text-hero: clamp(2.5rem, 5vw, 4rem);
 
-  /* CONTAINER */
-  --max-width: 1200px;
+  /* ================= SPACING ================= */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 5rem;
+  --space-10: 6rem;
+  --header-height: 7.75rem; /* exact value you were using */
+
+  /* Line heights */
+
+  --line-tight: 1.2;
+  --line-normal: 1.5;
+  --line-relaxed: 1.7;
+
+  /* ================= LAYOUT ================= */
+
+  --container-width: 75rem;
+  --padding-inline: var(--space-4);
+
+  /* ================= RADIUS ================= */
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-full: 999px;
+
+  /* ================= SHADOW ================= */
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* ================= TRANSITION ================= */
+
+  --transition-standard: all 0.25s ease-in-out;
 }

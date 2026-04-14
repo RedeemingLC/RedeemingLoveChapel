@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 
+import Section from "../../components/Section/Section";
+import Container from "../../components/Container/Container";
+import Button from "../../components/Button/Button";
+
 import styles from "./StudyCompletion.module.css";
 
 export default function StudyCompletion() {
@@ -25,40 +29,41 @@ export default function StudyCompletion() {
   if (!screen) return <div>Loading...</div>;
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.card}>
-        {/* 🎉 Icon */}
-        <div className={styles.icon}>🎉</div>
+    <Section>
+      <Container>
+        <div className={styles.wrapper}>
+          <div className={styles.card}>
+            {/* Icon */}
+            <div className={styles.icon}>🎉</div>
 
-        {/* Title */}
-        <h2 className={styles.title}>{screen.title || "Congratulations!"}</h2>
+            {/* Title */}
+            <h1 className={`gradientText ${styles.title}`}>
+              {screen.title || "Congratulations!"}
+            </h1>
 
-        {/* Content */}
-        <div className={styles.content}>
-          {screen.blocks?.map((block, i) => (
-            <p key={i} className={styles.paragraph}>
-              {block.value}
-            </p>
-          ))}
+            {/* Content */}
+            <div className={styles.content}>
+              {screen.blocks?.map((block, i) => (
+                <p key={i}>{block.value}</p>
+              ))}
+            </div>
+
+            {/* Buttons */}
+            <div className={styles.buttons}>
+              <Button onClick={() => navigate("/my-studies")}>
+                Back to Library
+              </Button>
+
+              <Button
+                variant="outline"
+                onClick={() => navigate(`/study/${slug}`)}
+              >
+                Review Study
+              </Button>
+            </div>
+          </div>
         </div>
-
-        {/* Buttons */}
-        <div className={styles.buttons}>
-          <button
-            className={styles.primaryBtn}
-            onClick={() => navigate("/my-studies")}
-          >
-            Back to Library
-          </button>
-
-          <button
-            className={styles.secondaryBtn}
-            onClick={() => navigate(`/study/${slug}`)}
-          >
-            Review Study
-          </button>
-        </div>
-      </div>
-    </div>
+      </Container>
+    </Section>
   );
 }

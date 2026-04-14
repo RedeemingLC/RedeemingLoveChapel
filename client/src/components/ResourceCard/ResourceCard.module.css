@@ -1,124 +1,155 @@
 /* ================= BASE CARD ================= */
 
 .card {
-  border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2rem;
-  min-height: 260px;
 
+  padding: var(--space-5);
+
+  height: 100%;
+
+  border-radius: var(--radius-lg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  color: var(--clr-light);
+  color: #ffffff;
   position: relative;
 
+  box-shadow: var(--shadow-card);
   transition: transform 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
 }
 
-/* Intro card span */
-.spanTwo {
-  background: var(--clr-light);
-  color: var(--clr-dark);
-}
+/* ================= OVERLAY ================= */
 
-/* Overlay for image cards */
-.card:not(.spanTwo)::before {
+.card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: hsl(284 20% 26% / 0.65);
+  background: rgba(0, 0, 0, 0.4);
   border-radius: inherit;
 }
 
 .card > * {
   position: relative;
-  z-index: 2;
-}
-
-/* Hover only applies to non-intro cards */
-.card:not(.intro):hover {
-  transform: translateY(-6px);
+  z-index: 1;
 }
 
 /* ================= INTRO CARD ================= */
 
 .intro {
-  background: var(--clr-light);
-  color: var(--clr-dark);
+  background: var(--color-bg);
+  color: var(--color-text);
+
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+
+  padding: var(--space-6);
+
+  min-height: 280px;
 }
 
-/* Remove overlay for intro */
+/* Other cards */
+.card:not(.intro) {
+  min-height: 180px;
+}
+
+.card > div {
+  margin-bottom: var(--space-4);
+}
+
 .intro::before {
   display: none;
 }
 
-/* Remove hover transform */
 .intro:hover {
   transform: none;
-}
-
-.intro h2{
-  margin-bottom: 0.75rem;
 }
 
 /* ================= TEXT ================= */
 
 .title {
-  font-size: clamp(16px, var(--fs-400-fluid), 1.5rem);
-  font-weight: 700;
-  margin-bottom: 1rem;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.introTitle {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: var(--space-4);
+  max-width: 20ch;
+
+  background: linear-gradient(135deg, #6a1b9a 0%, #9c27b0 40%, #ff2d75 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .description {
-  font-size: var(--fs-400-fluid);
-  line-height: 1.6;
-  max-width: var(--content-width);
+  margin-top: var(--space-3);
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  max-width: 55ch;
 }
 
 /* ================= BUTTON ================= */
 
 .outlineBtn {
   align-self: flex-start;
-  border: 2px solid white;
-  background: transparent;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 14px;
+  width: fit-content;
+
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
+
+  padding: 8px 16px;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #6a1b9a, #ff2d75);
+  color: #ffffff;
+
+  margin-top: auto;
+
+  font-size: var(--text-sm);
+  font-weight: 600;
+
+  border: none;
   cursor: pointer;
-  color: white;
-  transition: 0.2s ease;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.outlineBtn {
+  margin-top: auto;
 }
 
 .outlineBtn:hover {
-  background: white;
-  color: var(--clr-dark);
+  transform: translateY(1px);
+  box-shadow: var(--shadow-card);
 }
 
 /* ================= BACKGROUND VARIANTS ================= */
 
 .bibleStudy {
-  background-image: url("https://picsum.photos/600/600?bible");
-}
-
-.audio {
-  background-image: url("https://picsum.photos/600/600?audio");
-}
-
-.blog {
-  background-image: url("https://picsum.photos/600/600?writing");
+  background-image: url("/images/bible-study.jpg");
 }
 
 .devotional {
-  background-image: url("https://picsum.photos/600/600?sunrise");
+  background-image: url("/images/devotional.jpg");
+}
+
+.blog {
+  background-image: url("/images/blog.jpg");
+}
+
+.audio {
+  background-image: url("/images/audio.jpg");
 }

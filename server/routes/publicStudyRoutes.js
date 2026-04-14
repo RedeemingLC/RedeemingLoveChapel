@@ -1,17 +1,19 @@
-import express from "express";
-import {
+"use strict";
+
+const express = require("express");
+const {
   getAllPublicStudies,
   getPublicStudy,
   getPublicStudyDay,
   getCompletionScreen,
   getStudyOverview,
-} from "../controllers/publicStudyController.js";
+} = require("../controllers/publicStudyController");
 
 const router = express.Router();
 
-// =========================
-// 📚 PUBLIC STUDY ROUTES
-// =========================
+/* =========================
+   📚 PUBLIC STUDY ROUTES
+========================= */
 
 // 🔹 List all studies
 router.get("/", getAllPublicStudies);
@@ -28,4 +30,4 @@ router.get("/:slug/completion", getCompletionScreen);
 // 🔹 Study entry (MUST BE LAST)
 router.get("/:slug", getPublicStudy);
 
-export default router;
+module.exports = router;

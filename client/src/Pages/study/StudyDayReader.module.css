@@ -15,7 +15,7 @@
 
 .progressBar {
   height: 8px;
-  background: #eee;
+  background: var(--color-bg-alt);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -36,20 +36,21 @@
 
 /* Title */
 .title {
-  font-size: 56px;
-  font-weight: bold;
+  font-size: var(--text-hero);
+  font-weight: 700;
   color: var(--color-primary);
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-6);
+  line-height: 1.2;
 }
 
 /* Content */
 .content {
-  color: var(--color-text-soft);
-  font-size: 16px;
+  color: var(--color-text);
+  font-size: var(--text-base);
 }
 
 .content p {
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
   line-height: 1.8;
 }
 
@@ -58,13 +59,14 @@
 .content h3 {
   margin-top: var(--space-7);
   margin-bottom: var(--space-4);
-  color: var(--color-text-dark);
+  color: var(--color-text);
+  font-weight: 600;
 }
 
 .content ul,
 .content ol {
-  padding-left: 0.5rem;
-  margin-bottom: var(--space-2);
+  padding-left: var(--space-4);
+  margin-bottom: var(--space-4);
 }
 
 .content ul {
@@ -103,10 +105,17 @@
   width: 100%;
   padding: var(--space-4);
   border-radius: var(--radius-sm);
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-bg-alt);
   font-family: inherit;
-  color: var(--color-text-dark);
-  background: var(--color-white);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.divider {
+  margin: var(--space-8) 0;
+  opacity: 0.3;
+  border: none;
+  border-top: 1px solid var(--color-border);
 }
 
 /* Completion */
@@ -131,16 +140,4 @@
   .navButtons button {
     width: 100%;
   }
-}
-
-.completeSection {
-  margin-top: 40px;
-}
-
-.navButtons {
-  margin-top: 24px;
-}
-
-.reader {
-  padding-bottom: 80px;
 }

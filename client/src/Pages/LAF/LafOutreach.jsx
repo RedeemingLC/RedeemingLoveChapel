@@ -1,9 +1,12 @@
 import React from "react";
-import MinistryHero from "../../components/ministry/MinisrtyHero";
+import MinistryHero from "../../components/ministry/MinistryHero";
 import MinistrySplitSection from "../../components/ministry/article/MinistrySplitSection";
 import FullWidthHighlight from "../../components/ministry/article/FullWidthHighlight";
 import MinistryCTA from "../../components/ministry/MinistryCTA";
-import { MdOutlineArrowCircleRight } from "react-icons/md";
+
+import laffoodStuffs from "../../assets/images/laf.jpg";
+import laffield from "../../assets/images/field-for-the-poor.jpg";
+import lafhelp from "../../assets/images/helping-hands.jpg";
 
 const LafOutreach = () => {
   return (
@@ -12,19 +15,25 @@ const LafOutreach = () => {
         label="LAF Outreach"
         title="Loaf and Fish Outreach"
         description="The Loaf and Fish Program (LAF) has been an arm of our ministry since the inception of Redeeming Love Chapel in 1995. God has used it to bless people's lives, especially those of the household of Redeeming Love Chapel. During the lock down due to the COVID-19 pandemic, as we studied the book of Acts with some brethren, the Lord began to show us the need to escalate the Loaf and Fish Program (LAF). The outcome of this study is what has given birth to the LAF outreach. So, let us look at the scriptures to see the basis of this ministry."
-        image={"https://placehold.jp/1200x600.png"}
-        alt={"LAF Outreach Ministry"}
+        image={laffoodStuffs}
+        alt={
+          "Stacked food supplies and aid packages in a modest setting, symbolizing provision, care, and hope."
+        }
       />
       <MinistrySplitSection
         title={"A Case for giving to the Poor and Needy."}
-        image={"https://placehold.jp/600x400.png"}
-        imageAlt={"This picture shows people in need of help"}
+        image={laffield}
+        imageAlt={
+          "A peaceful field at sunset with crops left unharvested at the edges, symbolizing provision and generosity for the poor and needy."
+        }
         imagePosition="left"
       >
-        <article class="gl2c-2">
-          <h3 class="fs-600 ">Do not shut your hands to the helpless.</h3>
-          <h4 class="fs-500">Deuteronomy 15:7-11</h4>
-          <p class="fs-400">
+        <article className="gl2c-2">
+          <h3 className="gradientText">
+            Do not shut your hands to the helpless.
+          </h3>
+          <h4>Deuteronomy 15:7-11</h4>
+          <p>
             In this text, God Almighty commanded the children of Israel not to
             shut their hands from the poor and needy in their midst. Instead,
             they should open their arms to meet their needs willingly without
@@ -36,9 +45,9 @@ const LafOutreach = () => {
             cheerful giver.
           </p>
 
-          <h3 class="fs-600 text-grad">The Unharvested Edges of the Field.</h3>
-          <h4 class="fs-500">Leviticus 19:9,10; 23:22; Deuteronomy 24:19-22</h4>
-          <p class="fs-400">
+          <h3 className="gradientText">The Unharvested Edges of the Field.</h3>
+          <h4>Leviticus 19:9,10; 23:22; Deuteronomy 24:19-22</h4>
+          <p>
             In these scriptures, God required the Israelites to leave the edges
             of their field unharvested for the poor, stranger, fatherless, and
             widow. The command served as a reminder that they were once
@@ -46,15 +55,15 @@ const LafOutreach = () => {
             and liberality.
           </p>
 
-          <h3 class="fs-600 text-grad">Treating The Poor With Dignity.</h3>
-          <h4 class="fs-500">Deuteronomy 24:14,15</h4>
-          <p class="fs-400">
+          <h3 className="gradientText">Treating The Poor With Dignity.</h3>
+          <h4>Deuteronomy 24:14,15</h4>
+          <p>
             Here, God warned the Israelites not to oppress a hired servant who
             is poor and needy nor withhold his wages from him. In other words,
             they should treat them with dignity and justice.
           </p>
 
-          <p class="fs-400">
+          <p>
             Moreover, in Luke 14:12-14, Jesus said to the one who invited Him to
             the supper that when he gives a dinner or supper, he should not call
             his friends, brothers, relations or rich neighbours who could also
@@ -67,22 +76,24 @@ const LafOutreach = () => {
         </article>
       </MinistrySplitSection>
       <FullWidthHighlight>
-        <blockquote className="fs-600">
+        <blockquote>
           ...God told Israel that if they give without grief in their hearts, He
           will bless all their works and all they put their hands to do. 2
           Corinthians 9:7 says, God loves a cheerful giver.
         </blockquote>
       </FullWidthHighlight>
       <MinistrySplitSection
-        title={""}
-        image={"https://placehold.jp/600x400.png"}
-        imageAlt={"This picture shows people in need of help"}
-        imagePosition="right"
+        title={"Serving God Through Compassion"}
+        image={lafhelp}
+        imageAlt={
+          "A hand offering food to a person in need, both treated with dignity, symbolizing compassion and serving God through care."
+        }
+        imagePosition="left"
       >
-        <article class="gl2c-1">
-          <h3 class="fs-600 text-grad">"When I Was Hungry...”</h3>
-          <h4 class="fs-500">Matthew 25:31-40.</h4>
-          <p class="fs-400">
+        <article className="gl2c-1">
+          <h3 className="gradientText">"When I Was Hungry...”</h3>
+          <h4>Matthew 25:31-40.</h4>
+          <p>
             In this text, Jesus explained a future event. He said when the Son
             of Man comes in His glory with His holy angels. He will sit on the
             throne of His glory. Then nations will gather before Him. He will
@@ -102,69 +113,41 @@ const LafOutreach = () => {
             punishment.
           </p>
 
-          <h3 class="fs-600 text-grad">The Gospel To The Poor.</h3>
-          <p class="fs-400">
+          <h3 className="gradientText">The Gospel To The Poor.</h3>
+          <p>
             Despite providing for the poor and needy with material and financial
             substance, Jesus also preached the gospel. (Luke 4:18;7:22). This
             action is an important point to note. When we give food to the poor,
             we should also minister the word of God to them.
           </p>
 
-          <h3 class="fs-600 text-grad">
+          <h3 className="gradientText">
             The Apostles' And The Early Church's Example:
           </h3>
-          <p class="fs-400">
+          <p>
             It is crucial to state that after Jesus departed from the earth, the
             Apostles and the early church continued His example in caring for
             the poor and needy. We can see this from the counsel of the Apostles
             to Paul and Barnabas in Galatians 2: 9, 10.
           </p>
 
-          <h3 class="fs-400">Blessings In Giving To The Poor and Needy.</h3>
-          <p class="fs-400">
+          <h3 className="gradientText">
+            Blessings In Giving To The Poor and Needy.
+          </h3>
+          <p>
             Read the following scriptures to see some blessings of helping the
             poor and needy.
           </p>
-          <ul class="list">
-            <li class="list-item">
-              <span class="bttn-no-border__icon">
-                <MdOutlineArrowCircleRight />
-              </span>
-              <span class="list-text fs-400">Psalm 112: 5-6, 9.</span>
-            </li>
-            <li class="list-item">
-              <span class="bttn-no-border__icon">
-                <MdOutlineArrowCircleRight />
-              </span>
-              <span class="list-text fs-400">Psalm 41:1-3.</span>
-            </li>
-            <li class="list-item">
-              <span class="bttn-no-border__icon">
-                <MdOutlineArrowCircleRight />
-              </span>
-              <span class="list-text fs-400">Proverbs 14:21.</span>
-            </li>
-            <li class="list-item">
-              <span class="bttn-no-border__icon">
-                <MdOutlineArrowCircleRight />
-              </span>
-              <span class="list-text fs-400">Proverbs 19:17.</span>
-            </li>
-            <li class="list-item">
-              <span class="bttn-no-border__icon">
-                <MdOutlineArrowCircleRight />
-              </span>
-              <span class="list-text fs-400">Proverbs 22:9.</span>
-            </li>
-            <li class="list-item">
-              <span class="bttn-no-border__icon">
-                <MdOutlineArrowCircleRight />
-              </span>
-              <span class="list-text fs-400">1 Timothy 6:17-19.</span>
-            </li>
+          <ul className="list">
+            <li>Psalm 112: 5-6, 9.</li>
+            <li>Psalm 41:1-3.</li>
+            <li>Proverbs 14:21.</li>
+            <li>Proverbs 19:17.</li>
+            <li>Proverbs 22:9.</li>
+            <li>1 Timothy 6:17-19.</li>
           </ul>
 
-          <p class="fs-400">
+          <p>
             There are blessings for those who care for the poor and needy. These
             blessings transcend this present life to eternal life. Brethren, let
             us obey God. Let us be generous to the disadvantaged. They are all

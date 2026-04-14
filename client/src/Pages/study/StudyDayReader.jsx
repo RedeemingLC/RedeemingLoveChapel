@@ -166,7 +166,7 @@ export default function StudyDayReader() {
           )}
 
           {/* Title */}
-          <h1 className={styles.title}>{day.title}</h1>
+          <h1 className={`gradientText ${styles.title}`}>{day.title}</h1>
 
           {/* Content */}
           <div className={styles.content}>
@@ -195,7 +195,7 @@ export default function StudyDayReader() {
             <p className={styles.reflectionPrompt}>{day.reflectionPrompt}</p>
           )}
 
-          <hr style={{ margin: "40px 0", opacity: 0.2 }} />
+          <hr className={styles.divider} />
 
           {/* Notes */}
           {progress && (

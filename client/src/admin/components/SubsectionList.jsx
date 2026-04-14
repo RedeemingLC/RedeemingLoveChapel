@@ -1,4 +1,7 @@
 import adminApi from "../../services/adminApi";
+import Card from "../../components/Card/Card";
+import Button from "../../components/Button/Button";
+import styles from "./SubsectionList.module.css";
 
 function SubsectionList({
   subsections,
@@ -9,27 +12,31 @@ function SubsectionList({
     if (!window.confirm("Delete this lesson?")) return;
 
     await adminApi.delete(`/api/subsections/${id}`);
-
     fetchSubsections();
   };
 
   return (
-    <div>
-      <h3>Lessons</h3>
-
+    <div className={styles.list}>
       {subsections.map((sub) => (
-        <div key={sub._id} style={{ marginBottom: "20px" }}>
-          <strong>{sub.title}</strong>
+        <Card key={sub._id} className={styles.card}>
+          <div className={styles.content}>
+            <h3>{sub.title}</h3>
 
-          {/* Lesson preview */}
-          <p style={{ marginTop: "5px", color: "#555" }}>
-            {sub.blocks?.[0]?.value?.slice(0, 250)}...
-          </p>
+            <p className={styles.preview}>
+              {sub.blocks?.[0]?.value?.slice(0, 150) || "No content"}...
+            </p>
+          </div>
 
-          <button onClick={() => setEditingSubsection(sub)}>Edit</button>
+          <div className={styles.actions}>
+            <Button variant="outline" onClick={() => setEditingSubsection(sub)}>
+              Edit
+            </Button>
 
-          <button onClick={() => deleteSubsection(sub._id)}>Delete</button>
-        </div>
+            <Button variant="ghost" onClick={() => deleteSubsection(sub._id)}>
+              Delete
+            </Button>
+          </div>
+        </Card>
       ))}
     </div>
   );

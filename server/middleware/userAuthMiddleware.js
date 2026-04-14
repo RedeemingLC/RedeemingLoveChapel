@@ -1,7 +1,12 @@
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+"use strict";
 
-export const protectUser = async (req, res, next) => {
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+
+/* =========================
+   Protect User Route
+========================= */
+const protectUser = async (req, res, next) => {
   let token;
 
   // Check for Authorization header
@@ -28,4 +33,8 @@ export const protectUser = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "Not authorized, no token" });
   }
+};
+
+module.exports = {
+  protectUser,
 };

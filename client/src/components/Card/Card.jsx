@@ -1,8 +1,13 @@
-import classes from "./Card.module.css";
+import styles from "./Card.module.css";
 
-const Card = ({ children, hover = true }) => {
+const Card = ({ children, className = "", variant, hover }) => {
+  const variantClass = variant === "compact" ? styles.compact : "";
+  const hoverClass = hover ? styles.hover : "";
+
   return (
-    <div className={`${classes.card} ${hover ? classes.hover : ""}`}>
+    <div
+      className={`${styles.card} ${variantClass} ${hoverClass} ${className}`}
+    >
       {children}
     </div>
   );

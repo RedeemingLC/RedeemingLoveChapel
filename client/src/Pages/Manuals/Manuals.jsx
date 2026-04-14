@@ -7,6 +7,7 @@ import Section from "../../components/Section/Section";
 import Container from "../../components/Container/Container";
 import Card from "../../components/Card/Card";
 import Button from "../../components/Button/Button";
+import ShareButtons from "../../components/ShareButtons/ShareButtons";
 import BlockRenderer from "../../components/BlockRenderer/BlockRenderer";
 import StudyHero from "../../components/StudyHero/StudyHero";
 
@@ -20,6 +21,10 @@ const Manuals = () => {
   const [subsections, setSubsections] = useState({});
   const [activeSection, setActiveSection] = useState(null);
   const [showMobileNav, setShowMobileNav] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState("All");
+  const [sortOrder, setSortOrder] = useState("newest");
 
   const fetchManuals = async () => {
     try {
@@ -109,199 +114,336 @@ const Manuals = () => {
     };
   }, [sections]);
 
+  const topics = [
+    "All",
+    ...new Set(manuals.map((manual) => manual.category?.name).filter(Boolean)),
+  ];
+
+  const filteredManuals = manuals
+    .filter((manual) => {
+      const matchesSearch = manual.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+
+      const matchesTopic =
+        selectedTopic === "All" || manual.category?.name === selectedTopic;
+
+      return matchesSearch && matchesTopic;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "newest") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      } else {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      }
+    });
+
   return (
-    <Section>
-      <Container>
-        {!slug ? (
-          <>
-            <h1 className={styles.pageTitle}>Manuals</h1>
-
-            {loading ? (
-              <p>Loading manuals...</p>
-            ) : manuals.length === 0 ? (
-              <p>No manuals available.</p>
-            ) : (
-              <div className={styles.grid}>
-                {manuals.map((manual) => (
-                  <Card key={manual._id}>
-                    {manual.coverImage && (
-                      <img
-                        src={`http://localhost:5000${manual.coverImage}`}
-                        alt={manual.title}
-                        className={styles.cardImage}
-                      />
-                    )}
-
-                    <div className={styles.cardContent}>
-                      <h3 className={styles.cardTitle}>{manual.title}</h3>
-
-                      <p className={styles.cardDescription}>
-                        {manual.description}
-                      </p>
-                    </div>
-
-                    <div className={styles.cardFooter}>
-                      <Link to={`/manuals/${manual.slug}`}>
-                        <Button>Read Manual</Button>
-                      </Link>
-                    </div>
-                  </Card>
-                ))}
+    <>
+      <div className="divOffsetfix">
+        {/* HERO */}
+        {!slug && (
+          <Section variant="alt">
+            <Container>
+              <div className={styles.hero}>
+                <h1 className={`gradientText ${styles.heroTitle}`}>
+                  Bible Study Manuals
+                </h1>
+                <p className={styles.heroText}>
+                  Explore our collection of Bible study manuals designed to
+                  deepen your understanding of God's word.
+                </p>
               </div>
-            )}
-          </>
-        ) : (
-          <>
-            {loading ? (
-              <p>Loading manual...</p>
-            ) : singleManual ? (
+            </Container>
+          </Section>
+        )}
+
+        <Section>
+          <Container>
+            {!slug ? (
               <>
-                {/* ✅ HERO SECTION */}
-                <div className={styles.heroSpacing}>
-                  <StudyHero
-                    title={singleManual.title}
-                    description={singleManual.description}
-                    image={
-                      singleManual.coverImage
-                        ? `http://localhost:5000${singleManual.coverImage}`
-                        : null
-                    }
-                    primaryAction={
-                      <Button
-                        onClick={() => {
-                          document
-                            .getElementById("manual-content")
-                            ?.scrollIntoView({ behavior: "smooth" });
-                        }}
-                      >
-                        Read More ↓
-                      </Button>
-                    }
-                    secondaryAction={
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          if (singleManual.pdfUrl) {
-                            window.open(
-                              `http://localhost:5000${singleManual.pdfUrl}`,
-                              "_blank",
-                            );
-                          } else {
-                            alert("No PDF available for this manual.");
-                          }
-                        }}
-                      >
-                        Download
-                      </Button>
-                    }
-                  />
-                </div>
+                {/* CONTENT */}
+                {loading ? (
+                  <p>Loading manuals...</p>
+                ) : manuals.length === 0 ? (
+                  <p>No manuals available.</p>
+                ) : (
+                  <div className={styles.layout}>
+                    {/* FILTERS */}
+                    <aside className={styles.filters}>
+                      {/* SEARCH */}
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        className={styles.searchInput}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
 
-                {/* MOBILE NAV BUTTON */}
-                {!showMobileNav && (
-                  <button
-                    className={styles.mobileNavButton}
-                    onClick={() => setShowMobileNav(true)}
-                  >
-                    ☰ Table of Contents
-                  </button>
-                )}
+                      {/* MOBILE FILTER BAR */}
+                      <div className={styles.mobileControls}>
+                        <select
+                          value={selectedTopic}
+                          onChange={(e) => setSelectedTopic(e.target.value)}
+                          className={styles.select}
+                        >
+                          {topics.map((topic) => (
+                            <option key={topic} value={topic}>
+                              {topic}
+                            </option>
+                          ))}
+                        </select>
 
-                {showMobileNav && (
-                  <div
-                    className={styles.overlay}
-                    onClick={() => setShowMobileNav(false)}
-                  ></div>
-                )}
+                        <select
+                          value={sortOrder}
+                          onChange={(e) => setSortOrder(e.target.value)}
+                          className={styles.select}
+                        >
+                          <option value="newest">Newest</option>
+                          <option value="oldest">Oldest</option>
+                        </select>
+                      </div>
 
-                <div className={styles.readerLayout}>
-                  {/* SIDEBAR */}
-                  <aside
-                    className={`${styles.sidebar} ${
-                      showMobileNav ? styles.sidebarOpen : ""
-                    }`}
-                  >
-                    <button
-                      className={styles.closeSidebar}
-                      onClick={() => setShowMobileNav(false)}
-                    >
-                      ✕
-                    </button>
+                      {/* DESKTOP FILTERS */}
+                      <div className={styles.desktopFilters}>
+                        <h4 className={styles.filterTitle}>Topics</h4>
 
-                    <h3>Table of Contents</h3>
-
-                    {sections.map((section) => (
-                      <a
-                        key={section._id}
-                        href={`#section-${section._id}`}
-                        className={`${styles.sidebarItem} ${
-                          activeSection === section._id
-                            ? styles.activeSection
-                            : ""
-                        }`}
-                        onClick={() => setShowMobileNav(false)}
-                      >
-                        {section.title}
-                      </a>
-                    ))}
-                  </aside>
-
-                  {/* MAIN CONTENT */}
-                  <main id="manual-content" className={styles.readerContent}>
-                    {sections.map((section) => (
-                      <section
-                        key={section._id}
-                        id={`section-${section._id}`}
-                        className={styles.sectionBlock}
-                      >
-                        <h2 className={styles.sectionTitle}>{section.title}</h2>
-
-                        {subsections[section._id]?.map((lesson) => (
-                          <div key={lesson._id} className={styles.lessonBlock}>
-                            <h3>{lesson.title}</h3>
-
-                            {lesson.blocks?.map((block, index) => {
-                              if (!block) return null;
-
-                              return (
-                                <BlockRenderer
-                                  key={
-                                    block.id ||
-                                    block._id ||
-                                    `${lesson._id}-${index}`
-                                  }
-                                  block={block}
-                                />
-                              );
-                            })}
+                        {topics.map((topic) => (
+                          <div
+                            key={topic}
+                            className={
+                              selectedTopic === topic
+                                ? styles.filterItemActive
+                                : styles.filterItem
+                            }
+                            onClick={() => setSelectedTopic(topic)}
+                          >
+                            {topic}
                           </div>
                         ))}
-                      </section>
-                    ))}
-                  </main>
 
-                  {/* SHARE COLUMN */}
-                  <aside className={styles.shareColumn}>
-                    <div className={styles.shareSticky}>
-                      <h4>Share</h4>
+                        <h4 className={styles.filterTitle}>Sort by</h4>
 
-                      <div className={styles.shareIcons}>
-                        <a href="#">Telegram</a>
-                        <a href="#">WhatsApp</a>
-                        <a href="#">Twitter</a>
-                        <a href="#">Facebook</a>
+                        <div
+                          className={
+                            sortOrder === "newest"
+                              ? styles.filterItemActive
+                              : styles.filterItem
+                          }
+                          onClick={() => setSortOrder("newest")}
+                        >
+                          Newest
+                        </div>
+
+                        <div
+                          className={
+                            sortOrder === "oldest"
+                              ? styles.filterItemActive
+                              : styles.filterItem
+                          }
+                          onClick={() => setSortOrder("oldest")}
+                        >
+                          Oldest
+                        </div>
                       </div>
+                    </aside>
+
+                    {/* GRID */}
+                    <div className={styles.grid}>
+                      {filteredManuals.map((manual) => (
+                        <Link
+                          to={`/manuals/${manual.slug}`}
+                          key={manual._id}
+                          className={styles.cardLink}
+                        >
+                          <div className={styles.card}>
+                            {manual.coverImage && (
+                              <img
+                                src={`http://localhost:5000${manual.coverImage}`}
+                                alt={manual.title}
+                                className={styles.cardImage}
+                              />
+                            )}
+
+                            <div className={styles.cardOverlay}>
+                              <span className={`badge ${styles.cardTag}`}>
+                                {manual.category?.name || "General"}
+                              </span>
+
+                              <h3 className={styles.cardTitle}>
+                                {manual.title}
+                              </h3>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
                     </div>
-                  </aside>
-                </div>
+                  </div>
+                )}
               </>
             ) : (
-              <p>Manual not found.</p>
+              <>
+                {loading ? (
+                  <p>Loading manual...</p>
+                ) : singleManual ? (
+                  <>
+                    {/* ✅ HERO SECTION */}
+                    <div className={`${styles.heroSpacing}`}>
+                      <div className={styles.breadcrumb}>
+                        <Link to="/manuals">Bible Study Manuals</Link>
+                        <span> | </span>
+                        <span>{singleManual.title}</span>
+                      </div>
+                      <StudyHero
+                        title={singleManual.title}
+                        description={singleManual.description}
+                        image={
+                          singleManual.coverImage
+                            ? `http://localhost:5000${singleManual.coverImage}`
+                            : null
+                        }
+                        primaryAction={
+                          <Button
+                            onClick={() => {
+                              document
+                                .getElementById("manual-content")
+                                ?.scrollIntoView({ behavior: "smooth" });
+                            }}
+                          >
+                            Read More ↓
+                          </Button>
+                        }
+                        secondaryAction={
+                          <Button
+                            variant="outline"
+                            onClick={() => {
+                              if (singleManual.pdfUrl) {
+                                window.open(
+                                  `http://localhost:5000${singleManual.pdfUrl}`,
+                                  "_blank",
+                                );
+                              } else {
+                                alert("No PDF available for this manual.");
+                              }
+                            }}
+                          >
+                            Download
+                          </Button>
+                        }
+                      />
+                    </div>
+
+                    {/* MOBILE NAV BUTTON */}
+                    {!showMobileNav && (
+                      <button
+                        className={styles.mobileNavButton}
+                        onClick={() => setShowMobileNav(true)}
+                      >
+                        ☰ Table of Contents
+                      </button>
+                    )}
+
+                    {showMobileNav && (
+                      <div
+                        className={styles.overlay}
+                        onClick={() => setShowMobileNav(false)}
+                      ></div>
+                    )}
+
+                    <div className={styles.readerLayout}>
+                      {/* SIDEBAR */}
+                      <aside
+                        className={`${styles.sidebar} ${
+                          showMobileNav ? styles.sidebarOpen : ""
+                        }`}
+                      >
+                        <button
+                          className={styles.closeSidebar}
+                          onClick={() => setShowMobileNav(false)}
+                        >
+                          ✕
+                        </button>
+
+                        <h3>Table of Contents</h3>
+
+                        {sections.map((section) => (
+                          <a
+                            key={section._id}
+                            href={`#section-${section._id}`}
+                            className={`${styles.sidebarItem} ${
+                              activeSection === section._id
+                                ? styles.activeSection
+                                : ""
+                            }`}
+                            onClick={() => setShowMobileNav(false)}
+                          >
+                            {section.title}
+                          </a>
+                        ))}
+                      </aside>
+
+                      {/* MAIN CONTENT */}
+                      <div id="manual-content" className={styles.readerContent}>
+                        {sections.map((section) => (
+                          <section
+                            key={section._id}
+                            id={`section-${section._id}`}
+                            className={styles.sectionBlock}
+                          >
+                            <h2 className={styles.sectionTitle}>
+                              {section.title}
+                            </h2>
+
+                            {subsections[section._id]?.map((lesson) => (
+                              <div
+                                key={lesson._id}
+                                className={styles.lessonBlock}
+                              >
+                                <h3>{lesson.title}</h3>
+
+                                {lesson.blocks?.map((block, index) => {
+                                  if (!block) return null;
+
+                                  return (
+                                    <BlockRenderer
+                                      key={
+                                        block.id ||
+                                        block._id ||
+                                        `${lesson._id}-${index}`
+                                      }
+                                      block={block}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            ))}
+                          </section>
+                        ))}
+                      </div>
+
+                      {/* SHARE COLUMN */}
+                      <aside className={styles.shareColumn}>
+                        <div className={styles.shareSticky}>
+                          <h4>Share</h4>
+
+                          <ShareButtons
+                            title={singleManual.title}
+                            url={window.location.href}
+                            vertical
+                          />
+                        </div>
+                      </aside>
+                    </div>
+                  </>
+                ) : (
+                  <p>Manual not found.</p>
+                )}
+              </>
             )}
-          </>
-        )}
-      </Container>
-    </Section>
+          </Container>
+        </Section>
+      </div>
+    </>
   );
 };
 

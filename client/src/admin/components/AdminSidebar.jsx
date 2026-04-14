@@ -33,11 +33,18 @@ export default function AdminSidebar() {
         </NavLink>
 
         <NavLink
+          to="/admin/wisdom"
+          className={({ isActive }) => (isActive ? styles.active : styles.link)}
+        >
+          Words of Wisdom
+        </NavLink>
+
+        {/* <NavLink
           to="/admin/content"
           className={({ isActive }) => (isActive ? styles.active : styles.link)}
         >
           Content
-        </NavLink>
+        </NavLink> */}
 
         <NavLink
           to="/admin/manuals"

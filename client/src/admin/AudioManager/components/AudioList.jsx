@@ -1,3 +1,7 @@
+import Card from "../../../components/Card/Card";
+import Button from "../../../components/Button/Button";
+import styles from "./AudioList.module.css";
+
 export default function AudioList({
   audioList,
   onDelete,
@@ -5,37 +9,36 @@ export default function AudioList({
   onEdit,
 }) {
   return (
-    <div>
+    <div className={styles.list}>
       {audioList.map((audio) => (
-        <div
-          key={audio._id}
-          style={{
-            border: "1px solid #ddd",
-            padding: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <h3>{audio.title}</h3>
+        <Card key={audio._id} className={styles.card}>
+          <div className={styles.content}>
+            <h3>{audio.title}</h3>
 
-          <p>{audio.speaker}</p>
+            <p className={styles.meta}>{audio.speaker}</p>
 
-          <p>Status: {audio.isPublished ? "Published" : "Draft"}</p>
-
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button onClick={() => onEdit(audio)}>Edit</button>
-
-            <button onClick={() => onTogglePublish(audio)}>
-              {audio.isPublished ? "Unpublish" : "Publish"}
-            </button>
-
-            <button
-              style={{ color: "red" }}
-              onClick={() => onDelete(audio._id)}
-            >
-              Delete
-            </button>
+            <p className={styles.status}>
+              {audio.isPublished ? "Published" : "Draft"}
+            </p>
           </div>
-        </div>
+
+          <div className={styles.actions}>
+            <Button variant="outline" onClick={() => onEdit(audio)}>
+              Edit
+            </Button>
+
+            <Button
+              variant={audio.isPublished ? "ghost" : "primary"}
+              onClick={() => onTogglePublish(audio)}
+            >
+              {audio.isPublished ? "Unpublish" : "Publish"}
+            </Button>
+
+            <Button variant="ghost" onClick={() => onDelete(audio._id)}>
+              Delete
+            </Button>
+          </div>
+        </Card>
       ))}
     </div>
   );

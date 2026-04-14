@@ -18,26 +18,39 @@ function SectionManager() {
   };
 
   useEffect(() => {
-    fetchSections();
-  }, []);
+  fetchSections();
+}, [manualId]);
 
   return (
-    <div>
-      <h1>Section Manager</h1>
+    <>
+      <div className="adminHeader">
+        <h1>Section Manager</h1>
+        <p>Manage sections for this manual</p>
+      </div>
 
-      <SectionForm
-        manualId={manualId}
-        editingSection={editingSection}
-        fetchSections={fetchSections}
-        setEditingSection={setEditingSection}
-      />
+      <div className="adminSection">
+        <SectionForm
+          manualId={manualId}
+          editingSection={editingSection}
+          fetchSections={fetchSections}
+          setEditingSection={setEditingSection}
+        />
+      </div>
 
-      <SectionList
-        sections={sections}
-        setEditingSection={setEditingSection}
-        fetchSections={fetchSections}
-      />
-    </div>
+      <div className="adminSection">
+        <h2>All Sections</h2>
+
+        {sections.length === 0 ? (
+          <p>No sections created yet.</p>
+        ) : (
+          <SectionList
+            sections={sections}
+            setEditingSection={setEditingSection}
+            fetchSections={fetchSections}
+          />
+        )}
+      </div>
+    </>
   );
 }
 

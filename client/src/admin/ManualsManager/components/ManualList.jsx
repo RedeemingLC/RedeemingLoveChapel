@@ -1,4 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import Card from "../../../components/Card/Card";
+import Button from "../../../components/Button/Button";
+import styles from "./ManualList.module.css";
 
 export default function ManualList({
   manuals,
@@ -9,138 +12,59 @@ export default function ManualList({
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className={styles.list}>
       {manuals.map((manual) => (
-        <div
-          key={manual._id}
-          style={{
-            border: "1px solid #ddd",
-            padding: "1.5rem",
-            marginBottom: "1rem",
-            borderRadius: "8px",
-            background: "#f9f9f9",
-          }}
-        >
-          <div
-            style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}
-          >
-            {/* 🔥 COVER IMAGE */}
+        <Card key={manual._id} className={styles.card}>
+          <div className={styles.row}>
             {manual.coverImage && (
               <img
-                src={`http://localhost:5000${manual.coverImage}`} // 🔥 FULL URL
+                src={`http://localhost:5000${manual.coverImage}`}
                 alt={manual.title}
-                style={{
-                  width: "80px",
-                  height: "100px",
-                  objectFit: "cover",
-                  borderRadius: "4px",
-                  border: "1px solid #eee",
-                }}
-                onError={(e) => {
-                  console.log("❌ IMAGE ERROR:", manual.coverImage);
-                  e.target.src = "/placeholder.jpg"; // fallback
-                }}
-                onLoad={() => console.log("✅ LOADED:", manual.coverImage)}
+                className={styles.image}
               />
             )}
 
-            <div style={{ flex: 1 }}>
-              <h3 style={{ margin: "0 0 0.5rem 0" }}>{manual.title}</h3>
+            <div className={styles.content}>
+              <h3>{manual.title}</h3>
 
-              <p style={{ margin: "0 0 1rem 0", color: "#666" }}>
+              <p className={styles.description}>
                 {manual.description || "No description"}
               </p>
 
-              {/* 🔥 PDF LINK */}
-              {manual.fileUrl && (
-                <div style={{ marginBottom: "1rem" }}>
-                  <a
-                    href={`http://localhost:5000${manual.fileUrl}`} // 🔥 FULL URL
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      color: "#667eea",
-                      textDecoration: "none",
-                      padding: "0.5rem",
-                      background: "white",
-                      borderRadius: "4px",
-                      border: "1px solid #667eea",
-                    }}
-                  >
-                    📄 View PDF
-                  </a>
-                </div>
-              )}
+              <p className={styles.meta}>
+                Category: {manual.category?.name || "Unassigned"}
+              </p>
 
-              <p style={{ margin: "0 0 1rem 0" }}>
-                <strong>Status:</strong>{" "}
-                {manual.isPublished ? "🟢 Published" : "🔴 Draft"}
+              <p className={styles.status}>
+                {manual.isPublished ? "Published" : "Draft"}
               </p>
             </div>
           </div>
 
-          {/* 🔥 ACTION BUTTONS */}
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <button
-              onClick={() => onEdit(manual)}
-              style={{
-                padding: "0.5rem 1rem",
-                background: "#667eea",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              ✏️ Edit
-            </button>
+          <div className={styles.actions}>
+            <Button variant="outline" onClick={() => onEdit(manual)}>
+              Edit
+            </Button>
 
-            <button
+            <Button
+              variant={manual.isPublished ? "ghost" : "primary"}
               onClick={() => onTogglePublish(manual)}
-              style={{
-                padding: "0.5rem 1rem",
-                background: manual.isPublished ? "#ef4444" : "#10b981",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
             >
-              {manual.isPublished ? "📴 Unpublish" : "📱 Publish"}
-            </button>
+              {manual.isPublished ? "Unpublish" : "Publish"}
+            </Button>
 
-            <button
-              style={{
-                padding: "0.5rem 1rem",
-                background: "#6b7280",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
+            <Button
+              variant="outline"
               onClick={() => navigate(`/admin/manuals/${manual._id}/sections`)}
             >
-              📂 Sections
-            </button>
+              Sections
+            </Button>
 
-            <button
-              style={{
-                padding: "0.5rem 1rem",
-                background: "#ef4444",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-              onClick={() => onDelete(manual._id)}
-            >
-              🗑️ Delete
-            </button>
+            <Button variant="ghost" onClick={() => onDelete(manual._id)}>
+              Delete
+            </Button>
           </div>
-        </div>
+        </Card>
       ))}
     </div>
   );

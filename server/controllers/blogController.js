@@ -1,9 +1,14 @@
-import Blog from "../models/Blog.js";
-import slugify from "slugify";
-import asyncHandler from "../middleware/asyncHandler.js";
-import mongoose from "mongoose";
+"use strict";
 
-export const createBlog = asyncHandler(async (req, res) => {
+const Blog = require("../models/Blog");
+const slugify = require("slugify");
+const asyncHandler = require("../middleware/asyncHandler");
+const mongoose = require("mongoose");
+
+/* =========================
+   ADMIN: Create Blog
+========================= */
+const createBlog = asyncHandler(async (req, res) => {
   const {
     title,
     content,
@@ -13,7 +18,7 @@ export const createBlog = asyncHandler(async (req, res) => {
     isPublished,
     category,
     slug,
-    isFeatured, // ✅ ADD THIS
+    isFeatured,
     excerpt,
   } = req.body;
 
@@ -34,7 +39,7 @@ export const createBlog = asyncHandler(async (req, res) => {
     isPublished,
     category,
     slug: uniqueSlug,
-    isFeatured: isFeatured || false, // ✅ ADD THIS
+    isFeatured: isFeatured || false,
     excerpt,
   });
 
@@ -47,7 +52,7 @@ export const createBlog = asyncHandler(async (req, res) => {
 /* =========================
    ADMIN: Get All Blogs
 ========================= */
-export const getAllBlogsAdmin = asyncHandler(async (req, res) => {
+const getAllBlogsAdmin = asyncHandler(async (req, res) => {
   const blogs = await Blog.find().sort({ createdAt: -1 });
 
   res.json({
@@ -59,7 +64,7 @@ export const getAllBlogsAdmin = asyncHandler(async (req, res) => {
 /* =========================
    ADMIN: Update Blog
 ========================= */
-export const updateBlog = asyncHandler(async (req, res) => {
+const updateBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
 
   if (!blog) {
@@ -85,7 +90,7 @@ export const updateBlog = asyncHandler(async (req, res) => {
 /* =========================
    ADMIN: Delete Blog
 ========================= */
-export const deleteBlog = asyncHandler(async (req, res) => {
+const deleteBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
 
   if (!blog) {
@@ -105,7 +110,7 @@ export const deleteBlog = asyncHandler(async (req, res) => {
 /* =========================
    PUBLIC: Get Published Blogs
 ========================= */
-export const getPublishedBlogs = asyncHandler(async (req, res) => {
+const getPublishedBlogs = asyncHandler(async (req, res) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 3;
   const category = req.query.category;
@@ -139,7 +144,7 @@ export const getPublishedBlogs = asyncHandler(async (req, res) => {
 /* =========================
    PUBLIC: Get Single Blog
 ========================= */
-export const getSingleBlog = asyncHandler(async (req, res) => {
+const getSingleBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findOne({
     slug: req.params.slug,
     isPublished: true,
@@ -156,3 +161,12 @@ export const getSingleBlog = asyncHandler(async (req, res) => {
     data: blog,
   });
 });
+
+module.exports = {
+  createBlog,
+  getAllBlogsAdmin,
+  updateBlog,
+  deleteBlog,
+  getPublishedBlogs,
+  getSingleBlog,
+};

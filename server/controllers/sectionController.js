@@ -1,8 +1,12 @@
-import Section from "../models/Section.js";
-import asyncHandler from "../middleware/asyncHandler.js";
+"use strict";
 
-// Create Section
-export const createSection = asyncHandler(async (req, res) => {
+const Section = require("../models/Section");
+const asyncHandler = require("../middleware/asyncHandler");
+
+/* =========================
+   Create Section
+========================= */
+const createSection = asyncHandler(async (req, res) => {
   const { manualId, title, order } = req.body;
 
   const section = await Section.create({
@@ -17,24 +21,24 @@ export const createSection = asyncHandler(async (req, res) => {
   });
 });
 
-// Get Sections of Content
-export const getSectionsByManual = asyncHandler(async (req, res) => {
-
+/* =========================
+   Get Sections of Content
+========================= */
+const getSectionsByManual = asyncHandler(async (req, res) => {
   const { manualId } = req.params;
 
-  const sections = await Section
-    .find({ manual: manualId })
-    .sort({ order: 1 });
+  const sections = await Section.find({ manual: manualId }).sort({ order: 1 });
 
   res.json({
     success: true,
     data: sections,
   });
-
 });
 
-// Update Section
-export const updateSection = asyncHandler(async (req, res) => {
+/* =========================
+   Update Section
+========================= */
+const updateSection = asyncHandler(async (req, res) => {
   const { title, order } = req.body;
 
   const section = await Section.findById(req.params.id);
@@ -55,8 +59,10 @@ export const updateSection = asyncHandler(async (req, res) => {
   });
 });
 
-// Delete Section (Needed for Admin CMS)
-export const deleteSection = asyncHandler(async (req, res) => {
+/* =========================
+   Delete Section
+========================= */
+const deleteSection = asyncHandler(async (req, res) => {
   const section = await Section.findById(req.params.id);
 
   if (!section) {
@@ -72,9 +78,10 @@ export const deleteSection = asyncHandler(async (req, res) => {
   });
 });
 
-// Reorder
-
-export const reorderSections = asyncHandler(async (req, res) => {
+/* =========================
+   Reorder Sections
+========================= */
+const reorderSections = asyncHandler(async (req, res) => {
   const updates = req.body;
 
   const updatePromises = updates.map((item) =>
@@ -88,3 +95,11 @@ export const reorderSections = asyncHandler(async (req, res) => {
     message: "Sections reordered successfully",
   });
 });
+
+module.exports = {
+  createSection,
+  getSectionsByManual,
+  updateSection,
+  deleteSection,
+  reorderSections,
+};

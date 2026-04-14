@@ -1,34 +1,27 @@
-import express from "express";
+"use strict";
 
-import {
+const express = require("express");
+const {
   createContent,
   getContents,
   getContentBySlug,
   getFullContent,
   updateContent,
   deleteContent,
-} from "../controllers/contentController.js";
+} = require("../controllers/contentController");
 
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Admin create content
+/* ========= ADMIN ROUTES ========= */
 router.post("/", protect, adminOnly, createContent);
-
-// Public: get all content
-router.get("/", getContents);
-
-// Public: get content by slug
-router.get("/:slug", getContentBySlug);
-
-// Public: get full content tree
-router.get("/:slug/full", getFullContent);
-
-// Update Content
 router.put("/:id", protect, adminOnly, updateContent);
-
-// Delete content
 router.delete("/:id", protect, adminOnly, deleteContent);
 
-export default router;
+/* ========= PUBLIC ROUTES ========= */
+router.get("/", getContents);
+router.get("/:slug/full", getFullContent);
+router.get("/:slug", getContentBySlug);
+
+module.exports = router;

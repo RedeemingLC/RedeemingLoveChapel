@@ -51,7 +51,7 @@ function SubsectionForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="adminForm">
       <h3>{editingSubsection ? "Update Lesson" : "Create Lesson"}</h3>
 
       <input
@@ -59,6 +59,7 @@ function SubsectionForm({
         placeholder="Lesson Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        required
       />
 
       <BlockEditor blocks={blocks} setBlocks={setBlocks} />

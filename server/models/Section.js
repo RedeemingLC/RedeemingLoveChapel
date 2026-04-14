@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const sectionSchema = new mongoose.Schema(
   {
@@ -7,12 +9,10 @@ const sectionSchema = new mongoose.Schema(
       ref: "Manual",
       required: true,
     },
-
     title: {
       type: String,
       required: true,
     },
-
     order: {
       type: Number,
       default: 0,
@@ -21,6 +21,11 @@ const sectionSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+/* =========================
+   Index For Faster Queries
+========================= */
 sectionSchema.index({ manual: 1, order: 1 });
 
-export default mongoose.model("Section", sectionSchema);
+const Section = mongoose.model("Section", sectionSchema);
+
+module.exports = Section;

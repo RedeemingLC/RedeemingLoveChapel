@@ -1,12 +1,20 @@
-.believeSection {
-  padding-block: var(--padding-block);
-}
-
 .believeGrid {
-  gap: 2rem;
+  gap: var(--space-6);
 }
 
-/* Control vertical rhythm inside right column */
+/* Right column spacing */
 .believeContent {
-  gap: 1.25rem;
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Typography */
+.believeSection h2 {
+  font-size: var(--text-2xl);
+  line-height: 1.2;
+}
+
+.believeSection p {
+  font-size: var(--text-base);
+  color: var(--color-text);
 }

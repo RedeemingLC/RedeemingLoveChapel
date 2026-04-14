@@ -1,5 +1,8 @@
 import adminApi from "../../services/adminApi";
 import { useNavigate } from "react-router-dom";
+import Card from "../../components/Card/Card";
+import Button from "../../components/Button/Button";
+import styles from "./SectionList.module.css";
 
 function SectionList({ sections, setEditingSection, fetchSections }) {
   const navigate = useNavigate();
@@ -8,30 +11,37 @@ function SectionList({ sections, setEditingSection, fetchSections }) {
     if (!window.confirm("Delete this section?")) return;
 
     await adminApi.delete(`/api/sections/${id}`);
-
     fetchSections();
   };
 
   return (
-    <div>
-      <h3>Sections</h3>
-
+    <div className={styles.list}>
       {sections.map((section) => (
-        <div key={section._id} style={{ marginBottom: "15px" }}>
-          <strong>{section.title}</strong>
+        <Card key={section._id} className={styles.card}>
+          <div className={styles.content}>
+            <h3>{section.title}</h3>
+          </div>
 
-          <div style={{ marginTop: "5px", display: "flex", gap: "10px" }}>
-            <button onClick={() => setEditingSection(section)}>Edit</button>
+          <div className={styles.actions}>
+            <Button
+              variant="outline"
+              onClick={() => setEditingSection(section)}
+            >
+              Edit
+            </Button>
 
-            <button onClick={() => deleteSection(section._id)}>Delete</button>
+            <Button variant="ghost" onClick={() => deleteSection(section._id)}>
+              Delete
+            </Button>
 
-            <button
+            <Button
+              variant="outline"
               onClick={() => navigate(`/admin/sections/${section._id}/lessons`)}
             >
               Lessons
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
       ))}
     </div>
   );

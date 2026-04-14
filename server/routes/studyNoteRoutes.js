@@ -1,10 +1,13 @@
-import express from "express";
-import { protectUser } from "../middleware/userAuthMiddleware.js";
-import { getNote, saveNote } from "../controllers/studyNoteController.js";
+"use strict";
+
+const express = require("express");
+const { protectUser } = require("../middleware/userAuthMiddleware");
+const { getNote, saveNote } = require("../controllers/studyNoteController");
 
 const router = express.Router();
 
+/* ========= STUDY NOTE ROUTES ========= */
 router.get("/:studyId/day/:dayNumber", protectUser, getNote);
 router.post("/:studyId/day/:dayNumber", protectUser, saveNote);
 
-export default router;
+module.exports = router;

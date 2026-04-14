@@ -1,7 +1,11 @@
-import express from "express";
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+"use strict";
+
+const express = require("express");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
+
+/* ========= TEST ROUTES ========= */
 
 // Test logged-in user
 router.get("/user", protect, (req, res) => {
@@ -18,4 +22,4 @@ router.get("/admin", protect, adminOnly, (req, res) => {
   });
 });
 
-export default router;
+module.exports = router;

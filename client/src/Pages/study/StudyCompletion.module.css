@@ -1,60 +1,59 @@
 .wrapper {
-  min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 20px;
-  background: #f9fafb;
+  align-items: center;
+  padding: var(--space-8) 0;
 }
 
+/* CARD */
 .card {
   max-width: 600px;
   width: 100%;
-  background: #fff;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+
+  background: var(--color-bg);
+  padding: var(--space-7);
+
+  border-radius: var(--radius-lg);
+
+  /* 🔥 improve this */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+
   text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5); /* slightly increased */
 }
 
+/* ICON */
 .icon {
-  font-size: 40px;
-  margin-bottom: 10px;
+  font-size: 2.5rem;
+  margin-bottom: var(--space-2); /* 🔥 add spacing */
 }
 
+/* TITLE */
 .title {
-  margin-bottom: 15px;
+  font-size: clamp(var(--text-xl), 2.5vw, var(--text-2xl));
+  font-weight: 700;
+  line-height: 1.2;
 }
 
+/* CONTENT */
 .content {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
   line-height: 1.7;
-  color: #444;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
-.paragraph {
-  margin-bottom: 12px;
-}
-
+/* BUTTONS */
 .buttons {
-  margin-top: 30px;
   display: flex;
   justify-content: center;
-  gap: 10px;
-}
-
-.primaryBtn {
-  padding: 10px 16px;
-  border-radius: 6px;
-  border: none;
-  background: #111;
-  color: #fff;
-  cursor: pointer;
-}
-
-.secondaryBtn {
-  padding: 10px 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #fff;
-  cursor: pointer;
+  gap: var(--space-4); /* 🔥 increase spacing */
+  margin-top: var(--space-5);
+  flex-wrap: wrap;
 }

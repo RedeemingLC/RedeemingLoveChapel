@@ -58,7 +58,9 @@ export default function StudyOverview() {
               )}
 
               <div className={styles.heroContent}>
-                <h1 className={styles.title}>{study.title}</h1>
+                <h1 className={`gradientText ${styles.title}`}>
+                  {study.title}
+                </h1>
 
                 {study.description && (
                   <p className={styles.description}>{study.description}</p>
@@ -97,7 +99,7 @@ export default function StudyOverview() {
 
                   <div>
                     {isCompleted ? (
-                      <span className={styles.completed}>✓ Completed</span>
+                      <span className={styles.completed}>Completed</span>
                     ) : isUnlocked ? (
                       <Button
                         size="sm"

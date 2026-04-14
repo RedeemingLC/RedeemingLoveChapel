@@ -1,13 +1,32 @@
-.visionSection {
-  padding-block: var(--padding-block);
+.visionContent {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 60ch;
 }
 
-.visionContent {
-    gap: 1rem;
-  }
+.visionSection h2 {
+  font-size: var(--text-2xl);
+  /* margin-top: var(--space-2); */
+}
 
-@media (min-height: 1025px) {
-  .visionGrid {
-    gap: 3rem;
-  }
+.visionSection h3 {
+  font-size: var(--text-xl);
+}
+
+.visionSection h2,
+.visionSection h3{
+  line-height: 1.2;
+}
+
+.visionSection p,
+.visionSection li {
+  font-size: var(--text-base);
+  color: var(--color-text);
+}
+
+/* FIXED media query */
+@media (min-width: 1025px) {
+  /* .visionContent {
+    gap: var(--space-8);
+  } */
 }

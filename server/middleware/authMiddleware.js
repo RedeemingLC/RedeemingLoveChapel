@@ -1,8 +1,12 @@
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+"use strict";
 
-// 🔐 Verify logged-in user
-export const protect = async (req, res, next) => {
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+
+/* =========================
+   🔐 Protect - Verify Logged In User
+========================= */
+const protect = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -26,11 +30,18 @@ export const protect = async (req, res, next) => {
   }
 };
 
-// 👑 Admin-only access
-export const adminOnly = (req, res, next) => {
+/* =========================
+   👑 Admin Only Access
+========================= */
+const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
   } else {
     res.status(403).json({ message: "Admins only" });
   }
+};
+
+module.exports = {
+  protect,
+  adminOnly,
 };

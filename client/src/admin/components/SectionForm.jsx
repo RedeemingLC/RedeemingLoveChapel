@@ -41,7 +41,7 @@ function SectionForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="adminForm">
       <h3>{editingSection ? "Update Section" : "Create Section"}</h3>
 
       <input
@@ -49,6 +49,7 @@ function SectionForm({
         placeholder="Section Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        required
       />
 
       <input

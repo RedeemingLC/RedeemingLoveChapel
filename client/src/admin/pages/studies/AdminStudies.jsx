@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./AdminStudies.module.css";
 import api from "../../../utils/api";
 
 export default function AdminStudies() {
@@ -37,63 +36,77 @@ export default function AdminStudies() {
   };
 
   return (
-    <div className={styles.wrap}>
-      <div className={styles.header}>
+    <>
+      <div className="adminHeader">
         <h1>Study Plans</h1>
         <p>Create and manage Bible study plans (online reading only).</p>
       </div>
 
-      <form className={styles.form} onSubmit={handleCreate}>
-        <input
-          placeholder="Study title"
-          value={form.title}
-          onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
-          required
-        />
-        <input
-          placeholder="slug (e.g. why-the-bible-is-the-word-of-god)"
-          value={form.slug}
-          onChange={(e) => setForm((p) => ({ ...p, slug: e.target.value }))}
-          required
-        />
-        <textarea
-          placeholder="Short description..."
-          value={form.description}
-          onChange={(e) =>
-            setForm((p) => ({ ...p, description: e.target.value }))
-          }
-        />
-        <button disabled={loading}>
-          {loading ? "Creating..." : "Create Study"}
-        </button>
-      </form>
+      <div className="adminSection">
+        <form className="adminForm" onSubmit={handleCreate}>
+          <input
+            placeholder="Study title"
+            value={form.title}
+            onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+            required
+          />
 
-      <div className={styles.list}>
-        {studies.map((s) => (
-          <div key={s._id} className={styles.card}>
-            <div>
-              <h3>{s.title}</h3>
-              <p className={styles.slug}>/{s.slug}</p>
-              <p className={styles.desc}>{s.description}</p>
-              <p className={styles.meta}>
-                {s.isPublished ? "✅ Published" : "🕓 Draft"}
-              </p>
-            </div>
+          <input
+            placeholder="Slug (e.g. why-the-bible-is-the-word-of-god)"
+            value={form.slug}
+            onChange={(e) => setForm((p) => ({ ...p, slug: e.target.value }))}
+            required
+          />
 
-            <div className={styles.actions}>
-              <button onClick={() => navigate(`/admin/studies/${s._id}`)}>
-                Edit
-              </button>
-              <button
-                className={styles.danger}
-                onClick={() => handleDelete(s._id)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
+          <textarea
+            placeholder="Short description..."
+            value={form.description}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, description: e.target.value }))
+            }
+          />
+
+          <button disabled={loading}>
+            {loading ? "Creating..." : "Create Study"}
+          </button>
+        </form>
       </div>
-    </div>
+
+      <div className="adminSection">
+        <h2>All Studies</h2>
+
+        <div className="adminList">
+          {studies.map((s) => (
+            <div key={s._id} className="adminListItem">
+              <div>
+                <h3>{s.title}</h3>
+                <p className="adminMeta">/{s.slug}</p>
+                <p className="adminMeta">{s.description}</p>
+                <p className="adminMeta">
+                  {s.isPublished ? "Published" : "Draft"}
+                </p>
+              </div>
+
+              <div className="adminActionsInline">
+                <button
+                  onClick={() => {
+                    navigate(`/admin/studies/${s._id}`);
+
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  Edit
+                </button>
+
+                <button onClick={() => handleDelete(s._id)}>Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

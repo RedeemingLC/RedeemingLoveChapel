@@ -1,5 +1,6 @@
 import styles from "./MinistrySplitSection.module.css";
 import Container from "../../Container/Container";
+import Section from "../../Section/Section";
 
 const MinistrySplitSection = ({
   title,
@@ -9,35 +10,27 @@ const MinistrySplitSection = ({
   children,
 }) => {
   return (
-    <section className={styles.section}>
-      <Container>
-        <div
-          className={`${styles.grid} ${
-            imagePosition === "right" ? styles.reverse : ""
-          }`}
-        >
-          {/* Left Column (Title + Image) */}
-          <div className={styles.mediaColumn}>
-            {title && (
-              <h2 className="fs-800 text-grad">
-                {title}
-              </h2>
-            )}
+    <>
+      <Section>
+        <Container>
+          <div
+            className={`${styles.grid} ${
+              imagePosition === "right" ? styles.reverse : ""
+            }`}
+          >
+            {/* Left Column (Title + Image) */}
+            <div className={styles.mediaColumn}>
+              {title && <h2 className="gradientText">{title}</h2>}
 
-            <img
-              src={image}
-              alt={imageAlt}
-              className={styles.image}
-            />
-          </div>
+              <img src={image} alt={imageAlt} className={styles.image} />
+            </div>
 
-          {/* Right Column (Text Content) */}
-          <div className={styles.contentColumn}>
-            {children}
+            {/* Right Column (Text Content) */}
+            <div className={styles.contentColumn}>{children}</div>
           </div>
-        </div>
-      </Container>
-    </section>
+        </Container>
+      </Section>
+    </>
   );
 };
 

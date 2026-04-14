@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const contentSchema = new mongoose.Schema(
   {
@@ -6,37 +8,30 @@ const contentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     slug: {
       type: String,
       required: true,
       unique: true,
     },
-
     type: {
       type: String,
       enum: ["manual", "devotional", "sermon", "course", "book"],
       required: true,
     },
-
     description: {
       type: String,
     },
-
     coverImage: {
       type: String,
     },
-
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
-
     order: {
       type: Number,
       default: 0,
     },
-
     isPublished: {
       type: Boolean,
       default: false,
@@ -45,4 +40,6 @@ const contentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model("Content", contentSchema);
+const Content = mongoose.model("Content", contentSchema);
+
+module.exports = Content;

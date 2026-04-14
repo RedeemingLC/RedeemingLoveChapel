@@ -1,29 +1,21 @@
-.section {
-  padding-block: calc(var(--padding-block) * 3);
-  background-color: #f2edf4; /* soft lavender tone like screenshot */
-}
-
 /* Heading */
 .heading {
-  margin-bottom: 4rem;
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-8);
 }
 
 /* Main Grid */
 .grid {
   display: grid;
-  gap: 4rem;
+  gap: var(--space-8);
 }
 
 /* Desktop Layout */
 @media (min-width: 1025px) {
   .grid {
     grid-template-columns: 1fr 1fr;
-    gap: 3rem; /* wide horizontal gap like screenshot */
-    margin-left: 6rem;
-  }
-
-  .stepBlock h3{
-    text-align: center;
+    gap: var(--space-7); /* wide horizontal gap like screenshot */
+    margin-left: var(--space-10);
   }
 }
 
@@ -31,74 +23,71 @@
 .stepBlock {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-5);
   max-width: 420px; /* keeps text width controlled */
 }
 
 /* Step Titles */
 .stepBlock h3 {
-  margin: 0 0 0.5rem 0;
+  font-size: var(--text-xl);
+  text-align: center;
 }
 
 /* Paragraph */
 .stepBlock p {
   margin: 0;
-  line-height: 1.7;
+  line-height: 1.8;
+  text-align: center;
 }
 
 /* Time Grid */
 .timeGrid {
   display: grid;
-  margin-top: 1rem;
-  font-weight: 500;
-  font-size: 0.95rem;
+  margin-top: var(--space-4);
+  font-weight: 700;
+  font-size: var(--text-sm);
 }
 
 /* Desktop time layout */
 @media (min-width: 1025px) {
   .timeGrid {
     grid-template-columns: 1fr 1fr;
-    column-gap: 3rem;
-    row-gap: 0.75rem;
+    column-gap: var(--space-7);
+    row-gap: var(--space-3);
   }
 }
 
 /* Button alignment */
 .stepBlock a {
-  margin-top: 4rem;
+  margin-top: var(--space-8);
   width: 100%; /* fixed width like screenshot */
   text-align: center;
-  padding-block: 0.75rem;
-  background-color: var(--clr-secondary);
-  border-radius: 2rem;
-  color: white;
+  padding-block: var(--space-3);
+  background-color: var(--color-primary);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-inverse);
   transition: all 0.25s ease-in-out;
 }
 
 .stepBlock a:hover {
-  background-color: rgba(255, 5, 63, 0.75);
+  opacity: 0.75;
 }
-
-
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-  .section {
-    padding-block: calc(var(--padding-block) * 0.8);
-  }
-
   .heading {
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--space-6);
     text-align: left;
   }
 
   .grid {
-    gap: 2.5rem;
+    gap: var(--space-6);
   }
 
   .timeGrid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: var(--space-3);
+    text-align: center;
   }
 
   .stepBlock {
@@ -107,5 +96,9 @@
 
   .stepBlock button {
     width: 100%;
+  }
+
+  .stepBlock a {
+    margin-top: var(--space-4);    
   }
 }

@@ -1,51 +1,66 @@
+/* ================= SECTION ================= */
+
 .wow {
   position: relative;
-  background-image: url("../../assets/images/wow-bg.jpg");
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
+  padding: var(--space-10) 0;
+  margin: var(--space-9) 0; /* 🔥 THIS IS THE FIX */
+
   height: 100vh;
 
-  padding-block: 10rem;
-  overflow: hidden;
-
-  display: flex; /* 🔥 enables centering */
-  align-items: center; /* vertical center */
-  justify-content: center; /* horizontal center */
+  display: flex;
+  align-items: center;
 }
 
-/* Overlay */
+/* ================= OVERLAY ================= */
+
 .wow::before {
   content: "";
   position: absolute;
   inset: 0;
+
   background: linear-gradient(
-    90deg,
-    hsl(284 20% 26% / 0.8),
-    hsl(284 20% 26% / 0.4)
+    to right,
+    rgba(0, 0, 0, 0.85),
+    rgba(0, 0, 0, 0.4)
   );
 }
 
-/* Content */
+/* ================= CONTENT ================= */
+
 .content {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 
-  max-width: 650px; /* controls text width */
+  max-width: 600px;
+
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-4);
 
-  color: var(--clr-light);
+  color: #ffffff;
 }
 
-.content p{
-  max-width: var(--content-width)
-}
+/* ================= TEXT ================= */
 
-/* Author */
-.content small {
+.heading {
+  font-size: var(--text-2xl);
   font-weight: 700;
-  opacity: 0.9;
+  margin-bottom: var(--space-4);
+}
+
+.quote p{
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: #ffffff;
+}
+
+p.author {
+  font-size: var(--text-sm);
+  font-weight: bold;
+  color: #ffffff;
 }

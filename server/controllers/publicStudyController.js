@@ -1,7 +1,11 @@
-import Study from "../models/Study.js";
+"use strict";
 
-// 📘 Get published study entry by slug
-export const getPublicStudy = async (req, res) => {
+const Study = require("../models/Study");
+
+/* =========================
+   Get Published Study By Slug
+========================= */
+const getPublicStudy = async (req, res) => {
   try {
     const study = await Study.findOne({
       slug: req.params.slug,
@@ -22,8 +26,10 @@ export const getPublicStudy = async (req, res) => {
   }
 };
 
-// 📚 Get all published studies
-export const getAllPublicStudies = async (req, res) => {
+/* =========================
+   Get All Published Studies
+========================= */
+const getAllPublicStudies = async (req, res) => {
   try {
     const studies = await Study.find({ isPublished: true })
       .select(
@@ -37,8 +43,10 @@ export const getAllPublicStudies = async (req, res) => {
   }
 };
 
-// 📖 Get specific day by dayNumber
-export const getPublicStudyDay = async (req, res) => {
+/* =========================
+   Get Specific Day By dayNumber
+========================= */
+const getPublicStudyDay = async (req, res) => {
   try {
     const { slug, dayNumber } = req.params;
 
@@ -74,8 +82,10 @@ export const getPublicStudyDay = async (req, res) => {
   }
 };
 
-// 🏁 Get completion screen
-export const getCompletionScreen = async (req, res) => {
+/* =========================
+   Get Completion Screen
+========================= */
+const getCompletionScreen = async (req, res) => {
   try {
     const study = await Study.findOne({
       slug: req.params.slug,
@@ -97,8 +107,10 @@ export const getCompletionScreen = async (req, res) => {
   }
 };
 
-// 📊 Get Study Overview
-export const getStudyOverview = async (req, res) => {
+/* =========================
+   Get Study Overview
+========================= */
+const getStudyOverview = async (req, res) => {
   try {
     const study = await Study.findOne({
       slug: req.params.slug,
@@ -122,4 +134,12 @@ export const getStudyOverview = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
+};
+
+module.exports = {
+  getPublicStudy,
+  getAllPublicStudies,
+  getPublicStudyDay,
+  getCompletionScreen,
+  getStudyOverview,
 };

@@ -1,7 +1,11 @@
-import StudyNote from "../models/StudyNote.js";
+"use strict";
 
-// Get note for a specific day
-export const getNote = async (req, res) => {
+const StudyNote = require("../models/StudyNote");
+
+/* =========================
+   Get Note For A Specific Day
+========================= */
+const getNote = async (req, res) => {
   const { studyId, dayNumber } = req.params;
 
   const note = await StudyNote.findOne({
@@ -13,8 +17,10 @@ export const getNote = async (req, res) => {
   res.json(note || { content: "" });
 };
 
-// Create or update note
-export const saveNote = async (req, res) => {
+/* =========================
+   Create Or Update Note
+========================= */
+const saveNote = async (req, res) => {
   const { studyId, dayNumber } = req.params;
   const { content } = req.body;
 
@@ -25,4 +31,9 @@ export const saveNote = async (req, res) => {
   );
 
   res.json(note);
+};
+
+module.exports = {
+  getNote,
+  saveNote,
 };

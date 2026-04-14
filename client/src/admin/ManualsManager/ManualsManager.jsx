@@ -53,10 +53,12 @@ export default function ManualsManager() {
   };
 
   return (
-    <div>
-      <h1>Manuals Manager</h1>
+    <>
+      <div className="adminHeader">
+        <h1>Manuals Manager</h1>
+        <p>Create, edit and manage all manuals</p>
+      </div>
 
-      {/* 🔥 Pass editingManual into form */}
       <ManualForm
         editingManual={editingManual}
         onSuccess={() => {
@@ -65,20 +67,22 @@ export default function ManualsManager() {
         }}
       />
 
-      <h2>All Manuals</h2>
+      <div className="adminSection">
+        <h2>All Manuals</h2>
 
-      {loading ? (
-        <p>Loading manuals...</p>
-      ) : manuals.length === 0 ? (
-        <p>No manuals uploaded yet.</p>
-      ) : (
-        <ManualList
-          manuals={manuals}
-          onDelete={handleDelete}
-          onTogglePublish={handleTogglePublish}
-          onEdit={setEditingManual} // 🔥 THIS IS IMPORTANT
-        />
-      )}
-    </div>
+        {loading ? (
+          <p>Loading manuals...</p>
+        ) : manuals.length === 0 ? (
+          <p>No manuals uploaded yet.</p>
+        ) : (
+          <ManualList
+            manuals={manuals}
+            onDelete={handleDelete}
+            onTogglePublish={handleTogglePublish}
+            onEdit={setEditingManual}
+          />
+        )}
+      </div>
+    </>
   );
 }

@@ -1,39 +1,75 @@
-import mongoose from "mongoose";
+"use strict";
 
-const studySchema = new mongoose.Schema({
-  title: String,
-  slug: String,
-  description: String,
+const mongoose = require("mongoose");
 
-  entryTitle: String,
-  entrySubtitle: String,
-  entryContent: {
-    type: String,
-    default: "",
-  },
-
-  days: [
-    {
-      dayNumber: Number,
-      title: String,
-      reflectionPrompt: String,
-      hasPauseDivider: Boolean,
-      pauseText: String,
-      content: String,
+const studySchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      trim: true,
     },
-  ],
-
-  topic: {
-    type: String,
-    default: "General",
+    slug: {
+      type: String,
+      unique: true,
+    },
+    description: {
+      type: String,
+      default: "",
+    },
+    entryTitle: {
+      type: String,
+      default: "",
+    },
+    entrySubtitle: {
+      type: String,
+      default: "",
+    },
+    entryContent: {
+      type: String,
+      default: "",
+    },
+    days: [
+      {
+        dayNumber: {
+          type: Number,
+        },
+        title: {
+          type: String,
+        },
+        reflectionPrompt: {
+          type: String,
+          default: "",
+        },
+        hasPauseDivider: {
+          type: Boolean,
+          default: true,
+        },
+        pauseText: {
+          type: String,
+          default: "Pause & Reflect",
+        },
+        content: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
+    topic: {
+      type: String,
+      default: "General",
+    },
+    isPublished: {
+      type: Boolean,
+      default: false,
+    },
+    coverImage: {
+      type: String,
+      default: "",
+    },
   },
+  { timestamps: true },
+);
 
-  isPublished: Boolean,
-  coverImage: String,
-});
-
-// ✅ CREATE MODEL
 const Study = mongoose.model("Study", studySchema);
 
-// ✅ EXPORT DEFAULT (THIS FIXES YOUR ERROR)
-export default Study;
+module.exports = Study;

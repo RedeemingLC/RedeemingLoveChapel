@@ -1,5 +1,7 @@
-import mongoose from "mongoose";
-import slugify from "slugify";
+"use strict";
+
+const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const manualSchema = new mongoose.Schema(
   {
@@ -8,32 +10,31 @@ const manualSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-
     slug: {
       type: String,
       unique: true,
     },
-
     description: {
       type: String,
       default: "",
     },
-
     content: {
       type: String,
       default: "",
     },
-
     fileUrl: {
       type: String,
       default: "",
     },
-
     coverImage: {
       type: String,
       default: "",
     },
-
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
     isPublished: {
       type: Boolean,
       default: false,
@@ -42,6 +43,10 @@ const manualSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+/* =========================
+   Auto Generate Slug
+   Before Saving
+========================= */
 manualSchema.pre("save", function () {
   if (this.isModified("title")) {
     this.slug = slugify(this.title, { lower: true, strict: true });
@@ -50,4 +55,4 @@ manualSchema.pre("save", function () {
 
 const Manual = mongoose.model("Manual", manualSchema);
 
-export default Manual;
+module.exports = Manual;

@@ -6,14 +6,13 @@ import { useLocation } from "react-router-dom";
 import HeroSection from "../../components/HeroSection/HeroSection";
 import HeroImageSection from "../../components/HeroImageSection/HeroImageSection";
 import ResourcesSection from "../../components/ResourceSection/ResourcesSection";
-import BeInspiredSection from "../../components/FeaturedMedia/BeInspiredSection";
 import WordOfWisdom from "../../components/WordofWisdom/WordOfWisdom";
-import AboutPreview from "../../components/AboutPreview/AboutPreview";
 import CommunitySections from "../../components/CommunitySections/CommunitySections";
 
 import Container from "../../components/Container/Container";
 
 import styles from "./Home.module.css";
+import Section from "../../components/Section/Section";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -28,16 +27,16 @@ const Home = () => {
 
   return (
     <>
-      <section className={styles.heroWrapper}>
-        <Container>
-          <HeroSection />
-          <HeroImageSection />
-        </Container>
-      </section>
+      <Section>
+        <div className={styles.heroWrapper}>
+          <Container>
+            <HeroSection />
+            <HeroImageSection />
+          </Container>
+        </div>
+      </Section>
       <ResourcesSection />
-      <BeInspiredSection />
       <WordOfWisdom />
-      <AboutPreview />
       <CommunitySections />
     </>
   );

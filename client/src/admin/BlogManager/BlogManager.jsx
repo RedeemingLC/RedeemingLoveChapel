@@ -49,31 +49,38 @@ export default function BlogManager() {
   };
 
   return (
-    <div>
-      <h1>Blog Manager</h1>
+    <>
+      <div className="adminHeader">
+        <h1>Blog Manager</h1>
+        <p>Create, edit and manage blog posts</p>
+      </div>
 
-      <BlogForm
-        editingBlog={editingBlog}
-        onSuccess={() => {
-          setEditingBlog(null);
-          fetchBlogs();
-        }}
-      />
-
-      <h2>All Blog Posts</h2>
-
-      {loading ? (
-        <p>Loading blog posts...</p>
-      ) : blogs.length === 0 ? (
-        <p>No blog posts yet.</p>
-      ) : (
-        <BlogList
-          blogs={blogs}
-          onDelete={handleDelete}
-          onTogglePublish={handleTogglePublish}
-          onEdit={setEditingBlog}
+      <div className="adminSection">
+        <BlogForm
+          editingBlog={editingBlog}
+          onSuccess={() => {
+            setEditingBlog(null);
+            fetchBlogs();
+          }}
         />
-      )}
-    </div>
+      </div>
+
+      <div className="adminSection">
+        <h2>All Blog Posts</h2>
+
+        {loading ? (
+          <p>Loading blog posts...</p>
+        ) : blogs.length === 0 ? (
+          <p>No blog posts yet.</p>
+        ) : (
+          <BlogList
+            blogs={blogs}
+            onDelete={handleDelete}
+            onTogglePublish={handleTogglePublish}
+            onEdit={setEditingBlog}
+          />
+        )}
+      </div>
+    </>
   );
 }

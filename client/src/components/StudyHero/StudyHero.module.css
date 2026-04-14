@@ -1,23 +1,50 @@
+/* =========================
+   HERO LAYOUT
+========================= */
+/* FULL WIDTH HERO */
 .hero {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
-  align-items: center;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
 }
 
+/* INNER CONTAINER (TEXT ONLY) */
+.inner {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding-right: var(--space-5);
+}
+
+/* DESKTOP LAYOUT */
+@media (min-width: 768px) {
+  .hero {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-9);
+    align-items: center;
+  }
+
+  .imageWrapper {
+    justify-self: end; /* 🔥 pushes image to edge */
+  }
+}
+
+/* =========================
+   CONTENT
+========================= */
 .content {
-  max-width: 520px;
+  max-width: 560px;
 }
 
 .title {
-  font-size: 56px;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: var(--space-4);
 }
 
 .description {
-  font-size: 16px;
+  font-size: var(--text-base);
   color: var(--color-text-soft);
   margin-bottom: var(--space-6);
   line-height: 1.7;
@@ -29,19 +56,35 @@
   flex-wrap: wrap;
 }
 
-.imageWrapper img {
-  width: 100%;
-  border-radius: 20px;
-  object-fit: cover;
+/* =========================
+   IMAGE (FIXED PROPERLY)
+========================= */
+.imageWrapper {
+  display: flex;
+  justify-content: center;
 }
 
-/* Mobile */
+.image {
+  width: 100%;
+  max-width: 600px;
+  height: 450px;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+}
+
+/* =========================
+   MOBILE
+========================= */
 @media (max-width: 768px) {
   .hero {
-    grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
   .title {
-    font-size: 36px;
+    font-size: var(--text-hero);
+  }
+
+  .image {
+    max-width: 100%;
   }
 }

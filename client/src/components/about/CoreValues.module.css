@@ -1,13 +1,12 @@
 .coreValues {
-  padding-block: 5rem;
-  background-color: #efe9f1ca;
+  background-color: var(--color-text-inverse);
 }
 
 /* ===== MOBILE (Default) ===== */
 
 .gridLayout {
   display: grid;
-  gap: 2rem;
+  gap: var(--space-6);
   grid-template-columns: 1fr;
 }
 
@@ -19,16 +18,20 @@
 /* Card */
 .valueCard {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
 }
 
 .number {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--grad-primary);
-  color: #fff;
+  width: var(--space-8);
+  height: var(--space-8);
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-accent)
+  );
+  color: var(--color-text-inverse);
   display: grid;
   place-items: center;
   font-weight: 600;
@@ -41,7 +44,7 @@
   .gridLayout {
     display: grid;
     grid-template-columns: 1fr 1.2fr 1fr; /* center column wider */
-    gap: 4rem 3rem; /* increase vertical rhythm */
+    gap: var(--space-8) var(--space-6); /* increase vertical rhythm */
 
     grid-template-areas:
       "one heading two"
@@ -54,6 +57,8 @@
   .heading {
     grid-area: heading;
     text-align: center;
+    font-size: var(--text-2xl);
+    line-height: 1.2;
   }
 
   .valueCard:nth-of-type(1) {

@@ -6,6 +6,7 @@ import styles from "./Blog.module.css";
 import Section from "../../components/Section/Section";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
+import ShareButtons from "../../components/ShareButtons/ShareButtons";
 
 import BlogCard from "../Blog/components/BlogCard";
 
@@ -53,8 +54,7 @@ const Blog = () => {
   };
 
   const getImageUrl = (path) => {
-    if (!path) return "/placeholder.jpg"; // optional fallback
-
+    if (!path) return "/placeholder.jpg";
     return path.startsWith("http") ? path : `http://localhost:5000${path}`;
   };
 
@@ -63,239 +63,219 @@ const Blog = () => {
     setSingleBlog(null);
 
     if (slug) {
-      fetchSingleBlog(); // ✅ get the current blog
-      fetchBlogs(); // ✅ ALSO get all blogs for related posts
+      fetchSingleBlog();
+      fetchBlogs();
     } else {
-      fetchBlogs(); // ✅ normal list view
+      fetchBlogs();
     }
   }, [slug, currentPage, selectedCategory]);
 
   const featuredBlog = blogs[0];
   const otherBlogs = blogs.slice(1);
+
   const relatedBlogs = blogs
-    .filter((b) => b._id !== singleBlog?._id) // exclude current
-    .slice(0, 3); // limit to 3
+    .filter((b) => b._id !== singleBlog?._id)
+    .slice(0, 3);
 
   return (
-    <Section>
-      <Container>
-        {/* ================= LIST VIEW ================= */}
-        {!slug ? (
-          <>
-            {featuredBlog && (
-              <div className={styles.featured}>
-                <div className={styles.featuredText}>
-                  <h1 className={styles.featuredTitle}>{featuredBlog.title}</h1>
+    <>
+      {/* ================= MAIN SECTION ================= */}
+      <Section>
+        <Container>
+          {!slug ? (
+            <>
+              {/* FEATURED */}
+              {featuredBlog && (
+                <div className={styles.featured}>
+                  <div className={styles.featuredText}>
+                    <h1 className={`gradientText ${styles.featuredTitle}`}>
+                      {featuredBlog.title}
+                    </h1>
 
-                  <div className={styles.meta}>
-                    <span>● Admin</span>
-                    <span>
-                      📅 {new Date(featuredBlog.createdAt).toLocaleDateString()}
-                    </span>
+                    <div className={styles.meta}>
+                      <span>● Admin</span>
+                      <span>
+                        📅{" "}
+                        {new Date(featuredBlog.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+
+                    <p>
+                      {featuredBlog.excerpt
+                        ? featuredBlog.excerpt.slice(0, 300) + "..."
+                        : "No description available."}
+                    </p>
+
+                    <Link to={`/blog/${featuredBlog.slug}`}>
+                      <Button>Read More →</Button>
+                    </Link>
                   </div>
 
-                  <p>
-                    {featuredBlog.excerpt
-                      ? featuredBlog.excerpt.slice(0, 300) + "..."
-                      : "No description available."}
-                  </p>
-
-                  <Link to={`/blog/${featuredBlog.slug}`}>
-                    <Button>Read More →</Button>
-                  </Link>
+                  <div className={styles.featuredImageWrapper}>
+                    <img
+                      src={getImageUrl(featuredBlog.featuredImage)}
+                      alt={featuredBlog.title}
+                    />
+                    <span className="badge">Featured Article</span>
+                  </div>
                 </div>
+              )}
 
-                <div className={styles.featuredImageWrapper}>
-                  <img
-                    src={getImageUrl(featuredBlog.featuredImage)}
-                    alt={featuredBlog.title}
-                  />
-                  <span className={styles.badge}>Featured Article</span>
-                </div>
+              {/* CATEGORY */}
+              <div className={styles.categoryWrapper}>
+                {["", "faith", "grace", "doctrine"].map((cat) => (
+                  <Button
+                    key={cat}
+                    variant={selectedCategory === cat ? "primary" : "outline"}
+                    size="sm"
+                    onClick={() => {
+                      setSelectedCategory(cat);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    {cat === "" ? "All" : cat}
+                  </Button>
+                ))}
               </div>
-            )}
 
-            <div className={styles.categoryWrapper}>
-              {["", "faith", "grace", "doctrine"].map((cat) => (
-                <button
-                  key={cat}
-                  className={`${styles.categoryBtn} ${
-                    selectedCategory === cat ? styles.active : ""
-                  }`}
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                    setCurrentPage(1);
-                  }}
-                >
-                  {cat === "" ? "All" : cat}
-                </button>
-              ))}
-            </div>
-
-            {loading ? (
-              <p>Loading blog posts...</p>
-            ) : blogs.length === 0 ? (
-              <p>No blog posts available.</p>
-            ) : (
-              <>
-                {/* BLOG GRID */}
-                {otherBlogs.length > 0 && (
+              {/* BLOG GRID */}
+              {loading ? (
+                <p>Loading blog posts...</p>
+              ) : blogs.length === 0 ? (
+                <p>No blog posts available.</p>
+              ) : (
+                otherBlogs.length > 0 && (
                   <div className={styles.grid}>
                     {otherBlogs.map((blog) => (
                       <BlogCard key={blog._id} blog={blog} />
                     ))}
                   </div>
-                )}
-              </>
-            )}
+                )
+              )}
 
-            {!loading && totalPages > 1 && (
-              <div
-                style={{
-                  marginTop: "2rem",
-                  display: "flex",
-                  gap: "0.5rem",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                }}
-              >
-                {/* Previous */}
-                <Button
-                  onClick={() => setCurrentPage((prev) => prev - 1)}
-                  disabled={currentPage === 1}
-                >
-                  Prev
-                </Button>
+              {/* PAGINATION */}
+              {!loading && totalPages > 1 && (
+                <div className={styles.pagination}>
+                  <Button
+                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    Prev
+                  </Button>
 
-                {/* Numbered Buttons */}
-                {Array.from({ length: totalPages }, (_, index) => {
-                  const pageNumber = index + 1;
-                  return (
-                    <Button
-                      key={pageNumber}
-                      variant={
-                        currentPage === pageNumber ? "primary" : "outline"
-                      }
-                      onClick={() => setCurrentPage(pageNumber)}
-                    >
-                      {pageNumber}
-                    </Button>
-                  );
-                })}
+                  {Array.from({ length: totalPages }, (_, index) => {
+                    const pageNumber = index + 1;
+                    return (
+                      <Button
+                        key={pageNumber}
+                        variant={
+                          currentPage === pageNumber ? "primary" : "outline"
+                        }
+                        onClick={() => setCurrentPage(pageNumber)}
+                      >
+                        {pageNumber}
+                      </Button>
+                    );
+                  })}
 
-                {/* Next */}
-                <Button
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                </Button>
-              </div>
-            )}
-          </>
-        ) : (
-          /* ================= SINGLE VIEW ================= */
-          <>
-            {loading ? (
-              <p>Loading blog...</p>
-            ) : singleBlog ? (
-              <>
-                {/* ================= SINGLE CONTAINER ================= */}
-                <div className={styles.singleContainer}>
-                  {/* HERO */}
-                  <div className={styles.singleHero}>
-                    <h1 className={`text-grad ${styles.singleTitle}`}>
-                      {singleBlog.title}
-                    </h1>
-
-                    {/* META */}
-                    <div className={styles.metaCentered}>
-                      <span>● {singleBlog.author || "Admin"}</span>
-                      <span>
-                        📅 {new Date(singleBlog.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-
-                    {/* EXCERPT */}
-                    <p className={styles.singleExcerpt}>
-                      {singleBlog.excerpt || ""}
-                    </p>
-                  </div>
+                  <Button
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </Button>
                 </div>
+              )}
+            </>
+          ) : (
+            <>
+              {/* SINGLE BLOG */}
+              {loading ? (
+                <p>Loading blog...</p>
+              ) : singleBlog ? (
+                <>
+                  <div className={styles.singleContainer}>
+                    <div className={styles.singleHero}>
+                      <h1 className={styles.singleTitle}>{singleBlog.title}</h1>
 
-                {/* IMAGE */}
-                {singleBlog.featuredImage && (
-                  <div className={styles.fullWidthImage}>
-                    <img
-                      src={getImageUrl(singleBlog.featuredImage)}
-                      alt={singleBlog.title}
-                    />
+                      <div className={styles.metaCentered}>
+                        <span>● {singleBlog.author || "Admin"}</span>
+                        <span>
+                          📅{" "}
+                          {new Date(singleBlog.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+
+                      <p className={styles.singleExcerpt}>
+                        {singleBlog.excerpt || ""}
+                      </p>
+                    </div>
                   </div>
-                )}
 
-                {/* CONTENT */}
-                <div className={styles.singleContainer}>
+                  {/* IMAGE */}
+                  {singleBlog.featuredImage && (
+                    <Container>
+                      <div className={styles.imageWrapperSingle}>
+                        <img
+                          src={getImageUrl(singleBlog.featuredImage)}
+                          alt={singleBlog.title}
+                        />
+                      </div>
+                    </Container>
+                  )}
+
+                  {/* CONTENT */}
                   <div
-                    className={styles.singleContent}
-                    dangerouslySetInnerHTML={{
-                      __html: singleBlog.content,
-                    }}
-                  />
+                    className={`${styles.singleContainer} ${styles.singleEnd}`}
+                  >
+                    <div
+                      className={styles.singleContent}
+                      dangerouslySetInnerHTML={{
+                        __html: singleBlog.content,
+                      }}
+                    />
 
-                  {/* SHARE */}
-                  <div className={styles.share}>
-                    <h4>Share this post:</h4>
+                    <div className={styles.share}>
+                      <h4>Share this post:</h4>
 
-                    <a
-                      href={`https://wa.me/?text=${encodeURIComponent(
-                        window.location.href,
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      WhatsApp
-                    </a>
+                      <div className={styles.shareRow}>
+                        <ShareButtons
+                          title={singleBlog.title}
+                          url={window.location.href}
+                        />
+                      </div>
+                    </div>
 
-                    {" | "}
-
-                    <a
-                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                        window.location.href,
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Facebook
-                    </a>
-                  </div>
-
-                  {/* BACK BUTTON */}
-                  <Link to="/blog">
-                    <Button variant="outline">← Back to Blog</Button>
-                  </Link>
-                </div>
-
-                {/* ================= RELATED POSTS (OUTSIDE) ================= */}
-                {relatedBlogs.length > 0 && (
-                  <div className={styles.relatedSection}>
-                    <h2 className={styles.relatedTitle}>Related Posts</h2>
-
-                    <div className={styles.relatedGrid}>
-                      {relatedBlogs.map((blog) => (
-                        <BlogCard key={blog._id} blog={blog} />
-                      ))}
+                    <div className={styles.backWrapper}>
+                      <Link to="/blog">
+                        <Button variant="outline">← Back to Blog</Button>
+                      </Link>
                     </div>
                   </div>
-                )}
-              </>
-            ) : (
-              <p>Blog not found.</p>
-            )}
-          </>
-        )}
-      </Container>
-    </Section>
+                </>
+              ) : (
+                <p>Blog not found.</p>
+              )}
+            </>
+          )}
+        </Container>
+      </Section>
+
+      {/* ================= RELATED POSTS (FULL WIDTH FIXED) ================= */}
+      {slug && relatedBlogs.length > 0 && (
+        <Section className={styles.relatedSection}>
+          <Container>
+            <h2 className={styles.relatedTitle}>Related Posts</h2>
+
+            <div className={styles.relatedGrid}>
+              {relatedBlogs.map((blog) => (
+                <BlogCard key={blog._id} blog={blog} />
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+    </>
   );
 };
 

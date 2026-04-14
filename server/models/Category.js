@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+"use strict";
+
+const mongoose = require("mongoose");
 
 const categorySchema = new mongoose.Schema(
   {
@@ -14,7 +16,9 @@ const categorySchema = new mongoose.Schema(
       unique: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.model("Category", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
+
+module.exports = Category;

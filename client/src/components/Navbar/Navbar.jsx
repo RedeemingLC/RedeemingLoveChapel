@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Container from "../Container/Container";
+
+import rlclogo from "../../assets/images/rlc-logo_200x51.png";
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const userToken = localStorage.getItem("userToken");
@@ -25,20 +29,23 @@ const Navbar = () => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location]);
+
   return (
     <header className={styles.header}>
       <Container>
         <div className={styles.inner}>
           {/* Logo */}
-          <h2
-            className={`fs-500 text-grad ${styles.logo}`}
+          <a
             onClick={() => {
               navigate("/");
               setMenuOpen(false);
             }}
           >
-            RLC
-          </h2>
+            <img src={rlclogo} className={styles.logo} alt="Redeeming Love Chapel logo" />
+          </a>
 
           {/* Hamburger */}
           <div
@@ -63,12 +70,12 @@ const Navbar = () => {
             </li>
 
             <li>
-              <button onClick={() => scrollToSection("about")}>About</button>
+              <button onClick={() => navigate("/about")}>About</button>
             </li>
 
-            <li>
+            {/* <li>
               <button onClick={() => navigate("/live")}>Live Stream</button>
-            </li>
+            </li> */}
 
             {userToken ? (
               <>

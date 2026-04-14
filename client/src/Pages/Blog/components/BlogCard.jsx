@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import styles from "../../Blog/Blog.module.css";
+import styles from "./BlogCard.module.css";
+import Button from "../../../components/Button/Button";
 
 const BlogCard = ({ blog }) => {
   // ✅ Fix image path
@@ -21,7 +22,7 @@ const BlogCard = ({ blog }) => {
       <div className={styles.imageWrapper}>
         <img src={getImageUrl(blog.featuredImage)} alt={blog.title} />
 
-        <span className={styles.categoryTag}>
+        <span className="badge">
           {blog.category?.name || "Category"}
         </span>
       </div>
@@ -42,7 +43,7 @@ const BlogCard = ({ blog }) => {
 
       {/* BUTTON */}
       <Link to={`/blog/${blog.slug}`}>
-        <button className={styles.button}>Read More →</button>
+        <Button variant="outline">Read More →</Button>
       </Link>
     </div>
   );

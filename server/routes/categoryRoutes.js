@@ -1,21 +1,23 @@
-import express from "express";
-import {
+"use strict";
+
+const express = require("express");
+const {
   createCategory,
   getCategories,
   updateCategory,
   deleteCategory,
-} from "../controllers/categoryController.js";
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+} = require("../controllers/categoryController");
+
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.route("/")
-  .get(getCategories)
-  .post(protect, adminOnly, createCategory);
+/* ========= CATEGORY ROUTES ========= */
+router.route("/").get(getCategories).post(protect, adminOnly, createCategory);
 
 router
   .route("/:id")
   .put(protect, adminOnly, updateCategory)
   .delete(protect, adminOnly, deleteCategory);
 
-export default router;
+module.exports = router;

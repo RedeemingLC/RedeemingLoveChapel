@@ -17,12 +17,14 @@ const CoreValues = () => {
     <section className={styles.coreValues}>
       <Container>
         <div className={styles.gridLayout}>
-          <h2 className={`fs-700 text-grad ${styles.heading}`}>Our Culture and Values</h2>
+          <h2 className={`gradientText ${styles.heading}`}>
+            Our Culture and Values
+          </h2>
 
           {values.map((text, index) => (
             <div key={index} className={styles.valueCard}>
               <span className={styles.number}>{index + 1}</span>
-              <p className="fs-400">{text}</p>
+              <p>{text}</p>
             </div>
           ))}
         </div>

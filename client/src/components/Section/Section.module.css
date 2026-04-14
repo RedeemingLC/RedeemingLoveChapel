@@ -1,9 +1,38 @@
 .section {
-  padding: var(--space-7) 0;
+  /* ✅ USE EXISTING TOKENS ONLY */
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
 }
 
+/* ✅ HEADER OFFSET */
+.withHeaderOffset {
+  padding-top: calc(var(--space-8) + var(--header-height));
+}
+
+/* ✅ VARIANTS */
+.default {
+  background: var(--color-surface);
+}
+
+.alt {
+  background: var(--color-bg-alt);
+}
+
+/* ✅ HERO (NO TOP SPACE) */
+.hero {
+  background: var(--color-bg-alt);
+  padding-top: 0;
+  padding-bottom: var(--space-8);
+}
+
+/* ✅ MOBILE */
 @media (max-width: 768px) {
   .section {
-    padding: var(--space-6) 0;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+
+  .withHeaderOffset {
+    padding-top: calc(var(--space-6) + var(--header-height));
   }
 }

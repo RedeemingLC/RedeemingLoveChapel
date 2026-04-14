@@ -51,32 +51,38 @@ export default function AudioManager() {
   };
 
   return (
-    <div>
-      <h1>Audio Sermons</h1>
-      <p>Add SoundCloud links and manage publishing.</p>
+    <>
+      <div className="adminHeader">
+        <h1>Audio Sermons</h1>
+        <p>Add SoundCloud links and manage publishing</p>
+      </div>
 
-      <AudioForm
-        editingAudio={editingAudio}
-        onSuccess={() => {
-          setEditingAudio(null);
-          fetchAudio();
-        }}
-      />
-
-      <h2>All Audio</h2>
-
-      {loading ? (
-        <p>Loading audio...</p>
-      ) : audioList.length === 0 ? (
-        <p>No audio uploaded yet.</p>
-      ) : (
-        <AudioList
-          audioList={audioList}
-          onDelete={handleDelete}
-          onTogglePublish={handleTogglePublish}
-          onEdit={setEditingAudio}
+      <div className="adminSection">
+        <AudioForm
+          editingAudio={editingAudio}
+          onSuccess={() => {
+            setEditingAudio(null);
+            fetchAudio();
+          }}
         />
-      )}
-    </div>
+      </div>
+
+      <div className="adminSection">
+        <h2>All Audio</h2>
+
+        {loading ? (
+          <p>Loading audio...</p>
+        ) : audioList.length === 0 ? (
+          <p>No audio uploaded yet.</p>
+        ) : (
+          <AudioList
+            audioList={audioList}
+            onDelete={handleDelete}
+            onTogglePublish={handleTogglePublish}
+            onEdit={setEditingAudio}
+          />
+        )}
+      </div>
+    </>
   );
 }

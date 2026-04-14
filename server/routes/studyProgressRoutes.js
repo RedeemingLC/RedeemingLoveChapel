@@ -1,11 +1,16 @@
-import express from "express";
-import {
+"use strict";
+
+const express = require("express");
+const {
   getStudyProgress,
   markDayComplete,
-} from "../controllers/studyProgressController.js";
-import { protect } from "../middleware/authMiddleware.js";
+} = require("../controllers/studyProgressController");
+
+const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
+
+/* ========= STUDY PROGRESS ROUTES ========= */
 
 // Get progress for study
 router.get("/:studyId", protect, getStudyProgress);
@@ -13,4 +18,4 @@ router.get("/:studyId", protect, getStudyProgress);
 // Mark day complete
 router.post("/:studyId/day/:dayNumber", protect, markDayComplete);
 
-export default router;
+module.exports = router;

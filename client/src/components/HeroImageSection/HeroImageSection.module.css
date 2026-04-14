@@ -5,13 +5,13 @@
 .heroImg {
   max-width: 100%;
   display: block;
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-lg);
   object-fit: cover;
-  margin-top: 3.75rem;
+  margin: 3.75rem 0;
 }
 
 @media (max-width: 768px) {
   .heroImg {
-    border-radius: 1.5rem;
+    border-radius: 1.2rem;
   }
 }

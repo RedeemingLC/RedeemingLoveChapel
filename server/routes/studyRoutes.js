@@ -1,29 +1,31 @@
-import express from "express";
-import {
+"use strict";
+
+const express = require("express");
+const {
   getStudies,
   getStudyById,
   getStudyDay,
   createStudy,
   updateStudy,
   deleteStudy,
-} from "../controllers/studyController.js";
+} = require("../controllers/studyController");
 
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 /* =========================================
-   👥 USER ROUTES (Logged-in users)
+   👥 USER ROUTES (Logged-in Users)
 ========================================= */
 
 // GET /api/studies
 router.get("/", protect, getStudies);
 
+// GET /api/studies/:studyId/day/:dayNumber
+router.get("/:studyId/day/:dayNumber", protect, getStudyDay);
+
 // GET /api/studies/:studyId (entry / overview)
 router.get("/:studyId", protect, getStudyById);
-
-// 🔒 GET /api/studies/:studyId/day/:dayNumber
-router.get("/:studyId/day/:dayNumber", protect, getStudyDay);
 
 /* =========================================
    🔐 ADMIN ROUTES
@@ -38,4 +40,4 @@ router.put("/:studyId", protect, adminOnly, updateStudy);
 // DELETE /api/studies/:studyId
 router.delete("/:studyId", protect, adminOnly, deleteStudy);
 
-export default router;
+module.exports = router;

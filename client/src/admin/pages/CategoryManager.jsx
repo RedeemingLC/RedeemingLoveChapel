@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import adminApi from "../../services/adminApi";
 
+
 export default function CategoryManager() {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
@@ -62,74 +63,77 @@ export default function CategoryManager() {
   };
 
   return (
-    <div style={{ marginBottom: "2rem" }}>
-      <h1>Category Manager</h1>
+    <>
+      <div className="adminHeader">
+        <h1>Category Manager</h1>
+        <p>Create and manage content categories</p>
+      </div>
 
-      <form onSubmit={handleCreate} style={{ marginBottom: "1rem" }}>
-        <input
-          type="text"
-          placeholder="Category name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <button disabled={loading}>
-          {loading ? "Creating..." : "Add Category"}
-        </button>
-      </form>
+      <div className="adminSection">
+        <form onSubmit={handleCreate} className="adminForm">
+          <input
+            type="text"
+            placeholder="Category name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
 
-      {categories.map((cat) => (
-        <div
-          key={cat._id}
-          style={{
-            marginBottom: "0.5rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          {editingId === cat._id ? (
-            <>
-              <input
-                type="text"
-                value={editName}
-                onChange={(e) => setEditName(e.target.value)}
-              />
+          <button disabled={loading}>
+            {loading ? "Creating..." : "Add Category"}
+          </button>
+        </form>
+      </div>
 
-              <button onClick={() => handleUpdate(cat._id)}>Save</button>
+      <div className="adminSection">
+        <h2>All Categories</h2>
 
-              <button
-                onClick={() => {
-                  setEditingId(null);
-                  setEditName("");
-                }}
-              >
-                Cancel
-              </button>
-            </>
-          ) : (
-            <>
-              <span>{cat.name}</span>
+        <div className="adminList">
+          {categories.map((cat) => (
+            <div key={cat._id} className="adminListItem">
+              {editingId === cat._id ? (
+                <div className="adminEditRow">
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                  />
 
-              <button
-                onClick={() => {
-                  setEditingId(cat._id);
-                  setEditName(cat.name);
-                }}
-              >
-                Edit
-              </button>
+                  <button onClick={() => handleUpdate(cat._id)}>Save</button>
 
-              <button
-                style={{ color: "red" }}
-                onClick={() => handleDelete(cat._id)}
-              >
-                Delete
-              </button>
-            </>
-          )}
+                  <button
+                    onClick={() => {
+                      setEditingId(null);
+                      setEditName("");
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <div className="adminRow">
+                  <span>{cat.name}</span>
+
+                  <div className="adminActionsInline">
+                    <button
+                      onClick={() => {
+                        setEditingId(cat._id);
+                        setEditName(cat.name);
+                      }}
+                    >
+                      Edit
+                    </button>
+
+                    <button onClick={() => handleDelete(cat._id)}>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+    </>
   );
 }

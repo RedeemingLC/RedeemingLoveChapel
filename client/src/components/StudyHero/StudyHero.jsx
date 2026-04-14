@@ -10,21 +10,23 @@ export default function StudyHero({
   return (
     <div className={styles.hero}>
       {/* LEFT */}
-      <div className={styles.content}>
-        <h1 className={styles.title}>{title}</h1>
+      <div className={styles.inner}>
+        <div className={styles.content}>
+          <h1 className={`gradientText ${styles.title}`}>{title}</h1>
 
-        {description && <p className={styles.description}>{description}</p>}
+          {description && <p className={styles.description}>{description}</p>}
 
-        <div className={styles.actions}>
-          {primaryAction}
-          {secondaryAction}
+          <div className={styles.actions}>
+            {primaryAction}
+            {secondaryAction}
+          </div>
         </div>
       </div>
 
       {/* RIGHT */}
       {image && (
         <div className={styles.imageWrapper}>
-          <img src={image} alt={title} />
+          <img src={image} alt={title} className={styles.image} />
         </div>
       )}
     </div>

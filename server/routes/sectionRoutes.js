@@ -1,30 +1,25 @@
-import express from "express";
+"use strict";
 
-import {
+const express = require("express");
+const {
   createSection,
   updateSection,
   reorderSections,
   getSectionsByManual,
   deleteSection,
-} from "../controllers/sectionController.js";
+} = require("../controllers/sectionController");
 
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Admin create section
+/* ========= ADMIN ROUTES ========= */
 router.post("/", protect, adminOnly, createSection);
-
-// Update
-router.put("/:id", protect, adminOnly, updateSection);
-
-// Re-ordering
 router.put("/reorder", protect, adminOnly, reorderSections);
-
-// Get sections of a content item
-router.get("/manual/:manualId", getSectionsByManual);
-
-// Admin delete section
+router.put("/:id", protect, adminOnly, updateSection);
 router.delete("/:id", protect, adminOnly, deleteSection);
 
-export default router;
+/* ========= PUBLIC ROUTES ========= */
+router.get("/manual/:manualId", getSectionsByManual);
+
+module.exports = router;

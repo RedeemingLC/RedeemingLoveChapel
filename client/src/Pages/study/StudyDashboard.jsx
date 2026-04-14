@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
+
+import Section from "../../components/Section/Section";
+import Container from "../../components/Container/Container";
+
 import styles from "./StudyDashboard.module.css";
 
 export default function StudyDashboard() {
@@ -67,163 +71,183 @@ export default function StudyDashboard() {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className={styles.page}>
-      {/* HERO */}
-      <div className={styles.hero}>
-        <h1>Bible Study Handbooks</h1>
-        <p>
-          Grow in your knowledge of God through structured, Spirit-filled
-          studies designed to guide your walk daily.
-        </p>
-      </div>
-
-      {/* MAIN CONTENT */}
-      <div className={styles.mobileFilters}>
-        {/* Topic Dropdown */}
-        <select
-          value={selectedTopic}
-          onChange={(e) => setSelectedTopic(e.target.value)}
-        >
-          {topics.map((topic) => (
-            <option key={topic} value={topic}>
-              {topic}
-            </option>
-          ))}
-        </select>
-
-        {/* Sort Dropdown */}
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-        </select>
-      </div>
-
-      <div className={styles.content}>
-        {/* SIDEBAR */}
-        <div className={styles.sidebar}>
-          {/* Search */}
-          <div className={styles.searchBox}>
-            <input
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-
-          {/* Topics */}
-          <div>
-            <h3>Topics</h3>
-            <ul className={styles.filterList}>
-              {topics.map((topic) => (
-                <li
-                  key={topic}
-                  className={selectedTopic === topic ? styles.active : ""}
-                  onClick={() => setSelectedTopic(topic)}
+    <>
+      <div className="divOffset">
+        <Section variant="alt">
+          <Container>
+            {/* HERO */}
+            <div className={styles.hero}>
+              <h1>Devotional Guides</h1>
+              <p>
+                Grow in your knowledge of God through structured, Spirit-filled
+                studies designed to guide your walk daily.
+              </p>
+            </div>
+          </Container>
+        </Section>
+        <Section>
+          <Container>
+            <div className={styles.page}>
+              {/* MAIN CONTENT */}
+              <div className={styles.mobileFilters}>
+                {/* Topic Dropdown */}
+                <select
+                  value={selectedTopic}
+                  onChange={(e) => setSelectedTopic(e.target.value)}
                 >
-                  {topic}
-                </li>
-              ))}
-            </ul>
-          </div>
+                  {topics.map((topic) => (
+                    <option key={topic} value={topic}>
+                      {topic}
+                    </option>
+                  ))}
+                </select>
 
-          {/* Sort */}
-          <div>
-            <h3>Sort by</h3>
-            <ul className={styles.filterList}>
-              <li
-                className={sort === "newest" ? styles.active : ""}
-                onClick={() => setSort("newest")}
-              >
-                Newest
-              </li>
-
-              <li
-                className={sort === "oldest" ? styles.active : ""}
-                onClick={() => setSort("oldest")}
-              >
-                Oldest
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* RIGHT SIDE */}
-        <div>
-          {/* CONTINUE STUDIES */}
-          {progressStudies.length > 0 && (
-            <>
-              <h2 className={styles.sectionTitle}>Continue Your Studies</h2>
-
-              <div className={styles.grid}>
-                {progressStudies.map((item) => {
-                  const totalDays = item.totalDays || 1;
-                  const completed = item.completedDays.length;
-                  const percent = Math.round((completed / totalDays) * 100);
-
-                  return (
-                    <div
-                      key={item.study._id}
-                      className={styles.card}
-                      onClick={() =>
-                        navigate(
-                          `/study/${item.study.slug}/day/${
-                            item.lastDayRead || 1
-                          }`,
-                        )
-                      }
-                    >
-                      <img src={item.study.coverImage} alt={item.study.title} />
-
-                      <div className={styles.overlay}>
-                        <span className={styles.badge}>Continue</span>
-
-                        <h3>{item.study.title}</h3>
-
-                        <div className={styles.progressBar}>
-                          <div
-                            className={styles.progressFill}
-                            style={{ width: `${percent}%` }}
-                          />
-                        </div>
-
-                        <p className={styles.progressText}>
-                          {completed} of {totalDays} days
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
+                {/* Sort Dropdown */}
+                <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                </select>
               </div>
-            </>
-          )}
 
-          {/* ALL STUDIES */}
-          <h2 className={styles.sectionTitle}>Available Studies</h2>
+              <div className={styles.content}>
+                {/* SIDEBAR */}
+                <div className={styles.sidebar}>
+                  {/* Search */}
+                  <div className={styles.searchBox}>
+                    <input
+                      placeholder="Search"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                  </div>
 
-          {allStudies.length === 0 ? (
-            <p className={styles.empty}>No studies available yet.</p>
-          ) : (
-            <div className={styles.grid}>
-              {filteredStudies.map((study) => (
-                <div
-                  key={study._id}
-                  className={styles.card}
-                  onClick={() => navigate(`/study/${study.slug}`)}
-                >
-                  <img src={study.coverImage} alt={study.title} />
+                  {/* Topics */}
+                  <div>
+                    <h3>Topics</h3>
+                    <ul className={styles.filterList}>
+                      {topics.map((topic) => (
+                        <li
+                          key={topic}
+                          className={
+                            selectedTopic === topic ? styles.active : ""
+                          }
+                          onClick={() => setSelectedTopic(topic)}
+                        >
+                          {topic}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                  <div className={styles.overlay}>
-                    <span className={styles.badge}>
-                      {(study.topic || "General").toUpperCase()}
-                    </span>
-                    <h3>{study.title}</h3>
+                  {/* Sort */}
+                  <div>
+                    <h3>Sort by</h3>
+                    <ul className={styles.filterList}>
+                      <li
+                        className={sort === "newest" ? styles.active : ""}
+                        onClick={() => setSort("newest")}
+                      >
+                        Newest
+                      </li>
+
+                      <li
+                        className={sort === "oldest" ? styles.active : ""}
+                        onClick={() => setSort("oldest")}
+                      >
+                        Oldest
+                      </li>
+                    </ul>
                   </div>
                 </div>
-              ))}
+
+                {/* RIGHT SIDE */}
+                <div>
+                  {/* CONTINUE STUDIES */}
+                  {progressStudies.length > 0 && (
+                    <>
+                      <h2 className={styles.sectionTitle}>
+                        Continue Your Studies
+                      </h2>
+
+                      <div className={styles.grid}>
+                        {progressStudies.map((item) => {
+                          const totalDays = item.totalDays || 1;
+                          const completed = item.completedDays.length;
+                          const percent = Math.round(
+                            (completed / totalDays) * 100,
+                          );
+
+                          return (
+                            <div
+                              key={item.study._id}
+                              className={styles.card}
+                              onClick={() =>
+                                navigate(
+                                  `/study/${item.study.slug}/day/${
+                                    item.lastDayRead || 1
+                                  }`,
+                                )
+                              }
+                            >
+                              <img
+                                src={item.study.coverImage}
+                                alt={item.study.title}
+                              />
+
+                              <div className={styles.overlay}>
+                                <span className={styles.badge}>Continue</span>
+
+                                <h3>{item.study.title}</h3>
+
+                                <div className={styles.progressBar}>
+                                  <div
+                                    className={styles.progressFill}
+                                    style={{ width: `${percent}%` }}
+                                  />
+                                </div>
+
+                                <p className={styles.progressText}>
+                                  {completed} of {totalDays} days
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
+
+                  {/* ALL STUDIES */}
+                  <h2 className={styles.sectionTitle}>Available Studies</h2>
+
+                  {allStudies.length === 0 ? (
+                    <p className={styles.empty}>No studies available yet.</p>
+                  ) : (
+                    <div className={styles.grid}>
+                      {filteredStudies.map((study) => (
+                        <div
+                          key={study._id}
+                          className={styles.card}
+                          onClick={() => navigate(`/study/${study.slug}`)}
+                        >
+                          <img src={study.coverImage} alt={study.title} />
+
+                          <div className={styles.overlay}>
+                            <span className="badge">
+                              {(study.topic || "General").toUpperCase()}
+                            </span>
+                            <h3>{study.title}</h3>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          )}
-        </div>
+          </Container>
+        </Section>
       </div>
-    </div>
+    </>
   );
 }

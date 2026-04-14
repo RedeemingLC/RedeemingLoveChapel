@@ -1,8 +1,12 @@
-import StudyProgress from "../models/StudyProgress.js";
-import Study from "../models/Study.js";
+"use strict";
 
-// Get user progress for a study
-export const getStudyProgress = async (req, res) => {
+const StudyProgress = require("../models/StudyProgress");
+const Study = require("../models/Study");
+
+/* =========================
+   Get User Progress For A Study
+========================= */
+const getStudyProgress = async (req, res) => {
   const { studyId } = req.params;
 
   const progress = await StudyProgress.findOne({
@@ -20,8 +24,10 @@ export const getStudyProgress = async (req, res) => {
   res.json(progress);
 };
 
-// Mark a day complete
-export const markDayComplete = async (req, res) => {
+/* =========================
+   Mark A Day Complete
+========================= */
+const markDayComplete = async (req, res) => {
   const { studyId, dayNumber } = req.params;
   const dayNum = Number(dayNumber);
 
@@ -43,7 +49,7 @@ export const markDayComplete = async (req, res) => {
     study: studyId,
   });
 
-  // 🆕 First time
+  // 🆕 First time user
   if (!progress) {
     if (dayNum !== 1) {
       return res.status(403).json({
@@ -61,7 +67,7 @@ export const markDayComplete = async (req, res) => {
     return res.json(progress);
   }
 
-  // 🔒 LOCKING LOGIC
+  // 🔒 Locking Logic
   const maxCompleted = Math.max(...progress.completedDays);
   const allowedDay = maxCompleted + 1;
 
@@ -71,7 +77,7 @@ export const markDayComplete = async (req, res) => {
     });
   }
 
-  // ✅ Mark complete
+  // ✅ Mark Complete
   if (!progress.completedDays.includes(dayNum)) {
     progress.completedDays.push(dayNum);
   }
@@ -81,4 +87,9 @@ export const markDayComplete = async (req, res) => {
   await progress.save();
 
   res.json(progress);
+};
+
+module.exports = {
+  getStudyProgress,
+  markDayComplete,
 };

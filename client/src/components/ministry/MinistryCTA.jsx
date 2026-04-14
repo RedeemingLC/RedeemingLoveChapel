@@ -1,35 +1,41 @@
 import styles from "./MinistryCTA.module.css";
+import Section from "../Section/Section";
 import Container from "../Container/Container";
-import { FaPhoneAlt } from "react-icons/fa";
+import Button from "../Button/Button";
 
 const MinistryCTA = () => {
+  const phoneNumber = "+2347049315493";
+  const whatsappNumber = "+2347049315493";
   return (
-    <section className={styles.ctaSection}>
+    <Section>
       <Container>
-        <div className={styles.ctaGrid}>
-
-          {/* Column 1 — Icon */}
-          <div className={styles.iconWrapper}>
-            <FaPhoneAlt />
-          </div>
-
-          {/* Column 2 — Text */}
-          <div className={styles.textBlock}>
-            <p className="fs-400">
-              If you are moved in your spirit to partner with us in caring
-              for the poor and needy, you can give us a call
+        <div className={styles.ctaCard}>
+          {/* Text */}
+          <div className={styles.content}>
+            <h3>Partner with us</h3>
+            <p>
+              Join us in caring for the poor and needy. Your support helps us
+              reach more lives and spread the love of Christ.
             </p>
           </div>
 
-          {/* Column 3 — Numbers */}
-          <div className={styles.phoneBlock}>
-            <a href="tel:+2348096783456">+234 809 6783 456</a>
-            <a href="tel:+2348035678345">+234 803 5678 345</a>
-          </div>
+          {/* CTA Button */}
+          <div className={styles.action}>
+            <a href={`tel:${phoneNumber}`}>
+              <Button variant="primary">Call Now</Button>
+            </a>
 
+            <a
+              href={`https://wa.me/${whatsappNumber}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="outline">WhatsApp</Button>
+            </a>
+          </div>
         </div>
       </Container>
-    </section>
+    </Section>
   );
 };
 

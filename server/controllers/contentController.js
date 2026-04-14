@@ -1,11 +1,15 @@
-import Content from "../models/Content.js";
-import Section from "../models/Section.js";
-import Subsection from "../models/Subsection.js";
-import slugify from "slugify";
-import asyncHandler from "../middleware/asyncHandler.js";
+"use strict";
 
-// Create Content
-export const createContent = asyncHandler(async (req, res) => {
+const Content = require("../models/Content");
+const Section = require("../models/Section");
+const Subsection = require("../models/Subsection");
+const slugify = require("slugify");
+const asyncHandler = require("../middleware/asyncHandler");
+
+/* =========================
+   Create Content
+========================= */
+const createContent = asyncHandler(async (req, res) => {
   const { title, type, description, category, order } = req.body;
 
   const baseSlug = slugify(title, { lower: true });
@@ -26,8 +30,11 @@ export const createContent = asyncHandler(async (req, res) => {
   });
 });
 
-// Get All Content (Used for library pages).
-export const getContents = asyncHandler(async (req, res) => {
+/* =========================
+   Get All Content
+   (Used for library pages)
+========================= */
+const getContents = asyncHandler(async (req, res) => {
   const { type } = req.query;
 
   const filter = type ? { type } : {};
@@ -42,9 +49,11 @@ export const getContents = asyncHandler(async (req, res) => {
   });
 });
 
-// Get Single Content (Used for content landing pages).
-
-export const getContentBySlug = asyncHandler(async (req, res) => {
+/* =========================
+   Get Single Content
+   (Used for content landing pages)
+========================= */
+const getContentBySlug = asyncHandler(async (req, res) => {
   const content = await Content.findOne({ slug: req.params.slug }).populate(
     "category",
   );
@@ -60,9 +69,11 @@ export const getContentBySlug = asyncHandler(async (req, res) => {
   });
 });
 
-// Full Content Tree (This powers the Manual Reader Page).
-
-export const getFullContent = asyncHandler(async (req, res) => {
+/* =========================
+   Full Content Tree
+   (Powers the Manual Reader Page)
+========================= */
+const getFullContent = asyncHandler(async (req, res) => {
   const content = await Content.findOne({ slug: req.params.slug });
 
   if (!content) {
@@ -100,8 +111,10 @@ export const getFullContent = asyncHandler(async (req, res) => {
   });
 });
 
-// Update Content
-export const updateContent = asyncHandler(async (req, res) => {
+/* =========================
+   Update Content
+========================= */
+const updateContent = asyncHandler(async (req, res) => {
   const content = await Content.findById(req.params.id);
 
   if (!content) {
@@ -122,8 +135,10 @@ export const updateContent = asyncHandler(async (req, res) => {
   });
 });
 
-//Delete content
-export const deleteContent = asyncHandler(async (req, res) => {
+/* =========================
+   Delete Content
+========================= */
+const deleteContent = asyncHandler(async (req, res) => {
   const content = await Content.findById(req.params.id);
 
   if (!content) {
@@ -138,3 +153,12 @@ export const deleteContent = asyncHandler(async (req, res) => {
     message: "Content deleted",
   });
 });
+
+module.exports = {
+  createContent,
+  getContents,
+  getContentBySlug,
+  getFullContent,
+  updateContent,
+  deleteContent,
+};

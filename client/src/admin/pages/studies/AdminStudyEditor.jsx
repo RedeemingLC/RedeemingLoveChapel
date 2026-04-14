@@ -49,6 +49,12 @@ export default function AdminStudyEditor() {
       pauseText: day.pauseText || "Pause & Reflect",
       content: day.content || "",
     });
+
+    // 🔥 SCROLL TO FORM
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const saveEntryContent = async () => {

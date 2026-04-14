@@ -1,9 +1,11 @@
-import Audio from "../models/Audio.js";
+"use strict";
+
+const Audio = require("../models/Audio");
 
 /* =============================
    ADMIN: Create Audio
 ============================= */
-export const createAudio = async (req, res) => {
+const createAudio = async (req, res) => {
   try {
     const audio = await Audio.create(req.body);
     res.status(201).json(audio);
@@ -15,7 +17,7 @@ export const createAudio = async (req, res) => {
 /* =============================
    ADMIN: Get All Audio (Admin View)
 ============================= */
-export const getAllAudioAdmin = async (req, res) => {
+const getAllAudioAdmin = async (req, res) => {
   try {
     const audio = await Audio.find().sort({ createdAt: -1 });
     res.json(audio);
@@ -27,14 +29,11 @@ export const getAllAudioAdmin = async (req, res) => {
 /* =============================
    ADMIN: Update Audio
 ============================= */
-export const updateAudio = async (req, res) => {
+const updateAudio = async (req, res) => {
   try {
-    const audio = await Audio.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-
+    const audio = await Audio.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     res.json(audio);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -44,7 +43,7 @@ export const updateAudio = async (req, res) => {
 /* =============================
    ADMIN: Delete Audio
 ============================= */
-export const deleteAudio = async (req, res) => {
+const deleteAudio = async (req, res) => {
   try {
     await Audio.findByIdAndDelete(req.params.id);
     res.json({ message: "Audio deleted successfully" });
@@ -56,11 +55,21 @@ export const deleteAudio = async (req, res) => {
 /* =============================
    PUBLIC: Get Published Audio
 ============================= */
-export const getPublishedAudio = async (req, res) => {
+const getPublishedAudio = async (req, res) => {
   try {
-    const audio = await Audio.find({ isPublished: true }).sort({ createdAt: -1 });
+    const audio = await Audio.find({ isPublished: true }).sort({
+      createdAt: -1,
+    });
     res.json(audio);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+module.exports = {
+  createAudio,
+  getAllAudioAdmin,
+  updateAudio,
+  deleteAudio,
+  getPublishedAudio,
 };

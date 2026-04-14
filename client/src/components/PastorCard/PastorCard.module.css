@@ -2,14 +2,34 @@
   text-align: center;
 }
 
+.card:hover {
+  transform: translateY(calc(-1 * var(--space-2)));
+  box-shadow: var(--shadow-card);
+}
+
+@media (min-width: 1025px) {
+  .card {
+    transition: var(--transition-standard);
+  }
+
+  .card:hover {
+    transform: translateY(calc(-1 * var(--space-2)));
+  }
+}
+
 .image img {
   width: 100%;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   display: block;
-  margin-bottom: 1.25rem; /* space below image */
+  margin-bottom: var(--space-4); /* space below image */
+}
+
+.content h3 {
+  font-size: var(--text-xl);
 }
 
 .title {
-  opacity: 0.7;
-  margin: 1rem 0 1rem;
+  opacity: 0.8;
+  margin: var(--space-2) 0 var(--space-4);
+  font-size: var(--text-base);
 }
