@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import api from "../../utils/api"; // ✅ FIXED
+import api from "../../utils/api";
 
 import styles from "./Manuals.module.css";
 import Section from "../../components/Section/Section";
 import Container from "../../components/Container/Container";
-import Button from "../../components/Button/Button";
-import ShareButtons from "../../components/ShareButtons/ShareButtons";
 import BlockRenderer from "../../components/BlockRenderer/BlockRenderer";
 import StudyHero from "../../components/StudyHero/StudyHero";
 
@@ -19,11 +17,21 @@ const Manuals = () => {
   const [sections, setSections] = useState([]);
   const [subsections, setSubsections] = useState({});
 
+  // ✅ BASE URL (VERY IMPORTANT)
+  const BASE_URL = import.meta.env.VITE_API_URL?.replace("/api", "");
+
+  const getFileUrl = (path) => {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    return `${BASE_URL}${path}`;
+  };
+
+  // ================= FETCH ALL =================
   const fetchManuals = async () => {
     try {
       setLoading(true);
 
-      const { data } = await api.get("/manuals/published"); // ✅ FIXED
+      const { data } = await api.get("/manuals/published");
 
       setManuals(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -34,9 +42,10 @@ const Manuals = () => {
     }
   };
 
+  // ================= FETCH SECTIONS =================
   const fetchSections = async (manualId) => {
     try {
-      const { data } = await api.get(`/sections/manual/${manualId}`); // ✅ FIXED
+      const { data } = await api.get(`/sections/manual/${manualId}`);
 
       const safeSections = Array.isArray(data?.data) ? data.data : [];
 
@@ -47,12 +56,14 @@ const Manuals = () => {
       });
     } catch (error) {
       console.log("FETCH SECTIONS ERROR:", error);
+      setSections([]);
     }
   };
 
+  // ================= FETCH SUBSECTIONS =================
   const fetchSubsections = async (sectionId) => {
     try {
-      const { data } = await api.get(`/subsections/${sectionId}`); // ✅ FIXED
+      const { data } = await api.get(`/subsections/${sectionId}`);
 
       setSubsections((prev) => ({
         ...prev,
@@ -63,11 +74,12 @@ const Manuals = () => {
     }
   };
 
+  // ================= FETCH SINGLE =================
   const fetchSingleManual = async () => {
     try {
       setLoading(true);
 
-      const { data } = await api.get(`/manuals/slug/${slug}`); // ✅ FIXED
+      const { data } = await api.get(`/manuals/slug/${slug}`);
 
       setSingleManual(data || null);
 
@@ -82,6 +94,7 @@ const Manuals = () => {
     }
   };
 
+  // ================= EFFECT =================
   useEffect(() => {
     if (slug) {
       fetchSingleManual();
@@ -90,11 +103,12 @@ const Manuals = () => {
     }
   }, [slug]);
 
-  // ✅ Prevent crash
+  // ================= SAFETY =================
   if (!Array.isArray(manuals)) {
     return <p>Loading manuals...</p>;
   }
 
+  // ================= UI =================
   return (
     <Section>
       <Container>
@@ -115,7 +129,7 @@ const Manuals = () => {
                     <div className={styles.card}>
                       {manual.coverImage && (
                         <img
-                          src={manual.coverImage} // ✅ FIXED (no localhost)
+                          src={getFileUrl(manual.coverImage)} // ✅ FIXED
                           alt={manual.title}
                           className={styles.cardImage}
                         />
@@ -139,24 +153,30 @@ const Manuals = () => {
                 <StudyHero
                   title={singleManual.title}
                   description={singleManual.description}
-                  image={singleManual.coverImage} // ✅ FIXED
+                  image={getFileUrl(singleManual.coverImage)} // ✅ FIXED
                 />
 
-                {sections.map((section) => (
-                  <section key={section._id}>
-                    <h2>{section.title}</h2>
+                {/* ================= SECTIONS ================= */}
+                {Array.isArray(sections) &&
+                  sections.map((section) => (
+                    <section key={section._id}>
+                      <h2>{section.title}</h2>
 
-                    {subsections[section._id]?.map((lesson) => (
-                      <div key={lesson._id}>
-                        <h3>{lesson.title}</h3>
+                      {(subsections[section._id] || []).map((lesson) => (
+                        <div key={lesson._id}>
+                          <h3>{lesson.title}</h3>
 
-                        {lesson.blocks?.map((block, index) => (
-                          <BlockRenderer key={index} block={block} />
-                        ))}
-                      </div>
-                    ))}
-                  </section>
-                ))}
+                          {/* ✅ SAFE BLOCKS */}
+                          {(Array.isArray(lesson.blocks)
+                            ? lesson.blocks
+                            : []
+                          ).map((block, index) => (
+                            <BlockRenderer key={index} block={block} />
+                          ))}
+                        </div>
+                      ))}
+                    </section>
+                  ))}
               </>
             ) : (
               <p>Manual not found.</p>
