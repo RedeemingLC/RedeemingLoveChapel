@@ -12,16 +12,15 @@ export default function BlogForm({ onSuccess, editingBlog }) {
     isPublished: false,
     category: "",
     excerpt: "",
+    isFeatured: false,
   });
 
-  // const [editorContent, setEditorContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
 
   /* ===============================
      Load Blog When Editing
   =============================== */
-
   useEffect(() => {
     if (editingBlog) {
       setFormData({
@@ -33,7 +32,7 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         seoDescription: editingBlog.seoDescription || "",
         isPublished: editingBlog.isPublished || false,
         category: editingBlog.category?._id || editingBlog.category || "",
-        isFeatured: editingBlog.isFeatured || false, // ✅ ADD THIS
+        isFeatured: editingBlog.isFeatured || false,
       });
     }
   }, [editingBlog]);
@@ -41,14 +40,14 @@ export default function BlogForm({ onSuccess, editingBlog }) {
   /* ===============================
      Fetch Categories
   =============================== */
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await adminApi.get("/api/categories");
-        setCategories(data.data);
+        const { data } = await adminApi.get("/categories"); // ✅ FIXED
+        setCategories(Array.isArray(data?.data) ? data.data : []); // ✅ SAFE
       } catch (error) {
         console.log("CATEGORY FETCH ERROR:", error);
+        setCategories([]); // ✅ Prevent crash
       }
     };
 
@@ -58,7 +57,6 @@ export default function BlogForm({ onSuccess, editingBlog }) {
   /* ===============================
      Handle Input Change
   =============================== */
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -71,17 +69,16 @@ export default function BlogForm({ onSuccess, editingBlog }) {
   /* ===============================
      Image Upload
   =============================== */
-
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-
     if (!file) return;
 
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
 
     try {
-      const { data } = await adminApi.post("/api/upload", formDataUpload, {
+      const { data } = await adminApi.post("/upload", formDataUpload, {
+        // ✅ FIXED
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -100,24 +97,17 @@ export default function BlogForm({ onSuccess, editingBlog }) {
   /* ===============================
      Submit Form
   =============================== */
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
 
-      const payload = {
-        ...formData, // ✅ already contains correct content
-      };
-
       if (editingBlog) {
-        await adminApi.put(`/api/blog/${editingBlog._id}`, payload);
+        await adminApi.put(`/blog/${editingBlog._id}`, formData); // ✅ FIXED
       } else {
-        await adminApi.post("/api/blog", payload);
+        await adminApi.post("/blog", formData); // ✅ FIXED
       }
-
-      /* Reset Form Completely */
 
       setFormData({
         title: "",
@@ -128,9 +118,8 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         isPublished: false,
         category: "",
         excerpt: "",
+        isFeatured: false,
       });
-
-      // setEditorContent("");
 
       if (onSuccess) onSuccess();
     } catch (error) {
@@ -149,7 +138,6 @@ export default function BlogForm({ onSuccess, editingBlog }) {
     <form onSubmit={handleSubmit} className="adminForm">
       <h2>{editingBlog ? "Update Blog" : "Create Blog"}</h2>
 
-      {/* Title */}
       <input
         type="text"
         name="title"
@@ -159,16 +147,14 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         required
       />
 
-      {/* Excerpt */}
       <textarea
         name="excerpt"
-        placeholder="Short excerpt (for preview cards)"
+        placeholder="Short excerpt"
         value={formData.excerpt}
         onChange={handleChange}
         rows="3"
       />
 
-      {/* Category */}
       <select
         name="category"
         value={formData.category || ""}
@@ -181,30 +167,24 @@ export default function BlogForm({ onSuccess, editingBlog }) {
       >
         <option value="">Select Category</option>
 
-        {categories.map((cat) => (
-          <option key={cat._id} value={cat._id}>
-            {cat.name}
-          </option>
-        ))}
+        {Array.isArray(categories) &&
+          categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
       </select>
 
-      {/* Featured */}
       <label className="adminCheckbox">
         <input
           type="checkbox"
           name="isFeatured"
-          checked={formData.isFeatured || false}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              isFeatured: e.target.checked,
-            })
-          }
+          checked={formData.isFeatured}
+          onChange={handleChange}
         />
         Set as Featured Article
       </label>
 
-      {/* Editor */}
       <div>
         <label>Blog Content</label>
         <RichTextEditor
@@ -218,7 +198,6 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         />
       </div>
 
-      {/* Publish */}
       <label className="adminCheckbox">
         <input
           type="checkbox"
@@ -229,25 +208,19 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         Publish immediately
       </label>
 
-      {/* Image Upload */}
       <div>
         <label>Featured Image</label>
         <input type="file" onChange={handleImageUpload} />
 
         {formData.featuredImage && (
           <img
-            src={
-              formData.featuredImage?.startsWith("http")
-                ? formData.featuredImage
-                : `http://localhost:5000${formData.featuredImage}`
-            }
+            src={formData.featuredImage} // ✅ FIXED (no localhost)
             alt="Preview"
             className="adminPreviewImage"
           />
         )}
       </div>
 
-      {/* SEO */}
       <input
         type="text"
         name="seoTitle"
@@ -264,7 +237,6 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         rows="3"
       />
 
-      {/* Submit */}
       <button type="submit" disabled={loading}>
         {loading
           ? editingBlog

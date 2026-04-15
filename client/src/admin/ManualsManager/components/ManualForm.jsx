@@ -15,7 +15,6 @@ export default function ManualForm({ onSuccess, editingManual }) {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
 
-  // Load manual when editing
   useEffect(() => {
     if (editingManual) {
       setTitle(editingManual.title || "");
@@ -30,10 +29,11 @@ export default function ManualForm({ onSuccess, editingManual }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await adminApi.get("/api/categories");
-        setCategories(data.data);
+        const { data } = await adminApi.get("/categories"); // ✅ FIXED
+        setCategories(Array.isArray(data?.data) ? data.data : []); // ✅ SAFE
       } catch (error) {
         console.log("FETCH CATEGORIES ERROR:", error);
+        setCategories([]);
       }
     };
 
@@ -44,10 +44,10 @@ export default function ManualForm({ onSuccess, editingManual }) {
     setTitle("");
     setDescription("");
     setEditorContent("");
-    setPdfFile(null); // 🔥 ADDED
-    setCoverFile(null); // 🔥 ADDED
-    setExistingPdf(""); // 🔥 ADDED
-    setExistingCover(""); // 🔥 ADDED
+    setPdfFile(null);
+    setCoverFile(null);
+    setExistingPdf("");
+    setExistingCover("");
     setCategory("");
   };
 
@@ -56,41 +56,36 @@ export default function ManualForm({ onSuccess, editingManual }) {
     setLoading(true);
 
     try {
-      console.log("🔥 START - Files:", {
-        pdfFile: !!pdfFile,
-        coverFile: !!coverFile,
-      });
-      console.log("🔥 BEFORE - existing:", { existingPdf, existingCover });
-
       let fileUrl = existingPdf;
       let coverImage = existingCover;
 
       // PDF Upload
       if (pdfFile) {
-        console.log("📄 UPLOADING PDF...");
         const pdfData = new FormData();
         pdfData.append("file", pdfFile);
-        const pdfUpload = await adminApi.post("/api/upload/manual", pdfData, {
+
+        const pdfUpload = await adminApi.post("/upload/manual", pdfData, {
+          // ✅ FIXED
           headers: { "Content-Type": "multipart/form-data" },
         });
+
         fileUrl = pdfUpload.data.fileUrl;
-        console.log("✅ PDF URL:", fileUrl);
       }
 
       // Cover Upload
       if (coverFile) {
-        console.log("🖼️ UPLOADING COVER...");
         const coverData = new FormData();
         coverData.append("file", coverFile);
+
         const coverUpload = await adminApi.post(
-          "/api/upload/manual-cover",
+          "/upload/manual-cover", // ✅ FIXED
           coverData,
           {
             headers: { "Content-Type": "multipart/form-data" },
           },
         );
+
         coverImage = coverUpload.data.fileUrl;
-        console.log("✅ COVER URL:", coverImage);
       }
 
       const payload = {
@@ -102,39 +97,19 @@ export default function ManualForm({ onSuccess, editingManual }) {
         category,
       };
 
-      console.log("📤 SENDING PAYLOAD:", payload);
-
-      let result;
       if (editingManual) {
-        result = await adminApi.put(
-          `/api/manuals/${editingManual._id}`,
-          payload,
-        );
+        await adminApi.put(`/manuals/${editingManual._id}`, payload); // ✅ FIXED
       } else {
-        result = await adminApi.post("/api/manuals", payload);
+        await adminApi.post("/manuals", payload); // ✅ FIXED
       }
-
-      console.log("✅ SAVE RESULT:", result.data);
 
       resetForm();
       if (onSuccess) onSuccess();
     } catch (error) {
-      console.error("💥 FULL ERROR:", error?.response?.data || error);
+      console.error("MANUAL SAVE ERROR:", error?.response || error);
     } finally {
       setLoading(false);
     }
-  };
-
-  // 🔥 FIX 4: Add this helper function (add after handleSubmit)
-  const uploadFile = async (file, endpoint) => {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const response = await adminApi.post(endpoint, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    return response.data.fileUrl;
   };
 
   return (
@@ -162,11 +137,12 @@ export default function ManualForm({ onSuccess, editingManual }) {
       >
         <option value="">Select Category</option>
 
-        {categories.map((cat) => (
-          <option key={cat._id} value={cat._id}>
-            {cat.name}
-          </option>
-        ))}
+        {Array.isArray(categories) &&
+          categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
       </select>
 
       <RichTextEditor value={editorContent} onChange={setEditorContent} />

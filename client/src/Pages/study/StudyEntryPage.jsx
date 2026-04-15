@@ -22,15 +22,16 @@ export default function StudyEntryPage() {
     const fetchStudy = async () => {
       try {
         const { data } = await api.get(`/public/studies/${slug}`);
-        setStudy(data);
+        setStudy(data || null);
 
-        const userToken = localStorage.getItem("userToken");
-        if (userToken) {
+        const token = localStorage.getItem("userToken");
+
+        if (token && data?._id) {
           try {
             const progressRes = await api.get(`/progress/${data._id}`);
-            setProgress(progressRes.data);
+            setProgress(progressRes.data || null);
           } catch {
-            // no progress yet — safe to ignore
+            console.log("No progress yet");
           }
         }
       } catch (err) {
@@ -45,15 +46,19 @@ export default function StudyEntryPage() {
   if (error) return <div>{error}</div>;
   if (!study) return <div>Loading study...</div>;
 
+  const safeDays = Array.isArray(study.days) ? study.days : [];
+  const totalDays = safeDays.length;
+
+  const completedCount = Array.isArray(progress?.completedDays)
+    ? progress.completedDays.length
+    : 0;
+
   const lastDay = progress?.lastDayRead;
-  const completedCount = progress?.completedDays?.length || 0;
-  const totalDays = study.days?.length || 0;
   const isCompleted = completedCount >= totalDays && totalDays > 0;
 
   return (
     <Section>
       <Container>
-        {/* HERO */}
         <StudyHero
           title={study.entryTitle || study.title}
           description={study.entrySubtitle || study.description}
@@ -95,7 +100,6 @@ export default function StudyEntryPage() {
           }
         />
 
-        {/* ENTRY CONTENT */}
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
             {study.entryContent ? (
@@ -110,9 +114,8 @@ export default function StudyEntryPage() {
           </div>
         </div>
 
-        {/* PROGRESS INFO */}
         {progress && (
-          <p className={styles.progress}>
+          <p>
             You have completed {completedCount} day
             {completedCount !== 1 && "s"} so far.
           </p>

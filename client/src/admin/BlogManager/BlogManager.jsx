@@ -11,10 +11,13 @@ export default function BlogManager() {
   const fetchBlogs = async () => {
     try {
       setLoading(true);
-      const { data } = await adminApi.get("/api/blog?limit=100");
-      setBlogs(data.data);
+      const { data } = await adminApi.get("/blog?limit=100"); // ✅ FIXED
+
+      // ✅ Safe assignment
+      setBlogs(Array.isArray(data?.data) ? data.data : []);
     } catch (error) {
       console.log("FETCH BLOG ERROR:", error?.response || error);
+      setBlogs([]); // ✅ Prevent crash
     } finally {
       setLoading(false);
     }
@@ -28,7 +31,7 @@ export default function BlogManager() {
     if (!window.confirm("Delete this blog post?")) return;
 
     try {
-      await adminApi.delete(`/api/blog/${id}`);
+      await adminApi.delete(`/blog/${id}`); // ✅ FIXED
       fetchBlogs();
     } catch (error) {
       console.log(error);
@@ -38,7 +41,8 @@ export default function BlogManager() {
 
   const handleTogglePublish = async (blog) => {
     try {
-      await adminApi.put(`/api/blog/${blog._id}`, {
+      await adminApi.put(`/blog/${blog._id}`, {
+        // ✅ FIXED
         isPublished: !blog.isPublished,
       });
       fetchBlogs();

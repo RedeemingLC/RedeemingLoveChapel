@@ -12,9 +12,15 @@ function SubsectionManager() {
   const [editingSubsection, setEditingSubsection] = useState(null);
 
   const fetchSubsections = async () => {
-    const res = await adminApi.get(`/api/subsections/${sectionId}`);
+    try {
+      const res = await adminApi.get(`/subsections/${sectionId}`); // ✅ FIXED
 
-    setSubsections(res.data.data);
+      // ✅ SAFE
+      setSubsections(Array.isArray(res.data?.data) ? res.data.data : []);
+    } catch (error) {
+      console.log("FETCH SUBSECTIONS ERROR:", error);
+      setSubsections([]); // ✅ prevent crash
+    }
   };
 
   useEffect(() => {
@@ -40,7 +46,9 @@ function SubsectionManager() {
       <div className="adminSection">
         <h2>All Lessons</h2>
 
-        {subsections.length === 0 ? (
+        {!Array.isArray(subsections) ? (
+          <p>Loading lessons...</p>
+        ) : subsections.length === 0 ? (
           <p>No lessons created yet.</p>
         ) : (
           <SubsectionList

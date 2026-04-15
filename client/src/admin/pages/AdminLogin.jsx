@@ -17,14 +17,15 @@ export default function AdminLogin() {
 
     try {
       setLoading(true);
-      const response = await adminApi.post("/api/auth/login", {
+
+      const response = await adminApi.post("/auth/login", {
+        // ✅ FIXED
         email,
         password,
       });
 
       const adminData = response.data.data;
 
-      // Optional safety check
       if (adminData.role !== "admin") {
         throw new Error("Access denied. Not an admin account.");
       }

@@ -11,10 +11,14 @@ export default function ManualsManager() {
   const fetchManuals = async () => {
     try {
       setLoading(true);
-      const { data } = await adminApi.get("/api/manuals/admin");
-      setManuals(data);
+
+      const { data } = await adminApi.get("/manuals/admin"); // ✅ FIXED
+
+      // ✅ Safe assignment
+      setManuals(Array.isArray(data) ? data : []);
     } catch (error) {
       console.log("FETCH MANUALS ERROR:", error?.response || error);
+      setManuals([]); // ✅ Prevent crash
     } finally {
       setLoading(false);
     }
@@ -28,7 +32,7 @@ export default function ManualsManager() {
     if (!window.confirm("Delete this manual?")) return;
 
     try {
-      await adminApi.delete(`/api/manuals/${id}`);
+      await adminApi.delete(`/manuals/${id}`); // ✅ FIXED
       fetchManuals();
     } catch (error) {
       console.log(error);
@@ -38,16 +42,14 @@ export default function ManualsManager() {
 
   const handleTogglePublish = async (manual) => {
     try {
-      const res = await adminApi.put(`/api/manuals/${manual._id}`, {
+      await adminApi.put(`/manuals/${manual._id}`, {
+        // ✅ FIXED
         isPublished: !manual.isPublished,
       });
-
-      console.log("Publish update response:", res.data);
 
       fetchManuals();
     } catch (error) {
       console.error("PUBLISH ERROR:", error.response?.data || error.message);
-
       alert("Failed to update publish status");
     }
   };

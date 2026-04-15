@@ -19,27 +19,33 @@ export default function StudyOverview() {
     const fetchOverview = async () => {
       try {
         const { data } = await api.get(`/public/studies/${slug}/overview`);
-        setDays(data.days);
-        setStudy(data);
+
+        setDays(Array.isArray(data?.days) ? data.days : []); // ✅ SAFE
+        setStudy(data || null);
 
         const userToken = localStorage.getItem("userToken");
-        if (userToken) {
+
+        if (userToken && data?.studyId) {
           try {
             const progressRes = await api.get(`/progress/${data.studyId}`);
-            setProgress(progressRes.data);
+            setProgress(progressRes.data || null);
           } catch {
-            // no progress yet — ignore
+            console.log("No progress yet");
           }
         }
       } catch (err) {
         console.error("Failed to load overview", err);
+        setDays([]); // ✅ prevent crash
       }
     };
 
     fetchOverview();
   }, [slug]);
 
-  const completed = progress?.completedDays || [];
+  const completed = Array.isArray(progress?.completedDays)
+    ? progress.completedDays
+    : [];
+
   const maxCompleted = completed.length ? Math.max(...completed) : 0;
 
   return (
@@ -81,41 +87,45 @@ export default function StudyOverview() {
           <div className={styles.days}>
             <h2 className={styles.sectionTitle}>Study Days</h2>
 
-            {days.map((day) => {
-              const isCompleted = completed.includes(day.dayNumber);
-              const isUnlocked = day.dayNumber <= maxCompleted + 1;
+            {days.length === 0 ? (
+              <p>No study days available.</p>
+            ) : (
+              days.map((day) => {
+                const isCompleted = completed.includes(day.dayNumber);
+                const isUnlocked = day.dayNumber <= maxCompleted + 1;
 
-              return (
-                <div
-                  key={day.dayNumber}
-                  className={`${styles.dayCard} ${
-                    !isUnlocked ? styles.locked : ""
-                  }`}
-                >
-                  <div>
-                    <p className={styles.dayTitle}>Day {day.dayNumber}</p>
-                    <h3>{day.title}</h3>
-                  </div>
+                return (
+                  <div
+                    key={day.dayNumber}
+                    className={`${styles.dayCard} ${
+                      !isUnlocked ? styles.locked : ""
+                    }`}
+                  >
+                    <div>
+                      <p className={styles.dayTitle}>Day {day.dayNumber}</p>
+                      <h3>{day.title}</h3>
+                    </div>
 
-                  <div>
-                    {isCompleted ? (
-                      <span className={styles.completed}>Completed</span>
-                    ) : isUnlocked ? (
-                      <Button
-                        size="sm"
-                        onClick={() =>
-                          navigate(`/study/${slug}/day/${day.dayNumber}`)
-                        }
-                      >
-                        Start
-                      </Button>
-                    ) : (
-                      <span className={styles.lockedText}>🔒 Locked</span>
-                    )}
+                    <div>
+                      {isCompleted ? (
+                        <span className={styles.completed}>Completed</span>
+                      ) : isUnlocked ? (
+                        <Button
+                          size="sm"
+                          onClick={() =>
+                            navigate(`/study/${slug}/day/${day.dayNumber}`)
+                          }
+                        >
+                          Start
+                        </Button>
+                      ) : (
+                        <span className={styles.lockedText}>🔒 Locked</span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
       </Container>

@@ -5,7 +5,6 @@ function isTokenValid(token) {
   try {
     const decoded = jwtDecode(token);
 
-    // JWT exp is in seconds
     if (!decoded.exp) return false;
 
     const now = Date.now() / 1000;
@@ -18,12 +17,12 @@ function isTokenValid(token) {
 export default function AdminProtectedRoute() {
   const token = localStorage.getItem("adminToken");
 
-  // no token
-  if (!token || token === "undefined") {
+  // ✅ Handle all invalid token cases
+  if (!token || token === "undefined" || token === "null") {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // invalid or expired token
+  // ✅ Expired or invalid token
   if (!isTokenValid(token)) {
     localStorage.removeItem("adminToken");
     return <Navigate to="/admin/login" replace />;

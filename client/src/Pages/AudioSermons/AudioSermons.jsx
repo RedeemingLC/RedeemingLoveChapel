@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../utils/api"; // ✅ USE YOUR CONFIGURED API
 
 import Section from "../../components/Section/Section";
 import Container from "../../components/Container/Container";
@@ -15,15 +15,19 @@ const AudioSermons = () => {
   const fetchAudio = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/audio");
-      setAudioList(data);
 
-      // Pick first audio as featured (simple and safe)
-      if (data.length > 0) {
-        setFeaturedAudio(data[0]);
+      const { data } = await api.get("/audio"); // ✅ FIXED
+
+      const safeData = Array.isArray(data) ? data : [];
+
+      setAudioList(safeData);
+
+      if (safeData.length > 0) {
+        setFeaturedAudio(safeData[0]);
       }
     } catch (error) {
       console.log("FETCH PUBLIC AUDIO ERROR:", error);
+      setAudioList([]); // ✅ prevent crash
     } finally {
       setLoading(false);
     }
@@ -41,12 +45,18 @@ const AudioSermons = () => {
     )}&color=%23ff5500&auto_play=false`;
   };
 
+  // ✅ Prevent crash
+  if (!Array.isArray(audioList)) {
+    return <p className={styles.message}>Loading sermons...</p>;
+  }
+
   return (
     <Section>
       <Container>
         {featuredAudio && (
           <div className={styles.featured}>
             <p className={styles.featuredLabel}>Featured Sermon</p>
+
             <div className={styles.featuredContent}>
               <h2 className={styles.featuredTitle}>{featuredAudio.title}</h2>
 
@@ -72,10 +82,7 @@ const AudioSermons = () => {
                 allow="autoplay"
                 src={getEmbedUrl(featuredAudio.audioUrl)}
                 title={featuredAudio.title}
-                style={{
-                  borderRadius: "10px",
-                  marginTop: "10px",
-                }}
+                style={{ borderRadius: "10px", marginTop: "10px" }}
               />
             </div>
           </div>
@@ -90,10 +97,7 @@ const AudioSermons = () => {
             {audioList
               .filter((audio) => audio._id !== featuredAudio?._id)
               .map((audio) => (
-                <Card
-                  key={audio._id}
-                  onClick={() => console.log("Clicked:", audio)}
-                >
+                <Card key={audio._id}>
                   <div className={styles.cardContent}>
                     <h3 className={styles.sermonTitle}>{audio.title}</h3>
 

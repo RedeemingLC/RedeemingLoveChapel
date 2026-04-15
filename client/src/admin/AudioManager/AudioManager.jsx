@@ -11,10 +11,11 @@ export default function AudioManager() {
   const fetchAudio = async () => {
     try {
       setLoading(true);
-      const { data } = await adminApi.get("/api/audio/admin");
-      setAudioList(data);
+      const { data } = await adminApi.get("/audio/admin"); // ✅ FIXED
+      setAudioList(Array.isArray(data) ? data : []); // ✅ SAFE
     } catch (error) {
       console.log("FETCH AUDIO ERROR:", error?.response || error);
+      setAudioList([]); // ✅ Prevent crash
     } finally {
       setLoading(false);
     }
@@ -29,7 +30,7 @@ export default function AudioManager() {
     if (!confirmDelete) return;
 
     try {
-      await adminApi.delete(`/api/audio/${id}`);
+      await adminApi.delete(`/audio/${id}`); // ✅ FIXED
       setAudioList((prev) => prev.filter((a) => a._id !== id));
     } catch (error) {
       console.log(error);
@@ -39,7 +40,8 @@ export default function AudioManager() {
 
   const handleTogglePublish = async (audio) => {
     try {
-      const { data } = await adminApi.put(`/api/audio/${audio._id}`, {
+      const { data } = await adminApi.put(`/audio/${audio._id}`, {
+        // ✅ FIXED
         isPublished: !audio.isPublished,
       });
 

@@ -12,14 +12,20 @@ function SectionManager() {
   const [editingSection, setEditingSection] = useState(null);
 
   const fetchSections = async () => {
-    const res = await adminApi.get(`/api/sections/manual/${manualId}`);
+    try {
+      const res = await adminApi.get(`/sections/manual/${manualId}`);
 
-    setSections(res.data.data);
+      // ✅ SAFE handling
+      setSections(Array.isArray(res.data?.data) ? res.data.data : []);
+    } catch (error) {
+      console.log("FETCH SECTIONS ERROR:", error);
+      setSections([]); // ✅ prevent crash
+    }
   };
 
   useEffect(() => {
-  fetchSections();
-}, [manualId]);
+    fetchSections();
+  }, [manualId]);
 
   return (
     <>
@@ -40,7 +46,9 @@ function SectionManager() {
       <div className="adminSection">
         <h2>All Sections</h2>
 
-        {sections.length === 0 ? (
+        {!Array.isArray(sections) ? (
+          <p>Loading sections...</p>
+        ) : sections.length === 0 ? (
           <p>No sections created yet.</p>
         ) : (
           <SectionList

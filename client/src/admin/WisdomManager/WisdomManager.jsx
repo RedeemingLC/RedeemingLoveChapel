@@ -12,51 +12,59 @@ export default function WisdomManager() {
     try {
       setLoading(true);
 
-      const res = await api.get("/wisdom/admin/wisdom", {
-        headers: {
-          "Cache-Control": "no-cache",
-        },
-      });
+      const res = await api.get("/wisdom/admin/wisdom");
 
-      setWisdomList(res.data);
+      // ✅ SAFE
+      setWisdomList(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.error("FETCH ERROR:", error.response || error);
+      console.error("FETCH ERROR:", error);
+      setWisdomList([]);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchWisdom();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.text.trim()) return;
 
-    if (editingId) {
-      await api.put(`/wisdom/admin/wisdom/${editingId}`, form);
-    } else {
-      await api.post("/wisdom/admin/wisdom", form);
-    }
+    try {
+      if (editingId) {
+        await api.put(`/wisdom/admin/wisdom/${editingId}`, form);
+      } else {
+        await api.post("/wisdom/admin/wisdom", form);
+      }
 
-    setForm({ text: "", author: "" });
-    setEditingId(null);
-    fetchWisdom();
+      setForm({ text: "", author: "" });
+      setEditingId(null);
+      fetchWisdom();
+    } catch (error) {
+      console.log("SAVE ERROR:", error);
+      alert("Failed to save wisdom");
+    }
   };
 
   const handleEdit = (item) => {
     setForm({ text: item.text, author: item.author });
     setEditingId(item._id);
 
-    // 🔥 Scroll to top
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Delete this wisdom?")) return;
-    await api.delete(`/wisdom/admin/wisdom/${id}`);
-    fetchWisdom();
+    if (!window.confirm("Delete this wisdom?")) return;
+
+    try {
+      await api.delete(`/wisdom/admin/wisdom/${id}`);
+      fetchWisdom();
+    } catch (error) {
+      alert("Delete failed");
+    }
   };
 
   const handleActivate = async (id) => {
@@ -69,6 +77,11 @@ export default function WisdomManager() {
     fetchWisdom();
   };
 
+  // ✅ Prevent crash
+  if (!Array.isArray(wisdomList)) {
+    return <p>Loading wisdom...</p>;
+  }
+
   return (
     <>
       <div className="adminHeader">
@@ -76,7 +89,6 @@ export default function WisdomManager() {
         <p>Create and manage inspirational messages</p>
       </div>
 
-      {/* FORM */}
       <div className="adminSection">
         <form onSubmit={handleSubmit} className="adminForm">
           <h3>{editingId ? "Update Wisdom" : "Add Wisdom"}</h3>
@@ -96,7 +108,6 @@ export default function WisdomManager() {
         </form>
       </div>
 
-      {/* LIST */}
       <div className="adminSection">
         <h2>All Wisdom</h2>
 

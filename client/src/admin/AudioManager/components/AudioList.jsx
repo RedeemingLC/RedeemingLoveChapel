@@ -8,6 +8,16 @@ export default function AudioList({
   onTogglePublish,
   onEdit,
 }) {
+  // ✅ Prevent crash if data is not ready
+  if (!Array.isArray(audioList)) {
+    return <p>Loading audio...</p>;
+  }
+
+  // ✅ Optional: handle empty list
+  if (audioList.length === 0) {
+    return <p>No audio available.</p>;
+  }
+
   return (
     <div className={styles.list}>
       {audioList.map((audio) => (

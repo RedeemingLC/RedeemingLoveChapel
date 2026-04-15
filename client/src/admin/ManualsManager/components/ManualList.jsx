@@ -11,6 +11,15 @@ export default function ManualList({
 }) {
   const navigate = useNavigate();
 
+  // ✅ Prevent crash
+  if (!Array.isArray(manuals)) {
+    return <p>Loading manuals...</p>;
+  }
+
+  if (manuals.length === 0) {
+    return <p>No manuals available.</p>;
+  }
+
   return (
     <div className={styles.list}>
       {manuals.map((manual) => (
@@ -18,7 +27,7 @@ export default function ManualList({
           <div className={styles.row}>
             {manual.coverImage && (
               <img
-                src={`http://localhost:5000${manual.coverImage}`}
+                src={manual.coverImage} // ✅ FIXED
                 alt={manual.title}
                 className={styles.image}
               />

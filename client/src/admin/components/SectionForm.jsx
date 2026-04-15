@@ -20,24 +20,30 @@ function SectionForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editingSection) {
-      await adminApi.put(`/api/sections/${editingSection._id}`, {
-        title,
-        order,
-      });
-    } else {
-      await adminApi.post("/api/sections", {
-        manualId,
-        title,
-        order,
-      });
+    try {
+      if (editingSection) {
+        await adminApi.put(`/sections/${editingSection._id}`, {
+          // ✅ FIXED
+          title,
+          order,
+        });
+      } else {
+        await adminApi.post("/sections", {
+          // ✅ FIXED
+          manualId,
+          title,
+          order,
+        });
+      }
+
+      setTitle("");
+      setOrder(0);
+      setEditingSection(null);
+      fetchSections();
+    } catch (error) {
+      console.log("SECTION SAVE ERROR:", error);
+      alert("Failed to save section");
     }
-
-    setTitle("");
-    setOrder(0);
-    setEditingSection(null);
-
-    fetchSections();
   };
 
   return (

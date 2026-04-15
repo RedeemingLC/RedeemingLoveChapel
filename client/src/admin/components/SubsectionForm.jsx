@@ -15,9 +15,7 @@ function SubsectionForm({
   useEffect(() => {
     if (editingSubsection) {
       setTitle(editingSubsection.title);
-
       setBlocks(editingSubsection.blocks || []);
-
       setOrder(editingSubsection.order || 0);
     }
   }, [editingSubsection]);
@@ -25,29 +23,36 @@ function SubsectionForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editingSubsection) {
-      await adminApi.put(`/api/subsections/${editingSubsection._id}`, {
-        title,
-        blocks,
-        order,
-      });
-    } else {
-      await adminApi.post("/api/subsections", {
-        sectionId,
-        title,
-        blocks,
-        order,
-      });
+    try {
+      if (editingSubsection) {
+        await adminApi.put(`/subsections/${editingSubsection._id}`, {
+          // ✅ FIXED
+          title,
+          blocks,
+          order,
+        });
+      } else {
+        await adminApi.post("/subsections", {
+          // ✅ FIXED
+          sectionId,
+          title,
+          blocks,
+          order,
+        });
+      }
+
+      setTitle("");
+      setBlocks([{ type: "paragraph", value: "" }]);
+      setOrder(0);
+      setEditingSubsection(null);
+
+      fetchSubsections();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      console.log("SUBSECTION SAVE ERROR:", error);
+      alert("Failed to save lesson");
     }
-
-    setTitle("");
-    setBlocks([{ type: "paragraph", value: "" }]);
-    setOrder(0);
-    setEditingSubsection(null);
-
-    fetchSubsections();
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (

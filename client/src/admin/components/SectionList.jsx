@@ -10,9 +10,24 @@ function SectionList({ sections, setEditingSection, fetchSections }) {
   const deleteSection = async (id) => {
     if (!window.confirm("Delete this section?")) return;
 
-    await adminApi.delete(`/api/sections/${id}`);
-    fetchSections();
+    try {
+      await adminApi.delete(`/sections/${id}`); // ✅ FIXED
+      fetchSections();
+    } catch (error) {
+      console.log("DELETE SECTION ERROR:", error);
+      alert("Failed to delete section");
+    }
   };
+
+  // ✅ Prevent crash
+  if (!Array.isArray(sections)) {
+    return <p>Loading sections...</p>;
+  }
+
+  // ✅ Empty state
+  if (sections.length === 0) {
+    return <p>No sections available.</p>;
+  }
 
   return (
     <div className={styles.list}>

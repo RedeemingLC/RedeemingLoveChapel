@@ -24,42 +24,38 @@ export default function StudyDayReader() {
   const dayNum = Number(dayNumber);
 
   useEffect(() => {
-    const fetchDayAndProgress = async () => {
+    const fetchData = async () => {
       try {
-        // 🔥 Fetch day
         const { data } = await api.get(
           `/public/studies/${slug}/day/${dayNumber}`,
         );
+        setDay(data || null);
 
-        setDay(data);
-
-        // 🔥 Fetch overview (for studyId)
         const overviewRes = await api.get(`/public/studies/${slug}/overview`);
 
-        const studyId = overviewRes.data.studyId;
+        const studyId = overviewRes.data?.studyId;
         setStudyId(studyId);
-
-        // ✅ FIX: store total days correctly
-        setTotalDays(overviewRes.data.totalDays || 1);
+        setTotalDays(overviewRes.data?.totalDays || 1);
 
         let maxCompleted = 0;
         const token = localStorage.getItem("userToken");
 
-        if (token) {
+        if (token && studyId) {
           try {
             const progressRes = await api.get(`/progress/${studyId}`);
-            const progressData = progressRes.data;
-
+            const progressData = progressRes.data || {};
             setProgress(progressData);
 
-            const completed = progressData.completedDays || [];
+            const completed = Array.isArray(progressData.completedDays)
+              ? progressData.completedDays
+              : [];
+
             maxCompleted = completed.length ? Math.max(...completed) : 0;
           } catch {
             console.log("Progress fetch failed");
           }
         }
 
-        // 🔒 Lock future days
         if (dayNum > maxCompleted + 1) {
           navigate(`/study/${slug}/day/${maxCompleted + 1}`, {
             replace: true,
@@ -67,13 +63,12 @@ export default function StudyDayReader() {
           return;
         }
 
-        // 📝 Fetch notes (ONLY if studyId exists)
-        if (token && studyId) {
+        if (token && studyId && data?.dayNumber) {
           try {
             const noteRes = await api.get(
               `/notes/${studyId}/day/${data.dayNumber}`,
             );
-            setNote(noteRes.data.content || "");
+            setNote(noteRes.data?.content || "");
           } catch {
             console.log("Note fetch failed");
           }
@@ -88,15 +83,19 @@ export default function StudyDayReader() {
       }
     };
 
-    fetchDayAndProgress();
+    fetchData();
   }, [slug, dayNumber, navigate]);
 
   if (error) return <div>{error}</div>;
   if (!day) return <div>Loading day...</div>;
 
-  const isCompleted = progress?.completedDays?.includes(dayNum);
+  const blocks = Array.isArray(day.blocks) ? day.blocks : [];
 
-  const completedDays = progress?.completedDays || [];
+  const completedDays = Array.isArray(progress?.completedDays)
+    ? progress.completedDays
+    : [];
+
+  const isCompleted = completedDays.includes(dayNum);
 
   const currentProgress = completedDays.length ? Math.max(...completedDays) : 0;
 
@@ -118,7 +117,6 @@ export default function StudyDayReader() {
     try {
       await api.post(`/progress/${studyId}/day/${day.dayNumber}`);
 
-      // ✅ Update UI immediately (no stale state)
       setProgress((prev) => ({
         ...prev,
         completedDays: [...(prev?.completedDays || []), dayNum],
@@ -147,31 +145,26 @@ export default function StudyDayReader() {
     <Section>
       <Container>
         <div className={styles.reader}>
-          {/* Progress Bar */}
           {progress && (
             <div className={styles.progressWrapper}>
-              <p className={styles.progressText}>
+              <p>
                 Day {dayNum} of {totalDays}
               </p>
 
               <div className={styles.progressBar}>
                 <div
                   className={styles.progressFill}
-                  style={{
-                    width: `${progressPercent}%`,
-                  }}
+                  style={{ width: `${progressPercent}%` }}
                 />
               </div>
             </div>
           )}
 
-          {/* Title */}
-          <h1 className={`gradientText ${styles.title}`}>{day.title}</h1>
+          <h1>{day.title}</h1>
 
-          {/* Content */}
-          <div className={styles.content}>
-            {day.blocks && day.blocks.length > 0 ? (
-              <StudyBlocksRenderer blocks={day.blocks} />
+          <div>
+            {blocks.length > 0 ? (
+              <StudyBlocksRenderer blocks={blocks} />
             ) : day.content ? (
               <div
                 dangerouslySetInnerHTML={{
@@ -179,86 +172,26 @@ export default function StudyDayReader() {
                 }}
               />
             ) : (
-              <p>No content available for this day.</p>
+              <p>No content available.</p>
             )}
           </div>
 
-          {/* Pause Divider */}
-          {day.hasPauseDivider && (
-            <div className={styles.pause}>
-              <strong>{day.pauseText}</strong>
-            </div>
-          )}
-
-          {/* Reflection Prompt */}
-          {day.reflectionPrompt && (
-            <p className={styles.reflectionPrompt}>{day.reflectionPrompt}</p>
-          )}
-
-          <hr className={styles.divider} />
-
-          {/* Notes */}
           {progress && (
-            <div className={styles.notesSection}>
-              <h3>Your Reflection Notes</h3>
-
+            <>
               <textarea
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                rows="5"
-                className={styles.textarea}
-                placeholder="Write what God is teaching you today..."
               />
 
-              <Button onClick={saveNote} disabled={saving}>
+              <Button onClick={saveNote}>
                 {saving ? "Saving..." : "Save Note"}
               </Button>
-            </div>
-          )}
 
-          {/* Complete Button */}
-          {progress && (
-            <div className={styles.completeSection}>
               <Button onClick={handleComplete}>
                 {isCompleted ? "Completed ✓" : "Mark as Complete"}
               </Button>
-            </div>
+            </>
           )}
-
-          {/* Navigation */}
-          <div className={styles.navButtons}>
-            {dayNum > 1 ? (
-              <Button
-                variant="outline"
-                onClick={() => navigate(`/study/${slug}/day/${dayNum - 1}`)}
-              >
-                ← Previous Day
-              </Button>
-            ) : (
-              <div />
-            )}
-
-            <Button
-              onClick={() => {
-                const token = localStorage.getItem("userToken");
-
-                if (!token) {
-                  navigate("/login", {
-                    state: {
-                      message: "Please log in to continue this study.",
-                      from: `/study/${slug}/day/${dayNum}`,
-                    },
-                  });
-                  return;
-                }
-
-                navigate(`/study/${slug}/day/${dayNum + 1}`);
-              }}
-              disabled={!isCompleted && !!progress}
-            >
-              Next Day →
-            </Button>
-          </div>
         </div>
       </Container>
     </Section>

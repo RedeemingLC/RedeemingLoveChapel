@@ -42,9 +42,9 @@ export default function AudioForm({ onSuccess, editingAudio }) {
       };
 
       if (editingAudio) {
-        await adminApi.put(`/api/audio/${editingAudio._id}`, payload);
+        await adminApi.put(`/audio/${editingAudio._id}`, payload); // ✅ FIXED
       } else {
-        await adminApi.post("/api/audio", payload);
+        await adminApi.post("/audio", payload); // ✅ FIXED
       }
 
       resetForm();

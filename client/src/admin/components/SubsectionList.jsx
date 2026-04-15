@@ -11,9 +11,24 @@ function SubsectionList({
   const deleteSubsection = async (id) => {
     if (!window.confirm("Delete this lesson?")) return;
 
-    await adminApi.delete(`/api/subsections/${id}`);
-    fetchSubsections();
+    try {
+      await adminApi.delete(`/subsections/${id}`); // ✅ FIXED
+      fetchSubsections();
+    } catch (error) {
+      console.log("DELETE SUBSECTION ERROR:", error);
+      alert("Failed to delete lesson");
+    }
   };
+
+  // ✅ Prevent crash
+  if (!Array.isArray(subsections)) {
+    return <p>Loading lessons...</p>;
+  }
+
+  // ✅ Empty state
+  if (subsections.length === 0) {
+    return <p>No lessons available.</p>;
+  }
 
   return (
     <div className={styles.list}>

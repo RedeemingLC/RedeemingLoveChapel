@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL, // ✅ FORCE production URL
 });
 
-// ✅ ADD THIS
+// Request interceptor
 api.interceptors.request.use((config) => {
   const adminToken = localStorage.getItem("adminToken");
   const userToken = localStorage.getItem("userToken");
@@ -18,7 +18,7 @@ api.interceptors.request.use((config) => {
     }
   }
 
-  // User APIs (progress + notes)
+  // User APIs
   if (url.includes("/progress") || url.includes("/notes")) {
     if (userToken) {
       config.headers.Authorization = `Bearer ${userToken}`;
@@ -28,12 +28,13 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Existing 401 handler
+// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error?.response?.status === 401) {
       localStorage.removeItem("adminToken");
+
       if (window.location.pathname.startsWith("/admin")) {
         window.location.href = "/admin/login";
       }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import adminApi from "../../services/adminApi";
 import StatCard from "../../components/StatCard/StatCard";
 
 export default function AdminOverview() {
@@ -14,17 +14,22 @@ export default function AdminOverview() {
     try {
       const [manualsRes, categoriesRes, sermonsRes, blogRes] =
         await Promise.all([
-          axios.get("/api/manuals/published"),
-          axios.get("/api/categories"),
-          axios.get("/api/audio"),
-          axios.get("/api/blog"),
+          adminApi.get("/manuals/published"), // ✅ FIXED
+          adminApi.get("/categories"), // ✅ FIXED
+          adminApi.get("/audio"), // ✅ FIXED
+          adminApi.get("/blog"), // ✅ FIXED
         ]);
 
       setStats({
-        manuals: manualsRes.data.length || 0,
-        categories: categoriesRes.data?.data?.length || 0,
-        sermons: sermonsRes.data.length || 0,
-        blog: blogRes.data?.data?.length || 0,
+        manuals: Array.isArray(manualsRes.data) ? manualsRes.data.length : 0,
+
+        categories: Array.isArray(categoriesRes.data?.data)
+          ? categoriesRes.data.data.length
+          : 0,
+
+        sermons: Array.isArray(sermonsRes.data) ? sermonsRes.data.length : 0,
+
+        blog: Array.isArray(blogRes.data?.data) ? blogRes.data.data.length : 0,
       });
     } catch (error) {
       console.log("STATS ERROR:", error);

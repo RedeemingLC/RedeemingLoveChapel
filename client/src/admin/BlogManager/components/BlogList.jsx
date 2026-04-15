@@ -3,6 +3,16 @@ import Button from "../../../components/Button/Button";
 import styles from "./BlogList.module.css";
 
 export default function BlogList({ blogs, onDelete, onTogglePublish, onEdit }) {
+  // ✅ Prevent crash
+  if (!Array.isArray(blogs)) {
+    return <p>Loading blogs...</p>;
+  }
+
+  // ✅ Handle empty list
+  if (blogs.length === 0) {
+    return <p>No blogs available.</p>;
+  }
+
   return (
     <div className={styles.list}>
       {blogs.map((blog) => (
@@ -12,11 +22,7 @@ export default function BlogList({ blogs, onDelete, onTogglePublish, onEdit }) {
 
             {blog.featuredImage && (
               <img
-                src={
-                  blog.featuredImage?.startsWith("http")
-                    ? blog.featuredImage
-                    : `http://localhost:5000${blog.featuredImage}`
-                }
+                src={blog.featuredImage} // ✅ FIXED (no localhost)
                 alt={blog.title}
                 className={styles.image}
               />
@@ -31,7 +37,9 @@ export default function BlogList({ blogs, onDelete, onTogglePublish, onEdit }) {
             </p>
 
             <p className={styles.meta}>
-              {blog.createdAt ? new Date(blog.createdAt).toLocaleString() : "—"}
+              {blog.createdAt
+                ? new Date(blog.createdAt).toLocaleString()
+                : "—"}
             </p>
           </div>
 
