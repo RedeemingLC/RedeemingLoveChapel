@@ -22,14 +22,16 @@ export default function StudyEntryPage() {
     const fetchStudy = async () => {
       try {
         const { data } = await api.get(`/public/studies/${slug}`);
-        setStudy(data || null);
 
-        const token = localStorage.getItem("userToken");
+        setStudy(data || null); // ✅ SAFE
 
-        if (token && data?._id) {
+        const userToken = localStorage.getItem("userToken");
+
+        if (userToken && data?._id) {
           try {
             const progressRes = await api.get(`/progress/${data._id}`);
-            setProgress(progressRes.data || null);
+
+            setProgress(progressRes.data || null); // ✅ SAFE
           } catch {
             console.log("No progress yet");
           }
@@ -46,6 +48,7 @@ export default function StudyEntryPage() {
   if (error) return <div>{error}</div>;
   if (!study) return <div>Loading study...</div>;
 
+  // ✅ SAFE calculations
   const safeDays = Array.isArray(study.days) ? study.days : [];
   const totalDays = safeDays.length;
 
@@ -59,6 +62,7 @@ export default function StudyEntryPage() {
   return (
     <Section>
       <Container>
+        {/* HERO */}
         <StudyHero
           title={study.entryTitle || study.title}
           description={study.entrySubtitle || study.description}
@@ -100,6 +104,7 @@ export default function StudyEntryPage() {
           }
         />
 
+        {/* ENTRY CONTENT */}
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
             {study.entryContent ? (
@@ -114,8 +119,9 @@ export default function StudyEntryPage() {
           </div>
         </div>
 
+        {/* PROGRESS INFO */}
         {progress && (
-          <p>
+          <p className={styles.progress}>
             You have completed {completedCount} day
             {completedCount !== 1 && "s"} so far.
           </p>

@@ -41,7 +41,7 @@ const StartHomeChurch = () => {
               </p>
 
               <a
-                href="https://t.me/yourTelegramGroup"
+                href="https://t.me/+3Vp_z412vj8yNDE0"
                 target="_blank"
                 rel="noopener noreferrer"
               >

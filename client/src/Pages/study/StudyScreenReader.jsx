@@ -14,7 +14,8 @@ export default function StudyScreenReader() {
     const load = async () => {
       try {
         const res = await api.get(`/study/${slug}/screen/${screenId}`);
-        setData(res.data || null);
+
+        setData(res.data || null); // ✅ SAFE
       } catch (err) {
         console.error("SCREEN LOAD ERROR:", err);
         setError("Failed to load screen.");
@@ -31,6 +32,7 @@ export default function StudyScreenReader() {
       });
 
       const next = res.data?.next;
+
       if (!next) return;
 
       if (next.type === "day") {
@@ -46,8 +48,11 @@ export default function StudyScreenReader() {
   if (error) return <div style={{ padding: 24 }}>{error}</div>;
   if (!data) return <div style={{ padding: 24 }}>Loading...</div>;
 
+  // ✅ SAFE destructuring
   const study = data?.study || {};
   const screen = data?.screen || {};
+
+  // ✅ SAFE blocks
   const blocks = Array.isArray(screen.blocks) ? screen.blocks : [];
 
   return (

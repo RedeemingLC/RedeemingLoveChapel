@@ -6,8 +6,8 @@ import styles from "./AdminLogin.module.css";
 export default function AdminLogin() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("dizendatbusinesservices@gmail.com");
-  const [password, setPassword] = useState("123456789");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../../utils/api"; // ✅ USE YOUR CONFIGURED API
+import api from "../../utils/api"; // ✅ FIXED
 
 import Section from "../../components/Section/Section";
 import Container from "../../components/Container/Container";
@@ -22,6 +22,7 @@ const AudioSermons = () => {
 
       setAudioList(safeData);
 
+      // Keep your logic exactly the same
       if (safeData.length > 0) {
         setFeaturedAudio(safeData[0]);
       }
@@ -45,9 +46,15 @@ const AudioSermons = () => {
     )}&color=%23ff5500&auto_play=false`;
   };
 
-  // ✅ Prevent crash
+  // ✅ SAFETY (no crash)
   if (!Array.isArray(audioList)) {
-    return <p className={styles.message}>Loading sermons...</p>;
+    return (
+      <Section>
+        <Container>
+          <p className={styles.message}>Loading sermons...</p>
+        </Container>
+      </Section>
+    );
   }
 
   return (
@@ -82,7 +89,10 @@ const AudioSermons = () => {
                 allow="autoplay"
                 src={getEmbedUrl(featuredAudio.audioUrl)}
                 title={featuredAudio.title}
-                style={{ borderRadius: "10px", marginTop: "10px" }}
+                style={{
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                }}
               />
             </div>
           </div>
@@ -97,7 +107,10 @@ const AudioSermons = () => {
             {audioList
               .filter((audio) => audio._id !== featuredAudio?._id)
               .map((audio) => (
-                <Card key={audio._id}>
+                <Card
+                  key={audio._id}
+                  onClick={() => console.log("Clicked:", audio)}
+                >
                   <div className={styles.cardContent}>
                     <h3 className={styles.sermonTitle}>{audio.title}</h3>
 

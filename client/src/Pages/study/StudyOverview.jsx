@@ -21,14 +21,15 @@ export default function StudyOverview() {
         const { data } = await api.get(`/public/studies/${slug}/overview`);
 
         setDays(Array.isArray(data?.days) ? data.days : []); // ✅ SAFE
-        setStudy(data || null);
+        setStudy(data || null); // ✅ SAFE
 
         const userToken = localStorage.getItem("userToken");
 
         if (userToken && data?.studyId) {
           try {
             const progressRes = await api.get(`/progress/${data.studyId}`);
-            setProgress(progressRes.data || null);
+
+            setProgress(progressRes.data || null); // ✅ SAFE
           } catch {
             console.log("No progress yet");
           }
@@ -42,11 +43,14 @@ export default function StudyOverview() {
     fetchOverview();
   }, [slug]);
 
+  // ✅ SAFE arrays
   const completed = Array.isArray(progress?.completedDays)
     ? progress.completedDays
     : [];
 
   const maxCompleted = completed.length ? Math.max(...completed) : 0;
+
+  const safeDays = Array.isArray(days) ? days : [];
 
   return (
     <Section>
@@ -87,10 +91,10 @@ export default function StudyOverview() {
           <div className={styles.days}>
             <h2 className={styles.sectionTitle}>Study Days</h2>
 
-            {days.length === 0 ? (
+            {safeDays.length === 0 ? (
               <p>No study days available.</p>
             ) : (
-              days.map((day) => {
+              safeDays.map((day) => {
                 const isCompleted = completed.includes(day.dayNumber);
                 const isUnlocked = day.dayNumber <= maxCompleted + 1;
 

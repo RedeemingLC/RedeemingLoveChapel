@@ -17,10 +17,11 @@ export default function StudyCompletion() {
     const fetchCompletion = async () => {
       try {
         const { data } = await api.get(`/public/studies/${slug}/completion`);
-        setScreen(data || null);
+
+        setScreen(data || null); // ✅ SAFE
       } catch (err) {
         console.error(err);
-        setScreen(null);
+        setScreen(null); // ✅ prevent crash
       }
     };
 
@@ -29,6 +30,7 @@ export default function StudyCompletion() {
 
   if (!screen) return <div>Loading...</div>;
 
+  // ✅ SAFE blocks
   const blocks = Array.isArray(screen.blocks) ? screen.blocks : [];
 
   return (
@@ -36,18 +38,22 @@ export default function StudyCompletion() {
       <Container>
         <div className={styles.wrapper}>
           <div className={styles.card}>
+            {/* Icon */}
             <div className={styles.icon}>🎉</div>
 
+            {/* Title */}
             <h1 className={`gradientText ${styles.title}`}>
               {screen.title || "Congratulations!"}
             </h1>
 
+            {/* Content */}
             <div className={styles.content}>
               {blocks.map((block, i) => (
-                <p key={i}>{block.value}</p>
+                <p key={i}>{block?.value}</p>
               ))}
             </div>
 
+            {/* Buttons */}
             <div className={styles.buttons}>
               <Button onClick={() => navigate("/my-studies")}>
                 Back to Library
