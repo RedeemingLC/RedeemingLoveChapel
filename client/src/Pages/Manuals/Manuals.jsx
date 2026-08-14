@@ -5,7 +5,6 @@ import api from "../../utils/api"; // ✅ FIXED
 import styles from "./Manuals.module.css";
 import Section from "../../components/Section/Section";
 import Container from "../../components/Container/Container";
-import Card from "../../components/Card/Card";
 import Button from "../../components/Button/Button";
 import ShareButtons from "../../components/ShareButtons/ShareButtons";
 import BlockRenderer from "../../components/BlockRenderer/BlockRenderer";
@@ -41,7 +40,7 @@ const Manuals = () => {
       const { data } = await api.get("/manuals/published"); // ✅ FIXED
       setManuals(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.log("FETCH MANUALS ERROR:", error);
+      console.error("FETCH MANUALS ERROR:", error);
       setManuals([]);
     } finally {
       setLoading(false);
@@ -59,7 +58,7 @@ const Manuals = () => {
         fetchSubsections(section._id);
       });
     } catch (error) {
-      console.log("FETCH SECTIONS ERROR:", error);
+      console.error("FETCH SECTIONS ERROR:", error);
     }
   };
 
@@ -72,7 +71,7 @@ const Manuals = () => {
         [sectionId]: Array.isArray(data?.data) ? data.data : [],
       }));
     } catch (error) {
-      console.log("FETCH SUBSECTIONS ERROR:", error);
+      console.error("FETCH SUBSECTIONS ERROR:", error);
     }
   };
 
@@ -87,7 +86,7 @@ const Manuals = () => {
         fetchSections(data._id);
       }
     } catch (error) {
-      console.log("FETCH SINGLE MANUAL ERROR:", error);
+      console.error("FETCH SINGLE MANUAL ERROR:", error);
       setSingleManual(null);
     } finally {
       setLoading(false);
@@ -104,27 +103,30 @@ const Manuals = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sectionElements = sections.map((section) =>
-        document.getElementById(`section-${section._id}`),
-      );
+      let current = "";
 
-      const scrollPosition = window.scrollY + 150;
+      sections.forEach((section) => {
+        const element = document.getElementById(`section-${section._id}`);
 
-      for (let i = sectionElements.length - 1; i >= 0; i--) {
-        const el = sectionElements[i];
+        if (element) {
+          const sectionTop = element.offsetTop - 150;
 
-        if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]._id);
-          break;
+          if (window.scrollY >= sectionTop) {
+            current = section._id;
+          }
         }
+      });
+
+      if (current) {
+        setActiveSection(current);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [sections]);
 
   const topics = [
@@ -282,29 +284,87 @@ const Manuals = () => {
                       <StudyHero
                         title={singleManual.title}
                         description={singleManual.description}
-                        image={getFileUrl(singleManual.coverImage)} // ✅ FIXED
+                        image={getFileUrl(singleManual.coverImage)}
+                        primaryAction={
+                          <Button
+                            onClick={() =>
+                              document
+                                .getElementById("manual-content")
+                                ?.scrollIntoView({
+                                  behavior: "smooth",
+                                })
+                            }
+                          >
+                            Read More ↓
+                          </Button>
+                        }
+                        secondaryAction={
+                          singleManual.fileUrl && (
+                            <a
+                              href={getFileUrl(singleManual.fileUrl)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.downloadButton}
+                            >
+                              Download PDF
+                            </a>
+                          )
+                        }
                       />
                     </div>
 
                     <div className={styles.readerLayout}>
                       <aside className={styles.sidebar}>
-                        <h3>Table of Contents</h3>
+                        {/* MOBILE TABLE OF CONTENT BUTTON */}
+                        <button
+                          className={styles.mobileTocButton}
+                          onClick={() => setShowMobileNav(!showMobileNav)}
+                        >
+                          ☰ Table of Contents
+                        </button>
 
-                        {sections.map((section) => (
-                          <a key={section._id} href={`#section-${section._id}`}>
-                            {section.title}
-                          </a>
-                        ))}
+                        {/* DESKTOP TITLE */}
+                        <h3 className={styles.tocTitle}>Table of Contents</h3>
+
+                        {/* LINKS */}
+                        <div
+                          className={`${styles.manualLinks} ${
+                            showMobileNav ? styles.showLinks : ""
+                          }`}
+                        >
+                          {sections.map((section) => (
+                            <a
+                              key={section._id}
+                              href={`#section-${section._id}`}
+                              className={
+                                activeSection === section._id
+                                  ? styles.activeLink
+                                  : ""
+                              }
+                              onClick={() => setShowMobileNav(false)}
+                            >
+                              {section.title}
+                            </a>
+                          ))}
+                        </div>
                       </aside>
 
-                      <div className={styles.readerContent}>
+                      <div id="manual-content" className={styles.readerContent}>
                         {sections.map((section) => (
-                          <section key={section._id}>
-                            <h2>{section.title}</h2>
+                          <section
+                            key={section._id}
+                            className={styles.manualSection}
+                          >
+                            {/* <h2>{section.title}</h2> */}
 
                             {(subsections[section._id] || []).map((lesson) => (
                               <div key={lesson._id}>
-                                <h3>{lesson.title}</h3>
+                                <h2
+                                  id={`section-${section._id}`}
+                                  className={styles.manualTitle}
+                                >
+                                  {lesson.title}
+                                </h2>
 
                                 {(Array.isArray(lesson.blocks)
                                   ? lesson.blocks
@@ -319,7 +379,10 @@ const Manuals = () => {
                       </div>
 
                       <aside className={styles.shareColumn}>
-                        <ShareButtons />
+                        <div className={styles.shareSticky}>
+                          <h3 className={styles.shareTitle}>Share</h3>
+                          <ShareButtons />
+                        </div>
                       </aside>
                     </div>
                   </>

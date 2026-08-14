@@ -4,12 +4,12 @@ import Container from "../Container/Container";
 const values = [
   "Honesty, Loyalty, and Integrity",
   "Commitment and Accountability",
-  "Christlikeness and Compassion.",
-  "Sincerity, Transparency, and Diligence.",
-  "Dignity, Respect, and Truthfulness.",
-  "Avoiding Strife and Quarrels (Genesis 13:6–12; Timothy 2:20–26).",
-  "Long-suffering and Perseverance.",
-  "The Word of God, our final authority on all matters.",
+  "Christlikeness and Compassion",
+  "Sincerity, Transparency, and Diligence",
+  "Dignity, Respect, and Truthfulness",
+  "Avoiding Strife and Quarrels (Genesis 13:6–12; 2 Timothy 2:20–26).",
+  "Long-suffering and Perseverance",
+  "The Word of God, our final authority on all matters",
 ];
 
 const CoreValues = () => {

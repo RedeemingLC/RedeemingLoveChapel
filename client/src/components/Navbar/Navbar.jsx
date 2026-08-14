@@ -1,3 +1,4 @@
+import { useAuth } from "../../context/AuthContext";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -10,23 +11,25 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const userToken = localStorage.getItem("userToken");
+  const { user, loading, logout } = useAuth();
 
   const scrollToSection = (id) => {
     navigate(`/#${id}`);
     setMenuOpen(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("userToken");
+  const handleLogout = async () => {
+    await logout();
     navigate("/");
-    setMenuOpen(false);
   };
 
   // Prevent background scroll when menu open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [menuOpen]);
 
   useEffect(() => {
@@ -39,23 +42,35 @@ const Navbar = () => {
         <div className={styles.inner}>
           {/* Logo */}
           <a
-            onClick={() => {
+            href="/"
+            onClick={(event) => {
+              event.preventDefault();
               navigate("/");
               setMenuOpen(false);
             }}
+            aria-label="Redeeming Love Chapel home"
           >
-            <img src={rlclogo} className={styles.logo} alt="Redeeming Love Chapel logo" />
+            <img
+              src={rlclogo}
+              className={styles.logo}
+              alt="Redeeming Love Chapel logo"
+            />
           </a>
 
           {/* Hamburger */}
-          <div
+          <button
+            type="button"
             className={`${styles.hamburger} ${menuOpen ? styles.active : ""}`}
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => setMenuOpen((current) => !current)}
+            aria-label={
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+            aria-expanded={menuOpen}
           >
             <span />
             <span />
             <span />
-          </div>
+          </button>
 
           {/* Navigation Links */}
           <ul className={`${styles.navLinks} ${menuOpen ? styles.show : ""}`}>
@@ -73,41 +88,55 @@ const Navbar = () => {
               <button onClick={() => navigate("/about")}>About</button>
             </li>
 
-            {/* <li>
-              <button onClick={() => navigate("/live")}>Live Stream</button>
-            </li> */}
+            <li>
+              <button onClick={() => navigate("/worship-centers")}>
+                Our Worship Centers
+              </button>
+            </li>
 
-            {userToken ? (
-              <>
-                <li>
-                  <button onClick={() => navigate("/my-studies")}>
-                    My Studies
-                  </button>
-                </li>
+            {/* {!loading && user && (
+              <li>
+                <button onClick={() => navigate("/my-studies")}>
+                  My Studies
+                </button>
+              </li>
+            )} */}
 
-                <li>
-                  <button onClick={handleLogout} className={styles.logout}>
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
+            {!loading && user?.role === "admin" && (
+              <li>
+                <button
+                  onClick={() =>
+                    window.open("/admin", "_blank", "noopener,noreferrer")
+                  }
+                >
+                  Dashboard
+                </button>
+              </li>
+            )}
+          </ul>
+
+          {/* Auth Section */}
+          <div
+            className={`${styles.authSection} ${menuOpen ? styles.show : ""}`}
+          >
+            {!loading &&
+              (user ? (
+                <button onClick={handleLogout} className={styles.logout}>
+                  Logout
+                </button>
+              ) : (
+                <>
                   <button onClick={() => navigate("/login")}>Login</button>
-                </li>
 
-                <li>
                   <button
                     onClick={() => navigate("/register")}
-                    className={`bttn bttn--primary`}
+                    className="bttn bttn--primary"
                   >
                     Register
                   </button>
-                </li>
-              </>
-            )}
-          </ul>
+                </>
+              ))}
+          </div>
         </div>
       </Container>
     </header>

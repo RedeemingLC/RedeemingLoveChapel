@@ -1,12 +1,15 @@
 "use strict";
 
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cron = require("node-cron");
-const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
+const cookieParser = require("cookie-parser");
+const rateLimit = require("express-rate-limit");
 
+const helmet = require("helmet");
 const authRoutes = require("./routes/authRoutes");
 const testRoutes = require("./routes/testRoutes");
 const studyRoutes = require("./routes/studyRoutes");
@@ -26,13 +29,42 @@ const wisdomRoutes = require("./routes/wordOfWisdomRoutes");
 
 const { rotateWisdom } = require("./utils/rotateWisdom");
 
-dotenv.config();
-
 const app = express();
 
+app.set("trust proxy", 1);
+
 // Middlewares
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  "https://redeeminglovechapel.org",
+  "https://www.redeeminglovechapel.org", // ✅ add this
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (Postman, curl)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // ✅ REQUIRED for cookies
+  }),
+);
+
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  }),
+);
+
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);

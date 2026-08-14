@@ -40,24 +40,24 @@ const VisionStatement = () => {
 
             <ul className="list">
               <li>
-                Gather for Sunday worship service at 9:00 am, where we exalt God
-                and strengthen our faith together.
+                Gather for Sunday worship service at 9:00 AM WAT, where we exalt
+                God and strengthen our faith together.
               </li>
               <li>
                 Participate in Bible studies on Wednesdays in our individual
-                homes, choosing any 1 hour and 30 minutes between 4:30pm and
-                10:00pm, and connect collectively for virtual Bible studies on
-                Telegram from 7:30pm to 8:30pm.
+                homes, choosing any 1 hour and 30 minutes between 4:30 PM and
+                10:00 PM WAT, and connect collectively for virtual Bible studies
+                on Telegram from 7:30 PM to 8:30 PM WAT.
               </li>
               <li>
                 Dedicate ourselves to prayer week, starting from the first
                 Sunday of every month and running daily through the week on
-                Telegram from 6:00am to 7:00am.
+                Telegram from 6:00 AM to 7:00 AM WAT.
               </li>
               <li>
-                Home church gatherings on Fridays from 6:30pm to 7:30pm, where
-                families come together in their different homes to reflect on
-                Sunday sermons and engage in discussions arising from Bible
+                Home church gatherings on Fridays from 6:30 PM to 7:30 PM WAT,
+                where families come together in their different homes to reflect
+                on Sunday sermons and engage in discussions arising from Bible
                 studies.
               </li>
             </ul>

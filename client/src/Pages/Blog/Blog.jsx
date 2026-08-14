@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import api from "../../utils/api"; // ✅ FIXED
+
+import DOMPurify from "dompurify";
 
 import styles from "./Blog.module.css";
 import Section from "../../components/Section/Section";
@@ -11,7 +14,7 @@ import ShareButtons from "../../components/ShareButtons/ShareButtons";
 import BlogCard from "../Blog/components/BlogCard";
 
 // ✅ FIXED: base URL helper
-const BASE_URL = import.meta.env.VITE_API_URL?.replace("/api", "");
+const BASE_URL = import.meta.env.VITE_API_URL?.replace(/\/api\/?$/, "");
 
 const getImageUrl = (path) => {
   if (!path) return "/placeholder.jpg";
@@ -21,14 +24,49 @@ const getImageUrl = (path) => {
 
 const Blog = () => {
   const { slug } = useParams();
+  const { user } = useAuth();
 
   const [blogs, setBlogs] = useState([]);
   const [singleBlog, setSingleBlog] = useState(null);
+  const [singleLoading, setSingleLoading] = useState(false);
+
+  const [categories, setCategories] = useState([]);
+  const [featuredBlog, setFeaturedBlog] = useState(null);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [limit] = useState(4);
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  const fetchCategories = async () => {
+    try {
+      const { data } = await api.get("/categories");
+
+      const safeCategories = Array.isArray(data?.data)
+        ? data.data
+        : Array.isArray(data)
+          ? data
+          : [];
+
+      setCategories(safeCategories);
+    } catch (error) {
+      console.error("FETCH CATEGORIES ERROR:", error);
+      setCategories([]);
+    }
+  };
+
+  const fetchFeaturedBlog = async () => {
+    try {
+      const { data } = await api.get("/blog?page=1&limit=1");
+
+      const posts = Array.isArray(data?.data) ? data.data : [];
+
+      setFeaturedBlog(posts[0] || null);
+    } catch (error) {
+      console.error("FETCH FEATURED BLOG ERROR:", error);
+      setFeaturedBlog(null);
+    }
+  };
 
   const fetchBlogs = async () => {
     try {
@@ -45,7 +83,7 @@ const Blog = () => {
       setBlogs(safeBlogs);
       setTotalPages(data?.pagination?.totalPages || 1);
     } catch (error) {
-      console.log("FETCH BLOG ERROR:", error);
+      console.error("FETCH BLOG ERROR:", error);
       setBlogs([]);
     } finally {
       setLoading(false);
@@ -54,18 +92,25 @@ const Blog = () => {
 
   const fetchSingleBlog = async () => {
     try {
-      setLoading(true);
+      setSingleLoading(true);
 
-      const { data } = await api.get(`/blog/${slug}`); // ✅ FIXED
+      const { data } = await api.get(`/blog/${slug}`);
 
       setSingleBlog(data?.data || null);
     } catch (error) {
-      console.log("FETCH SINGLE BLOG ERROR:", error);
+      console.error("FETCH SINGLE BLOG ERROR:", error);
       setSingleBlog(null);
     } finally {
-      setLoading(false);
+      setSingleLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!slug) {
+      fetchCategories();
+      fetchFeaturedBlog();
+    }
+  }, [slug]);
 
   useEffect(() => {
     setBlogs([]);
@@ -81,8 +126,7 @@ const Blog = () => {
 
   const safeBlogs = Array.isArray(blogs) ? blogs : [];
 
-  const featuredBlog = safeBlogs[0];
-  const otherBlogs = safeBlogs.slice(1);
+  const otherBlogs = safeBlogs.filter((blog) => blog._id !== featuredBlog?._id);
 
   const relatedBlogs = safeBlogs
     .filter((b) => b._id !== singleBlog?._id)
@@ -116,8 +160,11 @@ const Blog = () => {
                         : "No description available."}
                     </p>
 
-                    <Link to={`/blog/${featuredBlog.slug}`}>
-                      <Button>Read More →</Button>
+                    <Link
+                      to={`/blog/${featuredBlog.slug}`}
+                      className={styles.primaryLink}
+                    >
+                      Read More →
                     </Link>
                   </div>
 
@@ -133,17 +180,30 @@ const Blog = () => {
 
               {/* CATEGORY */}
               <div className={styles.categoryWrapper}>
-                {["", "faith", "grace", "doctrine"].map((cat) => (
+                <Button
+                  variant={selectedCategory === "" ? "primary" : "outline"}
+                  size="sm"
+                  onClick={() => {
+                    setSelectedCategory("");
+                    setCurrentPage(1);
+                  }}
+                >
+                  All
+                </Button>
+
+                {categories.map((category) => (
                   <Button
-                    key={cat}
-                    variant={selectedCategory === cat ? "primary" : "outline"}
+                    key={category._id}
+                    variant={
+                      selectedCategory === category._id ? "primary" : "outline"
+                    }
                     size="sm"
                     onClick={() => {
-                      setSelectedCategory(cat);
+                      setSelectedCategory(category._id);
                       setCurrentPage(1);
                     }}
                   >
-                    {cat === "" ? "All" : cat}
+                    {category.name}
                   </Button>
                 ))}
               </div>
@@ -199,7 +259,7 @@ const Blog = () => {
             </>
           ) : (
             <>
-              {loading ? (
+              {singleLoading ? (
                 <p>Loading blog...</p>
               ) : singleBlog ? (
                 <>
@@ -238,7 +298,7 @@ const Blog = () => {
                     <div
                       className={styles.singleContent}
                       dangerouslySetInnerHTML={{
-                        __html: singleBlog.content,
+                        __html: DOMPurify.sanitize(singleBlog.content || ""),
                       }}
                     />
 
@@ -254,9 +314,18 @@ const Blog = () => {
                     </div>
 
                     <div className={styles.backWrapper}>
-                      <Link to="/blog">
-                        <Button variant="outline">← Back to Blog</Button>
+                      <Link to="/blog" className={styles.outlineLink}>
+                        ← Back to Blog
                       </Link>
+
+                      {user?.role === "admin" && (
+                        <Link
+                          to={`/admin/blog?edit=${singleBlog._id}`}
+                          className={styles.primaryLink}
+                        >
+                          Edit Blog
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </>

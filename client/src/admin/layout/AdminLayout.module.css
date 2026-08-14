@@ -18,3 +18,66 @@
   flex-direction: column;
   gap: var(--space-6);
 }
+
+.menuButton {
+  display: none;
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+  .admin {
+    position: relative;
+  }
+
+  .menuButton {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1001;
+
+    background: #111;
+    color: white;
+    border: none;
+
+    width: 2.75rem;
+    height: 2.75rem;
+
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+
+  .sidebarWrapper {
+    position: fixed;
+    top: 0;
+    left: -100%;
+
+    width: 16rem;
+    height: 100vh;
+
+    background: white;
+    z-index: 1000;
+
+    transition: left 0.3s ease;
+
+    overflow-y: auto;
+  }
+
+  .sidebarOpen {
+    left: 0;
+  }
+
+  .main {
+    padding-top: 4rem;
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 999;
+  }
+}

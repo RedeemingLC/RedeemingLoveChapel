@@ -5,13 +5,25 @@ server/node_modules/
 
 # Environment variables
 .env
+.env.*
+client/.env
+client/.env.*
 server/.env
+server/.env.*
 
 # Build files
 client/dist/
 
 # Upload files
 server/uploads/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
 
 # Zip files
 *.zip

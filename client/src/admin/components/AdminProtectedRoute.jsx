@@ -1,32 +1,26 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../../context/AuthContext";
 
-function isTokenValid(token) {
-  try {
-    const decoded = jwtDecode(token);
+const AdminProtectedRoute = () => {
+  const { user, loading } = useAuth();
 
-    if (!decoded.exp) return false;
-
-    const now = Date.now() / 1000;
-    return decoded.exp > now;
-  } catch (err) {
-    return false;
+  // ⏳ Wait for auth check
+  if (loading) {
+    return <p>Loading...</p>;
   }
-}
 
-export default function AdminProtectedRoute() {
-  const token = localStorage.getItem("adminToken");
-
-  // ✅ Handle all invalid token cases
-  if (!token || token === "undefined" || token === "null") {
+  // ❌ Not logged in
+  if (!user) {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // ✅ Expired or invalid token
-  if (!isTokenValid(token)) {
-    localStorage.removeItem("adminToken");
-    return <Navigate to="/admin/login" replace />;
+  // ❌ Not admin
+  if (user.role !== "admin") {
+    return <Navigate to="/" replace />;
   }
 
+  // ✅ Admin allowed
   return <Outlet />;
-}
+};
+
+export default AdminProtectedRoute;

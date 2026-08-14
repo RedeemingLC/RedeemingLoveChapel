@@ -1,5 +1,3 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -15,7 +13,6 @@ import styles from "./Home.module.css";
 import Section from "../../components/Section/Section";
 
 const Home = () => {
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {

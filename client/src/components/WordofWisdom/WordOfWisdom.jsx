@@ -15,7 +15,7 @@ const WordOfWisdom = () => {
         const res = await api.get("/wisdom/active");
         setWisdom(res.data);
       } catch (err) {
-        console.error("Failed to fetch wisdom");
+        console.error("Failed to fetch wisdom:", err);
       }
     };
 
@@ -37,13 +37,20 @@ const WordOfWisdom = () => {
 
           <p className={styles.author}>— Pastor Cyril Yelfor</p> */}
 
-          <p
-            className={styles.quote}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(wisdom?.text || ""),
-            }}
-          />
-          <p className={styles.author}>— {wisdom?.author || ""}</p>
+          {wisdom?.text && (
+            <>
+              <div
+                className={styles.quote}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(wisdom.text),
+                }}
+              />
+
+              {wisdom.author && (
+                <p className={styles.author}>— {wisdom.author}</p>
+              )}
+            </>
+          )}
         </div>
       </Container>
     </section>

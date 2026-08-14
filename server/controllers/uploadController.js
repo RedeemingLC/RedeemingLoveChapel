@@ -43,8 +43,8 @@ const upload = multer({
 /* =========================
    Upload Handlers
 ========================= */
-const uploadManual = upload.single("file");
-const uploadManualCover = upload.single("file");
+// const uploadManual = upload.single("file");
+// const uploadManualCover = upload.single("file");
 
 /* =========================
    Upload File Controller
@@ -65,7 +65,5 @@ const uploadFile = (req, res) => {
 };
 
 module.exports = {
-  uploadManual,
-  uploadManualCover,
   uploadFile,
 };

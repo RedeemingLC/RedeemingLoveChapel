@@ -1,6 +1,4 @@
 import Container from "../Container/Container";
-// import Button from "../../components/Button/Button";
-import { MdOutlineJoinInner } from "react-icons/md";
 import Image from "../../assets/images/Join-Telegram-side-image-553x757.png";
 import styles from "./CommunitySections.module.css";
 
@@ -59,10 +57,12 @@ const CommunitySections = () => {
               </div>
 
               <div className={styles.featureBlock}>
-                <h3 className={styles.featureTitle}>Business Community Prayers</h3>
+                <h3 className={styles.featureTitle}>
+                  Business Community Prayers
+                </h3>
                 <p>
                   The Redeeming Love Chapel Business Community meets every
-                  Wednesday (except prayer week) at 6:00 AM CAT to seek divine
+                  Wednesday (except prayer week) at 6:00 AM WAT to seek divine
                   guidance from Almighty God for our various businesses.
                 </p>
               </div>

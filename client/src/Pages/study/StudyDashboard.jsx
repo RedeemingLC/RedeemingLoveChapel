@@ -83,7 +83,7 @@ export default function StudyDashboard() {
 
   return (
     <>
-      <div className="divOffset">
+      <div className="divOffsetfix">
         <Section variant="alt">
           <Container>
             {/* HERO */}

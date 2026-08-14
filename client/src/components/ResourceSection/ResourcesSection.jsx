@@ -16,32 +16,36 @@ const ResourcesSection = () => {
 
           <ResourceCard
             title="Bible Study Guides"
+            caption="Go deeper into Scripture with theologically sound Bible Study Manuals designed to strengthen understanding, wisdom, faith, and spiritual growth."
             link="/manuals"
-            buttonText="Explore"
+            buttonText="Explore Biblical Truths"
             variant="bibleStudy"
             className={styles.card2}
           />
 
           <ResourceCard
             title="Daily Devotional"
+            caption="Begin each day with devotional guides filled with God’s wisdom, bringing spiritual growth, encouragement, purpose, and daily transformation."
             link="/my-studies"
-            buttonText="Study"
+            buttonText="Start Your Day With God"
             variant="devotional"
             className={styles.card3}
           />
 
           <ResourceCard
             title="Our Blog"
+            caption="Be enriched through our Spirit-inspired blog articles, filled with godly wisdom, knowledge, understanding, and life-transforming truths for daily growth."
             link="/blog"
-            buttonText="Read"
+            buttonText="Explore the Blog"
             variant="blog"
             className={styles.card4}
           />
 
           <ResourceCard
             title="Audio Sermons"
+            caption="Stay spiritually refreshed through God-inspired audio messages filled with biblical encouragement, wisdom, faith-building truths, and daily inspiration."
             link="/audio"
-            buttonText="Listen"
+            buttonText="Start Listening Today"
             variant="audio"
             className={styles.card5}
           />

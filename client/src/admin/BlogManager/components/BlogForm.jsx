@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import adminApi from "../../../services/adminApi";
 import RichTextEditor from "../../../components/RichTextEditor/RichTextEditor";
 
@@ -74,7 +75,7 @@ export default function BlogForm({ onSuccess, editingBlog }) {
     if (!file) return;
 
     const formDataUpload = new FormData();
-    formDataUpload.append("file", file);
+    formDataUpload.append("image", file);
 
     try {
       const { data } = await adminApi.post("/upload", formDataUpload, {
@@ -88,15 +89,16 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         ...prev,
         featuredImage: data.imageUrl,
       }));
+      toast.success("Image uploaded successfully");
     } catch (error) {
       console.log(error);
-      alert("Image upload failed");
+      toast.error("Image upload failed");
     }
   };
 
   /* ===============================
-     Submit Form
-  =============================== */
+   Submit Form
+================================ */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,10 +106,14 @@ export default function BlogForm({ onSuccess, editingBlog }) {
       setLoading(true);
 
       if (editingBlog) {
-        await adminApi.put(`/blog/${editingBlog._id}`, formData); // ✅ FIXED
+        await adminApi.put(`/blog/${editingBlog._id}`, formData);
       } else {
-        await adminApi.post("/blog", formData); // ✅ FIXED
+        await adminApi.post("/blog", formData);
       }
+
+      toast.success(
+        editingBlog ? "Blog updated successfully" : "Blog created successfully",
+      );
 
       setFormData({
         title: "",
@@ -123,8 +129,7 @@ export default function BlogForm({ onSuccess, editingBlog }) {
 
       if (onSuccess) onSuccess();
     } catch (error) {
-      console.log("BLOG SAVE ERROR:", error?.response || error);
-      alert("Failed to save blog");
+      toast.error(error?.response?.data?.message || "Failed to save blog");
     } finally {
       setLoading(false);
     }

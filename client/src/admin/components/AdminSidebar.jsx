@@ -1,12 +1,18 @@
+import adminApi from "../../services/adminApi";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./AdminSidebar.module.css";
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ closeMenu }) {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    navigate("/admin/login");
+  const handleLogout = async () => {
+    try {
+      await adminApi.post("/auth/logout");
+
+      navigate("/admin/login"); // ✅ redirect after logout
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -21,6 +27,7 @@ export default function AdminSidebar() {
           to="/admin"
           end
           className={({ isActive }) => (isActive ? styles.active : styles.link)}
+          onClick={closeMenu}
         >
           Overview
         </NavLink>
@@ -28,6 +35,7 @@ export default function AdminSidebar() {
         <NavLink
           to="/admin/categories"
           className={({ isActive }) => (isActive ? styles.active : styles.link)}
+          onClick={closeMenu}
         >
           Categories
         </NavLink>
@@ -35,6 +43,7 @@ export default function AdminSidebar() {
         <NavLink
           to="/admin/wisdom"
           className={({ isActive }) => (isActive ? styles.active : styles.link)}
+          onClick={closeMenu}
         >
           Words of Wisdom
         </NavLink>
@@ -49,6 +58,7 @@ export default function AdminSidebar() {
         <NavLink
           to="/admin/manuals"
           className={({ isActive }) => (isActive ? styles.active : styles.link)}
+          onClick={closeMenu}
         >
           Manuals
         </NavLink>
@@ -56,6 +66,7 @@ export default function AdminSidebar() {
         <NavLink
           to="/admin/audio-sermons"
           className={({ isActive }) => (isActive ? styles.active : styles.link)}
+          onClick={closeMenu}
         >
           Audio Sermons
         </NavLink>
@@ -63,6 +74,7 @@ export default function AdminSidebar() {
         <NavLink
           to="/admin/blog"
           className={({ isActive }) => (isActive ? styles.active : styles.link)}
+          onClick={closeMenu}
         >
           Blog
         </NavLink>
@@ -70,6 +82,7 @@ export default function AdminSidebar() {
         <NavLink
           to="/admin/studies"
           className={({ isActive }) => (isActive ? styles.active : styles.link)}
+          onClick={closeMenu}
         >
           Study Plans
         </NavLink>

@@ -2,6 +2,8 @@
 
 const express = require("express");
 const multer = require("multer");
+const pdfUpload = require("../middleware/pdfUploadMiddleware");
+const imageUpload = require("../middleware/imageUploadMiddleware");
 const upload = require("../middleware/uploadMiddleware");
 const {
   uploadManual,
@@ -25,18 +27,28 @@ router.post("/", protect, adminOnly, upload.single("image"), (req, res) => {
 });
 
 // 🔥 Manual PDF upload
-router.post("/manual", protect, adminOnly, uploadManual, (req, res) => {
-  res.json({ fileUrl: `/uploads/manuals/${req.file.filename}` });
-});
+router.post(
+  "/manual",
+  protect,
+  adminOnly,
+  pdfUpload.single("file"),
+  (req, res) => {
+    res.json({
+      fileUrl: `/uploads/manuals/${req.file.filename}`,
+    });
+  },
+);
 
 // 🔥 Manual cover image upload
 router.post(
   "/manual-cover",
   protect,
   adminOnly,
-  uploadManualCover,
+  imageUpload.single("file"),
   (req, res) => {
-    res.json({ fileUrl: `/uploads/images/${req.file.filename}` });
+    res.json({
+      fileUrl: `/uploads/images/${req.file.filename}`,
+    });
   },
 );
 

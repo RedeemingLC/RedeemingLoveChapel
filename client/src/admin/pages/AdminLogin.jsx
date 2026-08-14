@@ -24,13 +24,15 @@ export default function AdminLogin() {
         password,
       });
 
-      const adminData = response.data.data;
+      const { user } = response.data;
 
-      if (adminData.role !== "admin") {
+      // ✅ Correct role check
+      if (user.role !== "admin") {
         throw new Error("Access denied. Not an admin account.");
       }
 
-      localStorage.setItem("adminToken", adminData.token);
+      // ❌ REMOVE this (we are using cookies now)
+      // localStorage.setItem("adminToken", adminData.token);
 
       navigate("/admin");
     } catch (err) {

@@ -22,7 +22,7 @@
    HERO
 ========================= */
 .heroSpacing {
-  margin-bottom: var(--space-9);
+  margin-bottom: var(--space-10);
 }
 
 .hero {
@@ -246,7 +246,11 @@ main.readerContent {
 
 @media (min-width: 768px) {
   .readerLayout {
-    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+  }
+
+  .manualLinks {
+    margin-top: 1.2rem;
   }
 }
 
@@ -275,7 +279,23 @@ main.readerContent {
   padding-right: var(--space-2);
 }
 
-.sidebarItem {
+.sidebar a {
+  display: block;
+  margin-bottom: 1.2rem;
+  color: #4b4453;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sidebar a:hover {
+  color: var(--color-primary);
+}
+
+.manualSection {
+  scroll-margin-top: 0px;
+}
+
+/* .sidebarItem {
   display: block;
   padding: var(--space-2) 0;
   border-radius: var(--radius-sm);
@@ -286,7 +306,7 @@ main.readerContent {
 
 .sidebarItem:hover {
   color: var(--color-accent);
-}
+} */
 
 .activeSection {
   font-weight: 600;
@@ -305,7 +325,7 @@ main.readerContent {
 
 .shareSticky {
   position: sticky;
-  top: 120px;
+  top: 100px;
 }
 
 /* .shareIcons a {
@@ -360,6 +380,18 @@ main.readerContent {
   margin-bottom: var(--space-3);
 }
 
+.manualTitle {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-3);
+  scroll-margin-top: -20px;
+}
+
+section.manualSection:first-child h2 {
+  margin-top: 0rem;
+}
+
 .manualParagraph p {
   margin-bottom: var(--space-4);
   line-height: 1.7;
@@ -410,132 +442,148 @@ main.readerContent {
 }
 
 /* =========================
-   MOBILE
+   MOBILE TABLE OF CONTENTS
 ========================= */
-.mobileNavButton {
+
+.mobileTocButton {
   display: none;
-  margin-bottom: var(--space-4);
-  padding: var(--space-2) var(--space-3);
-  border: none;
-  background: var(--color-accent);
-  color: var(--color-text-inverse);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  font-weight: 600;
 }
 
-.closeSidebar {
-  display: none;
+.activeLink {
+  color: var(--color-accent) !important;
+  font-weight: 700;
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem !important;
 }
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 900px) {
   .readerLayout {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4); /* reduced */
+    gap: var(--space-5);
   }
 
-  .mobileNavButton {
-    display: block;
-  }
-
-  .closeSidebar {
-    display: block;
-    background: none;
-    border: none;
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-4);
-    cursor: pointer;
-  }
+  /* TABLE OF CONTENTS */
 
   .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 260px;
-    height: 100vh;
-    margin-top: 72px;
+    position: sticky;
+    top: 75px;
+
+    width: 100%;
+    height: auto;
+
+    overflow: visible;
+
+    padding: 0;
+    margin-bottom: var(--space-5);
 
     background: var(--color-bg);
-    padding: var(--space-5);
 
-    transform: translateX(-100%);
-    transition: transform var(--transition-standard);
+    z-index: 20;
 
-    z-index: 1000;
+    transform: none;
   }
 
-  .sidebarOpen {
-    transform: translateX(0);
+  .sidebar h3 {
+    display: none;
   }
 
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    z-index: 900;
+  .mobileTocButton {
+    display: block;
+
+    width: 100%;
+
+    padding: 1rem;
+
+    margin-bottom: 1rem;
+
+    border-radius: var(--radius-md);
+
+    background: var(--color-accent);
+    color: white;
+
+    border: none;
+
+    font-weight: 700;
     cursor: pointer;
   }
 
-  @media (max-width: 900px) {
-    .shareColumn {
-      display: block;
-      width: 100%;
-    }
+  .manualLinks {
+    display: none;
 
-    .shareSticky {
-      position: static;
-      margin-top: var(--space-6);
+    padding: 1rem;
 
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    background: var(--color-bg-alt);
 
-    .shareSticky h4 {
-      margin-bottom: var(--space-3);
-      text-align: center;
-    }
+    border-radius: var(--radius-md);
 
-    /* For ShareButtons component OR shareIcons fallback */
-    .share,
-    .shareIcons {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-
-      gap: var(--space-4);
-      margin-top: var(--space-2);
-      width: 100%;
-    }
-
-    /* Make buttons feel more premium */
-    .share a,
-    .share button,
-    .shareIcons a {
-      width: 2.6rem;
-      height: 2.6rem;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: var(--radius-full);
-      background: var(--color-bg-alt);
-      box-shadow: var(--shadow-sm);
-
-      transition: var(--transition-standard);
-    }
-
-    .share a:active,
-    .share button:active,
-    .shareIcons a:active {
-      transform: scale(0.92);
-    }
+    box-shadow: var(--shadow-sm);
   }
 
-  .shareIcons {
-    flex-direction: row;
-    gap: var(--space-4);
+  .showLinks {
+    display: flex;
+    flex-direction: column;
   }
+
+  .manualLinks a {
+    display: block;
+
+    padding: 0.7rem 0;
+
+    margin-bottom: 0;
+  }
+
+  /* .manualSection {
+    scroll-margin-top: 170px;
+  } */
+
+  .manualTitle {
+    scroll-margin-top: 25px;
+  }
+
+  /* CONTENT */
+
+  .readerContent {
+    max-width: 100%;
+    padding-inline: 0;
+  }
+
+  /* SHARE BUTTONS */
+
+  .shareColumn {
+    width: 100%;
+  }
+
+  .shareSticky {
+    position: static;
+    margin-top: var(--space-6);
+  }
+}
+
+/* Button Link Styles */
+
+.downloadButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  cursor: pointer;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.downloadButton:hover {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
 }

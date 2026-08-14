@@ -11,7 +11,7 @@ const centers = [
   {
     name: "Satellite Town Center",
     address:
-      "Redeeming Love Chapel, Site F, Graceland Estate, Chima Busstop, off Alakija/Navy Town road, Lagos, Nigeria",
+      "Redeeming Love Chapel, Site F, Graceland Estate, Chima Bus Stop, off Alakija/Navy Town road, Lagos, Nigeria",
     phone: "+234 8079 345 1234",
     pastor: "Pastor Omo",
     mapEmbed:
@@ -29,11 +29,11 @@ const centers = [
   {
     name: "Obadore Center",
     address:
-      "Redeeming Love Chapel, Obadore Bus Stop, Obadore, Lasu/Isheri Express Way, Lagos State",
+      "Redeeming Love Chapel, Obadore Bus Stop, Obadore, LASU–Isheri Expressway, Lagos State",
     phone: "+234 8079 345 1234",
     pastor: "Pastor Success Obienu",
     mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.9524873272676!2d3.2116496744805474!3d6.527685323115777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b84ff224b50ad%3A0xafbcb1a835e71db3!2sObadore%20Bus%20Stop!5e0!3m2!1sen!2sng!4v1774607086111!5m2!1sen!2sng",
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.7834354875677!2d3.2351193744806195!3d6.549005322867488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b84ff224b50ad%3A0xafbcb1a835e71db3!2sObadore%20Bus%20Stop!5e0!3m2!1sen!2sng!4v1785328999386!5m2!1sen!2sng",
   },
   {
     name: "Lekki Center",
@@ -75,33 +75,32 @@ export default function WorshipCenters() {
 
         {/* CENTERS */}
         <div className={styles.centers}>
-          {centers.map((center, index) => (
-            <div key={index} className={styles.centerCard}>
+          {centers.map((center) => (
+            <div key={center.name} className={styles.centerCard}>
               {/* LEFT */}
               <div className={styles.info}>
                 <h2 className="gradientText">{center.name}</h2>
 
                 <div className={styles.wc_info}>
                   <div className={styles.iconWrapper}>
-                    <MdLocationOn />
+                    <MdLocationOn aria-hidden="true" />
                   </div>
                   <p>{center.address}</p>
                 </div>
 
                 <div className={styles.wc_info}>
                   <div className={styles.iconWrapper}>
-                    <MdLocalPhone />
+                    <MdLocalPhone aria-hidden="true" />
                   </div>
                   <p>{center.phone}</p>
                 </div>
 
                 <div className={styles.wc_info}>
                   <div className={styles.iconWrapper}>
-                    <FaUserTie />
+                    <FaUserTie aria-hidden="true" />
                   </div>
                   <p>{center.pastor}</p>
                 </div>
-
               </div>
 
               {/* RIGHT */}

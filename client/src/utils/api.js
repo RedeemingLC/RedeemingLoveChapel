@@ -1,46 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // ✅ FORCE production URL
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true, // ✅ REQUIRED for cookies
 });
-
-// Request interceptor
-api.interceptors.request.use((config) => {
-  const adminToken = localStorage.getItem("adminToken");
-  const userToken = localStorage.getItem("userToken");
-
-  const url = config.url || "";
-
-  // Admin APIs
-  if (url.includes("/studies") || url.includes("/admin")) {
-    if (adminToken) {
-      config.headers.Authorization = `Bearer ${adminToken}`;
-    }
-  }
-
-  // User APIs
-  if (url.includes("/progress") || url.includes("/notes")) {
-    if (userToken) {
-      config.headers.Authorization = `Bearer ${userToken}`;
-    }
-  }
-
-  return config;
-});
-
-// Response interceptor
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error?.response?.status === 401) {
-      localStorage.removeItem("adminToken");
-
-      if (window.location.pathname.startsWith("/admin")) {
-        window.location.href = "/admin/login";
-      }
-    }
-    return Promise.reject(error);
-  },
-);
 
 export default api;

@@ -3,14 +3,37 @@
 }
 
 .grid {
-  display: grid;
-  gap: 2rem;
-  align-items: stretch;
+  display: flex;
+  gap: 1.5rem;
+
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  -webkit-overflow-scrolling: touch;
+
+  padding-bottom: 1rem;
+
+  scrollbar-width: none;
+}
+
+.grid::-webkit-scrollbar {
+  display: none;
+}
+
+.grid > * {
+  flex: 0 0 88%;
+  scroll-snap-align: start;
 }
 
 /* Desktop layout */
 @media (min-width: 1025px) {
   .grid {
+    display: grid;
+    gap: 2rem;
+    align-items:center;
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
       "intro intro card2"

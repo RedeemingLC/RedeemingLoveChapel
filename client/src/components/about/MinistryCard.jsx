@@ -12,11 +12,9 @@ const MinistryCard = ({ title, link, image }) => {
       <article>
         <h3>{title}</h3>
 
-        <Link to={link}>
-          <Button className="btn btn-primary">
-            <span>More Info</span>
-            <FaArrowRight />
-          </Button>
+        <Link to={link} className={styles.moreInfoButton}>
+          <span>More Info</span>
+          <FaArrowRight />
         </Link>
       </article>
     </div>

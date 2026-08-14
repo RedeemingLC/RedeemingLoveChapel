@@ -1,4 +1,3 @@
-import React from "react";
 import AboutEvangelism from "../../components/evangelism/AboutEvangelism";
 import CentralMessage from "../../components/evangelism/CentralMessage";
 import MinistryHero from "../../components/ministry/MinistryHero";

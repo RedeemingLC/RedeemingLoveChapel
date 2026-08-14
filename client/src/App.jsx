@@ -6,7 +6,6 @@ import AdminProtectedRoute from "./admin/components/AdminProtectedRoute";
 
 import Home from "./Pages/Home/Home";
 import About from "./Pages/About/About";
-import Live from "./Pages/Live/Live";
 import Manuals from "./Pages/Manuals/Manuals";
 import AudioSermons from "./Pages/AudioSermons/AudioSermons";
 import Blog from "./Pages/Blog/Blog";
@@ -14,6 +13,7 @@ import WorshipCenters from "./Pages/WorshipCenters/WorshipCenters";
 import Evangelism from "./Pages/Evangelism/Evangelism";
 import HomeChurch from "./Pages/HomeChurch/HomeChurch";
 import LafOutreach from "./Pages/LAF/LafOutreach";
+import ComingSoon from "./Pages/ComingSoon/ComingSoon";
 
 import AdminOverview from "./admin/pages/AdminOverview";
 import AdminManuals from "./admin/pages/AdminManuals";
@@ -26,15 +26,10 @@ import Register from "./Pages/Auth/Register";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import VerifyEmail from "./Pages/Auth/VerifyEmail";
 import ResetPassword from "./Pages/Auth/ResetPassword";
-import StudyDashboard from "./Pages/study/StudyDashboard";
 
 import AdminStudyEditor from "./admin/pages/studies/AdminStudyEditor";
 import AdminStudies from "./admin/pages/studies/AdminStudies";
 
-import StudyEntryPage from "./Pages/study/StudyEntryPage";
-import StudyDayReader from "./Pages/study/StudyDayReader";
-import StudyCompletion from "./Pages/study/StudyCompletion";
-import StudyOverview from "./Pages/study/StudyOverview";
 import CategoryManager from "./admin/pages/CategoryManager";
 import WisdomManager from "./admin/WisdomManager/WisdomManager";
 import SectionManager from "./admin/SectionManager/SectionManager";
@@ -50,7 +45,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/live" element={<Live />} />
+          <Route path="/live" element={<ComingSoon />} />
           <Route path="/manuals" element={<Manuals />} />
           <Route path="/manuals/:slug" element={<Manuals />} />
           <Route path="/audio" element={<AudioSermons />} />
@@ -62,7 +57,7 @@ function App() {
           <Route path="/lafoutreach" element={<LafOutreach />} />
           <Route path="/centers" element={<WorshipCenters />} />
 
-          {/* Study Section */}
+          {/* Study Section 
           <Route path="/study/:slug/completion" element={<StudyCompletion />} />
           <Route path="/study/:slug/overview" element={<StudyOverview />} />
           <Route
@@ -70,6 +65,13 @@ function App() {
             element={<StudyDayReader />}
           />
           <Route path="/study/:slug" element={<StudyEntryPage />} />
+          */}
+
+          {/* Study Plan temporarily unavailable */}
+          <Route path="/study/:slug/completion" element={<ComingSoon />} />
+          <Route path="/study/:slug/overview" element={<ComingSoon />} />
+          <Route path="/study/:slug/day/:dayNumber" element={<ComingSoon />} />
+          <Route path="/study/:slug" element={<ComingSoon />} />
 
           {/* 🔐 User Auth Routes */}
           <Route path="/login" element={<Login />} />
@@ -77,7 +79,8 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
-          <Route path="/my-studies" element={<StudyDashboard />} />
+          {/* <Route path="/my-studies" element={<StudyDashboard />} /> */}
+          <Route path="/my-studies" element={<ComingSoon />} />
         </Route>
 
         {/* Admin login (public) */}
@@ -103,7 +106,7 @@ function App() {
             {/* ✅ Fix these: relative paths */}
             <Route path="studies" element={<AdminStudies />} />
             <Route path="studies/:studyId" element={<AdminStudyEditor />} />
-            <Route path="/admin/categories" element={<CategoryManager />} />
+            <Route path="categories" element={<CategoryManager />} />
             {/* <Route path="/admin/content" element={<ContentManager />} />
           <Route
             path="/admin/content/:contentId/sections"

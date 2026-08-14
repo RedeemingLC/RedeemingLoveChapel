@@ -1,4 +1,3 @@
-import React from "react";
 import MinistryHero from "../../components/ministry/MinistryHero";
 import MinistrySplitSection from "../../components/ministry/article/MinistrySplitSection";
 import FullWidthHighlight from "../../components/ministry/article/FullWidthHighlight";
@@ -32,7 +31,7 @@ const LafOutreach = () => {
           <h3 className="gradientText">
             Do not shut your hands to the helpless.
           </h3>
-          <h4>Deuteronomy 15:7-11</h4>
+          <h4>Deuteronomy 15:7–11</h4>
           <p>
             In this text, God Almighty commanded the children of Israel not to
             shut their hands from the poor and needy in their midst. Instead,
@@ -46,7 +45,7 @@ const LafOutreach = () => {
           </p>
 
           <h3 className="gradientText">The Unharvested Edges of the Field.</h3>
-          <h4>Leviticus 19:9,10; 23:22; Deuteronomy 24:19-22</h4>
+          <h4>Leviticus 19:9–10; 23:22; Deuteronomy 24:19–22</h4>
           <p>
             In these scriptures, God required the Israelites to leave the edges
             of their field unharvested for the poor, stranger, fatherless, and
@@ -56,7 +55,7 @@ const LafOutreach = () => {
           </p>
 
           <h3 className="gradientText">Treating The Poor With Dignity.</h3>
-          <h4>Deuteronomy 24:14,15</h4>
+          <h4>Deuteronomy 24:14–15</h4>
           <p>
             Here, God warned the Israelites not to oppress a hired servant who
             is poor and needy nor withhold his wages from him. In other words,
@@ -64,7 +63,7 @@ const LafOutreach = () => {
           </p>
 
           <p>
-            Moreover, in Luke 14:12-14, Jesus said to the one who invited Him to
+            Moreover, in Luke 14:12–14, Jesus said to the one who invited Him to
             the supper that when he gives a dinner or supper, he should not call
             his friends, brothers, relations or rich neighbours who could also
             invite him in return but that he should invite the poor, the maimed,
@@ -83,22 +82,20 @@ const LafOutreach = () => {
         </blockquote>
       </FullWidthHighlight>
       <MinistrySplitSection
-        title={"Serving God Through Compassion"}
+        title="Serving God Through Compassion"
         image={lafhelp}
-        imageAlt={
-          "A hand offering food to a person in need, both treated with dignity, symbolizing compassion and serving God through care."
-        }
+        imageAlt="A hand offering food to a person in need, both treated with dignity, symbolizing compassion and serving God through care."
         imagePosition="left"
       >
         <article className="gl2c-1">
           <h3 className="gradientText">"When I Was Hungry...”</h3>
-          <h4>Matthew 25:31-40.</h4>
+          <h4>Matthew 25:31–40</h4>
           <p>
-            In this text, Jesus explained a future event. He said when the Son
-            of Man comes in His glory with His holy angels. He will sit on the
-            throne of His glory. Then nations will gather before Him. He will
-            separate them from one another just as a shepherd would divide the
-            sheep from the goats. Then the King will say to the sheep in His
+            In this text, Jesus explained a future event. He said that when the
+            Son of Man comes in His glory with His holy angels, He will sit on
+            the throne of His glory. Then nations will gather before Him. He
+            will separate them from one another just as a shepherd would divide
+            the sheep from the goats. Then the King will say to the sheep in His
             right hand, "Come... blessed of my Father, inherit the kingdom
             prepared for you from the foundation of the world; for I was hungry,
             and you gave Me food; I was thirsty, and you gave Me to drink".
@@ -116,7 +113,7 @@ const LafOutreach = () => {
           <h3 className="gradientText">The Gospel To The Poor.</h3>
           <p>
             Despite providing for the poor and needy with material and financial
-            substance, Jesus also preached the gospel. (Luke 4:18;7:22). This
+            substance, Jesus also preached the gospel. (Luke 4:18; 7:22). This
             action is an important point to note. When we give food to the poor,
             we should also minister the word of God to them.
           </p>
@@ -128,7 +125,7 @@ const LafOutreach = () => {
             It is crucial to state that after Jesus departed from the earth, the
             Apostles and the early church continued His example in caring for
             the poor and needy. We can see this from the counsel of the Apostles
-            to Paul and Barnabas in Galatians 2: 9, 10.
+            to Paul and Barnabas in Galatians 2:9–10.
           </p>
 
           <h3 className="gradientText">
@@ -155,7 +152,7 @@ const LafOutreach = () => {
           </p>
         </article>
       </MinistrySplitSection>
-      <MinistryCTA></MinistryCTA>
+      <MinistryCTA />
     </>
   );
 };

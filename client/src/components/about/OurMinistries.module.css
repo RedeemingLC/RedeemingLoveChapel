@@ -92,6 +92,30 @@
   font-weight: 600;
 }
 
+/* Button style */
+.moreInfoButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  max-width: 180px;
+  width: 100%;
+
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: opacity 0.2s ease;
+}
+
+.moreInfoButton:hover {
+  opacity: 0.9;
+}
+
 /* =============================== */
 /* HOVER EFFECT (Desktop Only)     */
 /* =============================== */

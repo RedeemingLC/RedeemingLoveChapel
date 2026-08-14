@@ -3,7 +3,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 
   padding: var(--space-5);
 
@@ -31,7 +31,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: inherit;
 }
 
@@ -91,11 +91,20 @@
   -webkit-text-fill-color: transparent;
 }
 
-.description {
+.description,
+.caption {
   margin-top: var(--space-3);
-  font-size: var(--text-base);
-  color: var(--color-text-muted);
   max-width: 55ch;
+}
+
+.description {
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+}
+
+.caption {
+  color: var(--color-text-inverse);
+  font-size: var(--text-sm);
 }
 
 /* ================= BUTTON ================= */
@@ -152,4 +161,29 @@
 
 .audio {
   background-image: url("/images/audio.jpg");
+}
+
+@media (max-width: 1024px) {
+  /* .intro,
+  .card:not(.intro) {
+    min-height: 400px;
+  } */
+
+  @media (max-width: 1024px) {
+    .intro {
+      min-height: 320px;
+    }
+
+    .card:not(.intro) {
+      min-height: 300px;
+    }
+
+    .card {
+      padding: var(--space-4);
+    }
+
+    .card > div {
+      margin-bottom: var(--space-3);
+    }
+  }
 }

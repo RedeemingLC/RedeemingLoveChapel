@@ -10,7 +10,7 @@ const AboutHero = () => {
         <figure>
           <img
             src={aboutImageBanner}
-            alt="About Us Banner"
+            alt="Congregation worshipping during a church service"
             className={styles.aboutImage}
           />
           <figcaption className="sr-only">

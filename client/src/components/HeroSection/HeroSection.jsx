@@ -6,7 +6,13 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   const handleScroll = () => {
-    navigate("/#resources");
+    if (window.location.pathname === "/") {
+      document
+        .getElementById("resources")
+        ?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/#resources");
+    }
   };
 
   return (
@@ -21,10 +27,13 @@ const HeroSection = () => {
       {/* RIGHT */}
       <div className={styles.right}>
         <p className={styles.text}>
-          In a world that is dark and morally depraved, we all long for a life
-          that is prosperous and fulfilled. Fortunately, the solution that meets
-          this need is the light of the glorious gospel of Jesus Christ. This
-          powerful message holds the key to salvation for everyone who believes.
+          In a world overwhelmed by darkness, confusion, and moral decay, the
+          human heart still longs for true peace, purpose, and fulfillment. The
+          good news is that God has not left humanity without hope. The glorious
+          gospel of Jesus Christ shines as the answer—bringing light to the
+          lost, hope to the broken, and salvation to everyone who believes.
+          Discover the message that transforms lives and gives meaning beyond
+          this world.
         </p>
 
         <button

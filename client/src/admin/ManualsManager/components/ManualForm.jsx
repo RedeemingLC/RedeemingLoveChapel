@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import adminApi from "../../../services/adminApi";
 import RichTextEditor from "../../../components/RichTextEditor/RichTextEditor";
 
@@ -65,8 +66,9 @@ export default function ManualForm({ onSuccess, editingManual }) {
         pdfData.append("file", pdfFile);
 
         const pdfUpload = await adminApi.post("/upload/manual", pdfData, {
-          // ✅ FIXED
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
 
         fileUrl = pdfUpload.data.fileUrl;
@@ -78,10 +80,12 @@ export default function ManualForm({ onSuccess, editingManual }) {
         coverData.append("file", coverFile);
 
         const coverUpload = await adminApi.post(
-          "/upload/manual-cover", // ✅ FIXED
+          "/upload/manual-cover",
           coverData,
           {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           },
         );
 
@@ -98,15 +102,20 @@ export default function ManualForm({ onSuccess, editingManual }) {
       };
 
       if (editingManual) {
-        await adminApi.put(`/manuals/${editingManual._id}`, payload); // ✅ FIXED
+        await adminApi.put(`/manuals/${editingManual._id}`, payload);
+
+        toast.success("Manual updated successfully");
       } else {
-        await adminApi.post("/manuals", payload); // ✅ FIXED
+        await adminApi.post("/manuals", payload);
+
+        toast.success("Manual created successfully");
       }
 
       resetForm();
+
       if (onSuccess) onSuccess();
     } catch (error) {
-      console.error("MANUAL SAVE ERROR:", error?.response || error);
+      toast.error(error?.response?.data?.message || "Failed to save manual");
     } finally {
       setLoading(false);
     }

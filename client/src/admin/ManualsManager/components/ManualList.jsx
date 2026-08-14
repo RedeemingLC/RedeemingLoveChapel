@@ -27,7 +27,7 @@ export default function ManualList({
           <div className={styles.row}>
             {manual.coverImage && (
               <img
-                src={manual.coverImage} // ✅ FIXED
+                src={`${import.meta.env.VITE_SERVER_URL}${manual.coverImage}`} // ✅ FIXED
                 alt={manual.title}
                 className={styles.image}
               />

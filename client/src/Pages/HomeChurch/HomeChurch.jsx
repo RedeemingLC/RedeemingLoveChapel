@@ -1,4 +1,3 @@
-import React from "react";
 import MinistryHero from "../../components/ministry/MinistryHero";
 import MinistrySplitSection from "../../components/ministry/article/MinistrySplitSection";
 import FullWidthHighlight from "../../components/ministry/article/FullWidthHighlight";
@@ -30,7 +29,7 @@ const HomeChurch = () => {
       >
         <article className="gl2c-2">
           <p>
-            The concept of the Home Church originated from Genesis 35:1-7, where
+            The concept of the Home Church originated from Genesis 35:1–7, where
             God instructed Jacob to go up to Bethel and dwell there. Jacob
             obeyed by directing his family to put away all their foreign gods,
             purify themselves, and wash their garments before embarking on the
@@ -39,7 +38,7 @@ const HomeChurch = () => {
           </p>
 
           <p>
-            In Genesis 35:1-7, God told Jacob, "...Arise, go up to Bethel and
+            In Genesis 35:1–7, God told Jacob, "...Arise, go up to Bethel and
             dwell there ..." (Verse1). Jacob's response to this instruction from
             God was to instruct his entire household to:
           </p>
@@ -58,7 +57,7 @@ const HomeChurch = () => {
 
           <h3 className="gradientText">The Significance of Bethel</h3>
           <p>
-            In Genesis 28:10-17, God revealed Himself and the Abrahamic covenant
+            In Genesis 28:10–17, God revealed Himself and the Abrahamic covenant
             to Jacob in a dream. Jacob was on his way to Padan-Aram and spent
             the night in Luz. That night, he had a dream in which he saw "...a
             ladder set up on the earth, and its top reached to heaven, and there
@@ -70,11 +69,11 @@ const HomeChurch = () => {
             would bring him to his father and not leave him until He had
             fulfilled all He promised Jacob. When Jacob woke up from the dream,
             he said, "...How dreadful is this place! This is none other but the
-            house of God, and this is the gate of heaven." (Verse17).
+            house of God, and this is the gate of heaven." (Verse 17).
           </p>
 
           <p>
-            Genesis 28:18, 19 tells us that Jacob got up early in the morning,
+            Genesis 28:18–19 tells us that Jacob got up early in the morning,
             took the stone he used as a pillow, set it up as a pillar, anointed
             it with oil, and called the place Bethel.
           </p>
@@ -98,11 +97,9 @@ const HomeChurch = () => {
         </blockquote>
       </FullWidthHighlight>
       <MinistrySplitSection
-        title={"Creating a House of God"}
+        title="Creating a House of God"
         image={creating}
-        imageAlt={
-          "A peaceful home interior filled with gentle golden light, symbolizing God’s presence, purity, unity, and spiritual renewal."
-        }
+        imageAlt="A peaceful home interior filled with gentle golden light, symbolizing God’s presence, purity, unity, and spiritual renewal."
         imagePosition="left"
       >
         <article className="gl2c-1">

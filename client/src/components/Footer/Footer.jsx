@@ -45,20 +45,20 @@ const Footer = () => {
             <h3 className={styles.heading}>Get in Touch</h3>
 
             <div className={styles.contactItem}>
-              <IoLocationSharp />
+              <IoLocationSharp aria-hidden="true" />
               <address>
-                Site F Chima Bus stop off Alakija-Navy town road, Satellite
-                town, Lagos, Nigeria.
+                Site F, Chima Bus Stop, off Alakija–Navy Town Road, Satellite
+                Town, Lagos, Nigeria.
               </address>
             </div>
 
             <div className={styles.contactItem}>
-              <BsFillTelephoneFill />
+              <BsFillTelephoneFill aria-hidden="true" />
               <a href="tel:+2348035773377">+234 803 577 3377</a>
             </div>
 
             <div className={styles.contactItem}>
-              <MdEmail />
+              <MdEmail aria-hidden="true" />
               <a href="mailto:info@redeeminglovechapel.org">
                 info@redeeminglovechapel.org
               </a>
@@ -74,29 +74,36 @@ const Footer = () => {
                 href="https://www.youtube.com/@rlc-lagos"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Redeeming Love Chapel on YouTube"
               >
-                <FaYoutube />
+                <FaYoutube aria-hidden="true" />
               </a>
+
               <a
                 href="https://www.instagram.com/rlc_lagos/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Redeeming Love Chapel on Instagram"
               >
-                <FaInstagramSquare />
+                <FaInstagramSquare aria-hidden="true" />
               </a>
+
               <a
                 href="https://web.facebook.com/redeeminglovechapel"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Redeeming Love Chapel on Facebook"
               >
-                <FaFacebook />
+                <FaFacebook aria-hidden="true" />
               </a>
+
               <a
                 href="https://x.com/rlc_lagos"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Redeeming Love Chapel on X"
               >
-                <FaXTwitter />
+                <FaXTwitter aria-hidden="true" />
               </a>
             </div>
           </div>
