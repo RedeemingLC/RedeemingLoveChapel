@@ -38,7 +38,8 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:4173",
   "https://redeeminglovechapel.org",
-  "https://www.redeeminglovechapel.org", // ✅ add this
+  "https://www.redeeminglovechapel.org",
+  "https://staging.redeeminglovechapel.org",
 ];
 
 app.use(
