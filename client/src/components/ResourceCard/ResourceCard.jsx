@@ -4,7 +4,7 @@ import styles from "./ResourceCard.module.css";
 
 import bibleImg from "../../assets/images/Bible-Manual-bg.jpg";
 import devotionalImg from "../../assets/images/devotional-2.jpg";
-import blogImg from "../../assets/images/blog-bg.jpg";
+import blogImg from "../../assets/images/Blog-bg.jpg";
 import audioImg from "../../assets/images/audio-2.jpg";
 
 const ResourceCard = ({
