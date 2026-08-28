@@ -53,7 +53,9 @@ const createBlog = asyncHandler(async (req, res) => {
    ADMIN: Get All Blogs
 ========================= */
 const getAllBlogsAdmin = asyncHandler(async (req, res) => {
-  const blogs = await Blog.find().sort({ createdAt: -1 });
+  const blogs = await Blog.find()
+    .populate("category", "name slug")
+    .sort({ createdAt: -1 });
 
   res.json({
     success: true,
