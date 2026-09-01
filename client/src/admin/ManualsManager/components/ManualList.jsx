@@ -3,6 +3,14 @@ import Card from "../../../components/Card/Card";
 import Button from "../../../components/Button/Button";
 import styles from "./ManualList.module.css";
 
+const BASE_URL = import.meta.env.VITE_API_URL?.replace("/api", "");
+
+const getFileUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  return `${BASE_URL}${path}`;
+};
+
 export default function ManualList({
   manuals,
   onDelete,
@@ -27,7 +35,7 @@ export default function ManualList({
           <div className={styles.row}>
             {manual.coverImage && (
               <img
-                src={`${import.meta.env.VITE_SERVER_URL}${manual.coverImage}`} // ✅ FIXED
+                src={getFileUrl(manual.coverImage)}
                 alt={manual.title}
                 className={styles.image}
               />
