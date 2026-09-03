@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import adminApi from "../../../services/adminApi";
 import RichTextEditor from "../../../components/RichTextEditor/RichTextEditor";
 
 export default function BlogForm({ onSuccess, editingBlog }) {
+  const fileInputRef = useRef(null);
+
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -23,6 +25,10 @@ export default function BlogForm({ onSuccess, editingBlog }) {
      Load Blog When Editing
   =============================== */
   useEffect(() => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
     if (editingBlog) {
       setFormData({
         title: editingBlog.title || "",
@@ -127,6 +133,10 @@ export default function BlogForm({ onSuccess, editingBlog }) {
         isFeatured: false,
       });
 
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
       if (onSuccess) onSuccess();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to save blog");
@@ -215,7 +225,7 @@ export default function BlogForm({ onSuccess, editingBlog }) {
 
       <div>
         <label>Featured Image</label>
-        <input type="file" onChange={handleImageUpload} />
+        <input ref={fileInputRef} type="file" onChange={handleImageUpload} />
 
         {formData.featuredImage && (
           <img
