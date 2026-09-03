@@ -150,7 +150,7 @@ const getSingleBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findOne({
     slug: req.params.slug,
     isPublished: true,
-  });
+  }).populate("category", "name slug");
 
   if (!blog) {
     const error = new Error("Blog not found");
