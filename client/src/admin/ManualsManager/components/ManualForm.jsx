@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import adminApi from "../../../services/adminApi";
 import RichTextEditor from "../../../components/RichTextEditor/RichTextEditor";
 
 export default function ManualForm({ onSuccess, editingManual }) {
+  const pdfInputRef = useRef(null);
+  const coverInputRef = useRef(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [editorContent, setEditorContent] = useState("");
@@ -50,6 +52,14 @@ export default function ManualForm({ onSuccess, editingManual }) {
     setExistingPdf("");
     setExistingCover("");
     setCategory("");
+
+    if (pdfInputRef.current) {
+      pdfInputRef.current.value = "";
+    }
+
+    if (coverInputRef.current) {
+      coverInputRef.current.value = "";
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -166,6 +176,7 @@ export default function ManualForm({ onSuccess, editingManual }) {
       )}
 
       <input
+        ref={pdfInputRef}
         type="file"
         accept="application/pdf"
         onChange={(e) => setPdfFile(e.target.files[0])}
@@ -181,6 +192,7 @@ export default function ManualForm({ onSuccess, editingManual }) {
       )}
 
       <input
+        ref={coverInputRef}
         type="file"
         accept="image/*"
         onChange={(e) => setCoverFile(e.target.files[0])}
