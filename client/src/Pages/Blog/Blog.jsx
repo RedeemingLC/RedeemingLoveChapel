@@ -29,6 +29,7 @@ const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [singleBlog, setSingleBlog] = useState(null);
   const [singleLoading, setSingleLoading] = useState(false);
+  const [relatedBlogs, setRelatedBlogs] = useState([]);
 
   const [categories, setCategories] = useState([]);
   const [featuredBlog, setFeaturedBlog] = useState(null);
@@ -90,16 +91,49 @@ const Blog = () => {
     }
   };
 
+  const fetchRelatedBlogs = async (categoryId, currentBlogId) => {
+    if (!categoryId) {
+      setRelatedBlogs([]);
+      return;
+    }
+
+    try {
+      const { data } = await api.get(
+        `/blog?page=1&limit=4&category=${categoryId}`,
+      );
+
+      const related = (Array.isArray(data?.data) ? data.data : [])
+        .filter((blog) => blog._id !== currentBlogId)
+        .slice(0, 3);
+
+      setRelatedBlogs(related);
+    } catch (error) {
+      console.error("FETCH RELATED BLOGS ERROR:", error);
+      setRelatedBlogs([]);
+    }
+  };
+
   const fetchSingleBlog = async () => {
     try {
       setSingleLoading(true);
 
       const { data } = await api.get(`/blog/${slug}`);
 
-      setSingleBlog(data?.data || null);
+      const blogData = data?.data || null;
+
+      setSingleBlog(blogData);
+
+      if (blogData) {
+        const categoryId = blogData.category?._id || blogData.category;
+
+        await fetchRelatedBlogs(categoryId, blogData._id);
+      } else {
+        setRelatedBlogs([]);
+      }
     } catch (error) {
       console.error("FETCH SINGLE BLOG ERROR:", error);
       setSingleBlog(null);
+      setRelatedBlogs([]);
     } finally {
       setSingleLoading(false);
     }
@@ -127,10 +161,6 @@ const Blog = () => {
   const safeBlogs = Array.isArray(blogs) ? blogs : [];
 
   const otherBlogs = safeBlogs.filter((blog) => blog._id !== featuredBlog?._id);
-
-  const relatedBlogs = safeBlogs
-    .filter((b) => b._id !== singleBlog?._id)
-    .slice(0, 3);
 
   return (
     <>
