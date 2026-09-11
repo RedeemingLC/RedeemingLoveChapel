@@ -282,6 +282,7 @@
 @media (max-width: 768px) {
   .featured {
     grid-template-columns: 1fr;
+    height: auto;
   }
 
   .grid {
