@@ -1,7 +1,6 @@
 "use strict";
 
 const express = require("express");
-const WordOfWisdom = require("../models/WordOfWisdom");
 const {
   getActiveWisdom,
   deactivateWisdom,
@@ -16,21 +15,8 @@ const router = express.Router();
 
 /* ================= PUBLIC ================= */
 
-// Main public endpoint (use this in frontend)
-router.get("/active", async (req, res) => {
-  try {
-    const wisdom = await WordOfWisdom.findOne({ isActive: true });
-
-    if (!wisdom) {
-      return res.status(404).json({ message: "No active wisdom found" });
-    }
-
-    res.json(wisdom);
-  } catch (error) {
-    console.error("ACTIVE WISDOM ERROR:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
+// Main public endpoint
+router.get("/active", getActiveWisdom);
 
 /* ================= ADMIN ================= */
 

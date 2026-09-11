@@ -85,10 +85,16 @@ app.use("/api/sections", sectionRoutes);
 app.use("/api/subsections", subsectionRoutes);
 app.use("/api/wisdom", wisdomRoutes);
 
-// Every 24 hours (midnight)
-cron.schedule("0 0 * * *", () => {
-  rotateWisdom();
-});
+// Every day at midnight Nigeria time
+cron.schedule(
+  "0 0 * * *",
+  () => {
+    rotateWisdom();
+  },
+  {
+    timezone: "Africa/Lagos",
+  },
+);
 
 // Error Handling
 app.use(errorHandler);
