@@ -381,7 +381,10 @@ const Manuals = () => {
                       <aside className={styles.shareColumn}>
                         <div className={styles.shareSticky}>
                           <h3 className={styles.shareTitle}>Share</h3>
-                          <ShareButtons />
+                          <ShareButtons
+                            title={singleManual.title}
+                            url={window.location.href}
+                          />
                         </div>
                       </aside>
                     </div>

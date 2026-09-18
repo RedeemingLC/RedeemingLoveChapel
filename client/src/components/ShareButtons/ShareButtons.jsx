@@ -1,8 +1,16 @@
-import { FaWhatsapp, FaFacebookF, FaXTwitter, FaLink } from "react-icons/fa6";
+import { useState } from "react";
+import {
+  FaWhatsapp,
+  FaFacebookF,
+  FaXTwitter,
+  FaLink,
+  FaCheck,
+} from "react-icons/fa6";
 
 import styles from "./ShareButtons.module.css";
 
 const ShareButtons = ({ title, url, vertical = false }) => {
+  const [copied, setCopied] = useState(false);
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
 
@@ -14,7 +22,12 @@ const ShareButtons = ({ title, url, vertical = false }) => {
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(url);
-    alert("Link copied!");
+
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   };
 
   return (
@@ -31,9 +44,16 @@ const ShareButtons = ({ title, url, vertical = false }) => {
         <FaXTwitter />
       </a>
 
-      <button onClick={handleCopy}>
-        <FaLink />
-      </button>
+      <div className={styles.copyWrapper}>
+        <button
+          onClick={handleCopy}
+          aria-label={copied ? "Link copied" : "Copy link"}
+        >
+          {copied ? <FaCheck /> : <FaLink />}
+        </button>
+
+        {copied && <span className={styles.copyMessage}>Link copied!</span>}
+      </div>
     </div>
   );
 };

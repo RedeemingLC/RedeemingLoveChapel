@@ -66,3 +66,25 @@
     width: 100%;
   }
 }
+
+.copyWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.copyMessage {
+  position: absolute;
+  left: calc(100% + var(--space-2));
+  white-space: nowrap;
+
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+}
